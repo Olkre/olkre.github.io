@@ -121,6 +121,7 @@ h1 {
     display: flex;
     align-items: center;
     text-align: center;
+    color: #000;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-image: url(img/texture.png);
@@ -182,7 +183,17 @@ h1 {
 }
 
 .btn-tg {
-	background: #1FF6A2;
+	background: rgb(0,247,177);
+	background: linear-gradient(90deg, rgba(0,247,177,1) 0%, rgba(0,247,224,1) 54%, rgba(0,247,177,1) 100%);
+	border-radius: 10px;
+	border: 0;
+	color: #000;
+	transition:  background 1s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+.btn-tg:hover {
+	background: rgb(0,247,177);
+	background: linear-gradient(90deg, rgba(0,247,177,1) 50%, rgba(0,247,224,1) 104%, rgba(0,247,177,1) 150%);
 	border-radius: 10px;
 	border: 0;
 	color: #000;
