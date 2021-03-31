@@ -122,10 +122,12 @@ h1 {
     align-items: center;
     text-align: center;
     color: #000;
-    -webkit-background-clip: text;
+/*    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    background-image: url(img/texture.png);
+    background-image: url(img/texture.png);*/
     padding: 0;
+    color: linear-gradient(174deg, rgba(0,0,0,1) 0%, rgba(0,112,80,1) 76%, rgba(0,108,77,1) 85%, rgba(0,107,77,1) 97%);
+    display: block;
 }
 
 .h3o {
