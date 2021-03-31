@@ -184,7 +184,7 @@ h1 {
 
 .btn-tg {
 	background: rgb(0,247,177);
-	background: linear-gradient(90deg, rgba(0,247,177,1) 0%, rgba(0,247,224,1) 54%, rgba(0,247,177,1) 100%);
+	background: linear-gradient(90deg, rgba(31,246,162,1) 0%, rgba(31,246,164,1) 54%, rgba(31,246,162,1) 100%);
 	border-radius: 10px;
 	border: 0;
 	color: #000;
@@ -195,6 +195,19 @@ h1 {
 	background: rgb(0,247,177);
 	background: linear-gradient(90deg, rgba(0,247,177,1) 50%, rgba(0,247,224,1) 104%, rgba(0,247,177,1) 150%);
 	border-radius: 10px;
+	border: 0;
+	color: #000;
+}
+
+
+.btne {
+	background: rgba(0, 0, 0, 0);
+	border: 0;
+	color: #000;
+}
+
+.btne:hover {
+	background: rgba(0,247,177,0.1);
 	border: 0;
 	color: #000;
 }
