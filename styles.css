@@ -1,0 +1,48 @@
+@media screen and (min-width: 480px) {
+    .icon {
+        display: none;
+    }
+
+
+}
+
+
+body {
+	font-family: 'Clash Display', sans-serif;
+}
+
+.nav-link {
+	color: #fff;
+	font-weight: 500;
+}
+
+.nav-link:hover {
+	color: #B3F2A9;
+}
+
+path:hover {
+	fill: #B3F2A9;
+}
+
+
+
+
+li.nav-item::marker {
+	display: none;
+	color: #FFFFFF00;
+}
+
+@media screen and (max-width: 480px) {
+    .pf {
+        display: none;
+    }
+
+    ol, ul {
+    	padding-left: 0;
+    }
+
+    .nav-link {
+    	padding: 0.5rem 0.25rem;
+    }
+}
+
