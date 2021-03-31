@@ -71,7 +71,7 @@ li.nav-item::marker {
     }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 380px) {
     .nav-link {
         font-size: 70%;
     }
@@ -90,8 +90,11 @@ li.nav-item::marker {
 }
 
 
-@media screen and (max-width: 321px) {
-    
+@media screen and (max-width: 330px) {
+	.op50 {
+		display: none;
+	}
+
 
 }
 
@@ -161,17 +164,26 @@ h1 {
     padding: 0;
     margin: 0;
     margin-bottom: -30px;
+    margin-top: 13vh;
 }
 
 
 .buttons {
-    padding-top: 25px;
+    margin-top: 25px;
 }
 
 .btno {
-    padding-top: 10px;
+
+    margin-top: 10px;
 }
 
 .offer {
     height: 60vh;
+}
+
+.btn-tg {
+	background: #1FF6A2;
+	border-radius: 10px;
+	border: 0;
+	color: #000;
 }
