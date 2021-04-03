@@ -272,6 +272,10 @@ h3 {
 	text-decoration: none!important;
 }
 
+.pr-container {
+	padding: 0;
+}
+
 h4 {
 	padding-top: 10px;
 	font-family: Clash Display;
