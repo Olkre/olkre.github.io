@@ -7,14 +7,76 @@
         margin: 0;
     }
 
+    .title {
+
+    }
+
 
 }
+
+@media screen and (max-width: 330px) {
+	.op50 {
+		display: none;
+	}
+	.title {
+		font-size: 255%!important;
+	}
+}
+
+@media screen and (max-width: 380px) {
+    .nav-link {
+        font-size: 70%;
+    }
+    .title {
+    	display: none;
+        font-size: 285%!important;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .title {
+        font-size: 325%!important;
+        display: none;
+    }
+    .h3i {
+        font-size: 50%;
+        margin: 0;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    .pf {
+        display: none;
+    }
+
+    .title {
+    	font-size: 350%!important;
+    }
+
+    ol, ul {
+        padding-left: 0;
+    }
+
+    .nav-link {
+        padding: 0.5rem 0.5rem;
+    }
+}
+
+
+
+
+
 
 
 body {
     
     font-family: 'Clash Display', sans-serif;
     color: #000;
+}
+
+.rounded {
+	border-radius: 20px!important;
 }
 
 .nav-link {
@@ -57,46 +119,7 @@ li.nav-item::marker {
     color: #FFFFFF00;
 }
 
-@media screen and (max-width: 480px) {
-    .pf {
-        display: none;
-    }
 
-    ol, ul {
-        padding-left: 0;
-    }
-
-    .nav-link {
-        padding: 0.5rem 0.5rem;
-    }
-}
-
-@media screen and (max-width: 380px) {
-    .nav-link {
-        font-size: 70%;
-    }
-
-}
-
-@media screen and (max-width: 430px) {
-    .title {
-        font-size: 350%;
-    }
-    .h3i {
-        font-size: 50%;
-        margin: 0;
-    }
-
-}
-
-
-@media screen and (max-width: 330px) {
-	.op50 {
-		display: none;
-	}
-
-
-}
 
 
 h3 {
@@ -189,13 +212,23 @@ h3 {
 }
 
 
+
 .buttons {
     margin-top: 25px;
+
 }
 
 .btno {
 
     margin-top: 10px;
+}
+
+.btn {
+	font-family: Clash Display;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 30px
 }
 
 .offer {
@@ -230,4 +263,20 @@ h3 {
 	background: rgba(0,247,177,0.1);
 	border: 0;
 	color: #000;
+}
+
+
+.pr-link {
+	color: #000!important;
+
+	text-decoration: none!important;
+}
+
+h4 {
+	padding-top: 10px;
+	font-family: Clash Display;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 25px;
 }
