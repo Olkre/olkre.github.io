@@ -450,6 +450,18 @@ h4 {
 	padding-top: 15px;
 }
 
+.b1-link-in {
+	transition: background .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.b1-link-in:hover {
+	background: rgba(0, 0, 0, 0.1);
+
+	background: #F2F2F2;
+}
+
 .b1-btn {
 	/* Auto Layout */
 
@@ -474,10 +486,24 @@ h4 {
 	/* Inside Auto Layout */
 	color: #fff!important;
 	background: #00CD72;
+	transition: border-radius background .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+.btn-tg:hover {
+	color: #fff!important;
+	background: #00C166;
+	border-radius: 2px;
+}
+
+.btn-em:hover {
+	background: rgba(0, 0, 0, 0.1);
+	border-radius: 2px;
 }
 
 .btn-em {
 	background: rgba(0, 0, 0, 0.05);
+	transition: border-radius .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+	transition: background .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
 }
 
 .b1-btn-in {
