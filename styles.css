@@ -144,10 +144,6 @@
 
 
 
-
-
-
-
 body {
     
     font-family: 'Clash Display', sans-serif;
@@ -156,6 +152,31 @@ body {
 
 .rounded {
 	border-radius: 20px!important;
+}
+
+p {
+	font-family: 'Clash Grotesk', sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 17px;
+}
+
+h2 {
+	font-family: 'Clash Grotesk', sans-serif;
+	font-style: normal;
+	font-weight: 600!important;
+	font-size: 24px;
+	line-height: 30px;
+}
+
+h3 {
+	font-family: 'Clash Grotesk', sans-serif;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 25px;
+	text-align: left;
 }
 
 .nav-link {
@@ -201,168 +222,8 @@ li.nav-item::marker {
 
 
 
-h3 {
-    font-family: Clash Display;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 30px;
-    /* identical to box height */
-    padding: 0;
-    text-align: center;
-    margin: 0;
-}
 
 
-.h1gr {
-    font-family: Clash Display;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 500%;
-    line-height: 123px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-image: url(img/texture.png);
-    padding: 0;
-    display: block;
-}
-
-.h1c {
-    font-family: Clash Display;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 500%;
-    line-height: 123px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000;
-    display: block;
-    background: linear-gradient(174deg, rgba(0,0,0,1) 0%, rgba(0,112,80,1) 76%, rgba(0,108,77,1) 85%, rgba(0,107,77,1) 97%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -webkit-mask-image: linear-gradient(174deg, rgba(0,0,0,1) 0%, rgba(0,112,80,1) 76%, rgba(0,108,77,1) 85%, rgba(0,107,77,1) 97%);
-}
-
-
-
-
-.h3o {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 3px;
-
-
-
-    background: rgba(0, 247, 177, 0.25);
-    border-radius: 25px;
-    font-family: Clash Display;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 30px;
-    /* identical to box height */
-
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-
-    color: #000000;
-}
-
-.h3i {
-    /* Inside Auto Layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    margin: 0px 10px;
-}
-
-.title {
-    padding: 0;
-    margin: 0;
-    margin-bottom: -30px;
-    margin-top: 13vh;
-}
-
-
-
-.buttons {
-    margin-top: 25px;
-
-}
-
-.btno {
-
-    margin-top: 10px;
-}
-
-.btn {
-	font-family: Clash Display;
-	font-style: normal;
-	font-weight: 500;
-	font-size: 16px;
-	line-height: 30px
-}
-
-.offer {
-    height: 60vh;
-}
-
-.btn-tg {
-	background: rgb(0,247,177);
-	background: linear-gradient(90deg, rgba(31,246,162,1) 0%, rgba(31,246,164,1) 54%, rgba(31,246,162,1) 100%);
-	border-radius: 10px;
-	border: 0;
-	color: #000;
-	transition:  background 1s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
-}
-
-.btn-tg:hover {
-	background: rgb(0,247,177);
-	background: linear-gradient(90deg, rgba(0,247,177,1) 50%, rgba(0,247,224,1) 104%, rgba(0,247,177,1) 150%);
-	border-radius: 10px;
-	border: 0;
-	color: #000;
-}
-
-
-.btne {
-	background: rgba(0, 0, 0, 0);
-	border: 0;
-	color: #000;
-}
-
-.btne:hover {
-	background: rgba(0,247,177,0.1);
-	border: 0;
-	color: #000;
-}
-
-
-.pr-link {
-	color: #000!important;
-
-	text-decoration: none!important;
-}
-
-.pr-container {
-	padding: 0;
-}
-
-h4 {
-	padding-top: 10px;
-	font-family: Clash Display;
-	font-style: normal;
-	font-weight: 600;
-	font-size: 20px;
-	line-height: 25px;
-}
 
 .sticky-content{
 
@@ -409,7 +270,37 @@ h4 {
 .bg-img {
 	background-image: url(img/bg.png);
 	background-size: cover;
+	border-radius: 10px;
 }
+
+.bg-img3 {
+	background-image: url(img/bgi.png);
+	background-size: 100%;
+	z-index:-10;
+	transform:rotate(360deg);
+
+/*	background-position: 100% 0%;*/
+}
+
+@keyframes scroll  {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 2500%;
+  }
+}
+
+.bg-img2 {
+	transform: rotate(15deg);
+	background-image: url(img/bgs.png);
+	animation: scroll linear 250s infinite;
+	z-index: -25;
+	background-size: 100%;
+	/* так же, как и с @keyframes, префикс -ms тут ни к чему */
+}
+
 
 .b1 h1 {
 	font-family: 'Clash Grotesk', sans-serif;
@@ -421,18 +312,12 @@ h4 {
 	text-transform: uppercase;
 }
 
-.b1 h3 {
-	font-family: 'Clash Grotesk', sans-serif;
-	font-style: normal;
-	font-weight: 500;
-	font-size: 20px;
-	line-height: 25px;
-	text-align: left;
-}
+
 
 .b1-text {
 	padding: 5vh;
 	display: flex;
+	background: #fff;
 }
 
 .b1-nav a {
@@ -513,3 +398,38 @@ h4 {
 	margin: 0px 10px;
 }
 
+/*BLOCK 2 - Projects*/
+
+.b2 {
+	background-color: #fff;
+	z-index: 20;
+	
+}
+
+.b2-tltle-cont {
+	padding-bottom: 20px;
+}
+
+.b2-card {
+	padding-bottom: 20px;
+}
+
+ a {
+	color: #000;
+	text-decoration: none;
+	transition: opacity .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+
+a:hover {
+	opacity: .8;
+	color: #000;
+}
+
+
+.card-title-cont {
+	padding-top: 10px;
+}
+
+.card-title {
+	margin-bottom: 3px;
+}
