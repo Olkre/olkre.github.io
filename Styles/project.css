@@ -39,12 +39,16 @@ body {
     background: #F6F6F6!important;
 }
 
+.c {
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .c1 {
     height: 45rem;
     width: 100%;
 
-    margin-right: auto;
-    margin-left: auto;
+
     margin-top:  1rem;
     bs-gutter-x: 0rem;
     border-radius: 25px;
@@ -76,4 +80,16 @@ body {
 
 .wp-c1-img {
 
+}
+
+.c2-text {
+    padding-top: 2rem;
+}
+
+.c2-title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 105%;
+    box-sizing: border-box;
 }
