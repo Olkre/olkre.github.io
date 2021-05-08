@@ -403,7 +403,7 @@ li.nav-item::marker {
 .b2 {
 	background-color: #fff;
 	z-index: 20;
-	
+	padding-top: 40px;
 }
 
 .b2-tltle-cont {

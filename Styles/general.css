@@ -1,0 +1,82 @@
+#app {
+    font-family: 'Clash Grotesk', sans-serif;
+}
+
+body {
+    font-family: 'Clash Grotesk', sans-serif;
+}
+
+h1 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 37px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+h2 {
+    font-family: Clash Grotesk;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+h3 {
+    font-family: Clash Grotesk;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+}
+
+p {
+    font-family: Clash Grotesk;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+    transition: opacity .15s ease-in-out;
+}
+a:hover {
+    color: #000;
+    opacity: 0.85;
+}
+
+a svg:hover {
+    opacity: 0.85;
+}
+
+.link-underlined {
+    text-decoration-line: underline!important;
+}
+
+.footer-js {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.footer-js h3, p {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.footer-js p {
+    padding-right: 21px;
+}
+
+.footer-js .logo  {
+    margin-left: 30px;
+}
+
+.footer-js .head-links svg {
+    margin-left: 5px;
+}

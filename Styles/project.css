@@ -1,0 +1,79 @@
+@media screen and (max-width: 430px) {
+    .c1 {
+        height: auto!important;
+    }
+    .c1-img {
+        height: 20rem;
+    
+        margin-top: 5px;
+        background-position-x: center;
+        background-size: cover;
+
+    }
+    .c1-text {
+        padding-left: 0rem!important;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    .c1-text-title-cont {
+        padding-bottom: 2rem;
+    }
+
+    .project-title {
+        padding-top: 2rem;
+        font-size: 180%!important;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .c1-text {
+        padding-left: 1.5rem!important;
+    }
+}
+
+
+
+
+body {
+    background: #F6F6F6!important;
+}
+
+.c1 {
+    height: 45rem;
+    width: 100%;
+
+    margin-right: auto;
+    margin-left: auto;
+    margin-top:  1rem;
+    bs-gutter-x: 0rem;
+    border-radius: 25px;
+    background: #fff;
+}
+
+.c1 row {
+    
+}
+
+.c1-img {
+    margin-top: 5px;
+    background-image: url(../img/Projects/Workplace/main-mockup.png);
+    background-position-x: center;
+    background-size: cover;
+}
+
+.c1-text {
+    padding-left: 5rem;
+}
+
+.project-title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 50px;
+    line-height: 92.5%;
+    text-transform: none;
+}
+
+.wp-c1-img {
+
+}

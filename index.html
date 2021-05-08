@@ -9,10 +9,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
 
-<!--     <link href="https://api.fontshare.com/css?f[]=clash-display@400,500,700&display=swap" rel="stylesheet"> -->
+
     <link href="https://api.fontshare.com/css?f[]=clash-grotesk@500,600,700&display=swap" rel="stylesheet">
 
     <link rel="icon" href="img/logo.png">
+
+    <script src="https://unpkg.com/vue@next"></script>
 
     <title>Олкре Дизайн</title>
   </head>
@@ -78,67 +80,23 @@
       </div>
   </div>
 
-    <div id="sticky" class="sticky-element">
-      <div class="sticky-anchor"></div>
-      <div class="sticky-content">
-        <ul class="navbar bg-white nav-scroll justify-content-around ">
-          <li class="nav-item logo ">
-            <a class="nav-link " href="#">
-              <!-- <img src="img/Olkre.svg" height="50px"> -->
-              <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M17.7213 35.2459C23.38 35.2459 27.9672 30.6586 27.9672 25C27.9672 19.3413 23.38 14.7541 17.7213 14.7541C12.0626 14.7541 7.4754 19.3413 7.4754 25C7.4754 30.6586 12.0626 35.2459 17.7213 35.2459ZM17.7213 29.1667C23.2668 29.1667 27.7623 27.3012 27.7623 25C27.7623 22.6988 23.2668 20.8333 17.7213 20.8333C12.1758 20.8333 7.68034 22.6988 7.68034 25C7.68034 27.3012 12.1758 29.1667 17.7213 29.1667ZM29.0601 14.7541H35.0601V34.7541H29.0601V14.7541ZM39.1913 34.7541C41.0323 34.7541 42.5246 33.2617 42.5246 31.4208C42.5246 29.5798 41.0323 28.0874 39.1913 28.0874C37.3504 28.0874 35.858 29.5798 35.858 31.4208C35.858 33.2617 37.3504 34.7541 39.1913 34.7541Z" fill="white"/>
-              </svg>
 
-            </a>
-          </li>
-          <li class="nav-item  op50">
-            <a href="#" class="nav-link">|</a>
-
-            
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">About me</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#projects">Projects</a>
-          </li>
-
-
-
-          <li class="nav-item">
-            <a class="nav-link pf d-none" href="https://www.behance.net/oleksandrk67c0">Scroll
-            
-
-            </a>
-            <a class="nav-link " href="https://www.behance.net/oleksandrk67c0">
-              <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M23.9014 9.41121H30.2811V10.959H23.9014V9.41121ZM17.5089 15.5351C18.9192 14.8603 19.6579 13.8338 19.6579 12.2477C19.6579 9.11062 17.3235 8.34953 14.6277 8.34953H7.20874V24.0956H14.8356C17.6944 24.0956 20.3774 22.7206 20.3774 19.5227C20.3774 17.5465 19.4436 16.0851 17.5089 15.5351ZM10.6688 11.0357H13.9146C15.1649 11.0357 16.2874 11.3843 16.2874 12.8361C16.2874 14.1728 15.4144 14.71 14.1768 14.71H10.6688V11.0357ZM14.3623 21.4223H10.6656V17.086H14.4358C15.958 17.086 16.9205 17.7224 16.9205 19.3341C16.9205 20.9202 15.7725 21.4223 14.3623 21.4223ZM32.7754 18.5602C32.7754 15.1865 30.8023 12.3756 27.2335 12.3756C23.7639 12.3756 21.4039 14.9882 21.4039 18.4131C21.4039 21.9627 23.6392 24.3994 27.2335 24.3994C29.9549 24.3994 31.7169 23.1747 32.5643 20.562H29.8046C29.504 21.5374 28.2824 22.049 27.3327 22.049C25.4971 22.049 24.5378 20.9746 24.5378 19.1486H32.753C32.7626 18.9599 32.7754 18.7617 32.7754 18.5602ZM24.5378 17.1723C24.6369 15.6726 25.6378 14.7356 27.1344 14.7356C28.7077 14.7356 29.4944 15.6598 29.6319 17.1723H24.5378Z" fill="white"/>
-              </svg>
-
-
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link pf d-none" href="https://dribbble.com/olkre">Dribbble</a>
-            <a class="nav-link " href="https://dribbble.com/olkre">
-              <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.5224 15.1592C22.3622 14.7809 22.1929 14.4067 22.0146 14.0366C24.783 12.8808 26.2051 11.3007 26.6058 10.8094C27.7258 12.2261 28.358 13.967 28.408 15.7722C27.736 15.6454 25.2236 15.2136 22.6691 15.518C22.6459 15.4638 22.6243 15.4096 22.6018 15.3533C22.5774 15.2919 22.552 15.2281 22.5224 15.1592ZM21.2399 12.547C19.9937 10.2754 18.6442 8.38275 18.2073 7.78306C18.7558 7.66776 19.3144 7.60658 19.875 7.60045V7.60083H20C22.0964 7.60083 24.0181 8.37088 25.4927 9.64094C25.1778 10.0511 23.9061 11.5229 21.2399 12.547ZM20.1649 14.6851C20.3721 15.0877 20.5647 15.4975 20.7492 15.9092C20.7393 15.912 20.7294 15.9149 20.7194 15.9177L20.7193 15.9178C20.6626 15.934 20.605 15.9504 20.5499 15.9669L20.5499 15.9669L20.5474 15.9677C16.4542 17.2885 14.1263 20.7101 13.626 21.5064C12.3063 19.9817 11.5782 18.0311 11.5783 16.0108V15.8782C12.3865 15.8879 16.2107 15.8539 20.1649 14.6851ZM14.9199 22.7109C15.2424 22.0988 17.0145 19.1165 21.4462 17.5488C22.5667 20.4766 23.0497 22.9432 23.2004 23.7871C22.21 24.2006 21.1308 24.4217 20 24.4217C18.0915 24.4217 16.328 23.784 14.9199 22.7109ZM20 5.875C14.4101 5.875 9.875 10.4101 9.875 16C9.875 21.5899 14.4101 26.125 20 26.125C25.5789 26.125 30.125 21.59 30.125 16C30.125 10.41 25.5789 5.875 20 5.875ZM11.7928 14.129C12.3656 11.623 14.0676 9.53775 16.3275 8.43501C16.6836 8.9232 18.044 10.8496 19.3445 13.1329C15.7602 14.0653 12.584 14.1254 11.7928 14.129ZM28.2759 17.4536C27.8997 19.6817 26.6306 21.6118 24.8514 22.8688C24.7106 22.0867 24.2534 19.8313 23.2711 17.0984C25.6559 16.7577 27.7442 17.2946 28.2759 17.4536Z" fill="white" stroke="white" stroke-width="0.25"/>
-              </svg>
-
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-<!-- <hr class="hrl"> -->
 
   <section class="b2 container" id="projects">
     <div class="b2-tltle-cont d-flex justify-content-between align-items-center">
       <h3 class="b2-title">Projects</h3>
       <p class="b2-subtitle">3 </p>
     </div>
+
     <div class="b2-cards-cont row g-10 gy-10">
+      <a href="projects/Workplace/index.html" class="b2-card col-sm-12 col-md-6 col-lg-4">
+        <img src="img/Projects/wp2.png" class="w-100">
+        <div class="card-title-cont">
+          <h2 class="card-title">Workplace</h2>
+          <p class="card-subtitle">Web Site / Case</p>
+        </div>
+      </a>
+
       <a href="https://www.behance.net/gallery/92691161/Providence-Bicycle-website-for-a-bike-shop" class="b2-card col-sm-12 col-md-6 col-lg-4">
         <img src="img/Projects/bike.png" class="w-100">
         <div class="card-title-cont">
@@ -171,10 +129,12 @@
 
   <hr>
 
-<footer class="container d-flex justify-content-between">
+<!-- <footer class="container d-flex justify-content-between">
   <h3>Olkre</h3>
   <p>2021</p>
-</footer>
+</footer> -->
+
+<!-- <div id="footer"></div> -->
 
 
 
@@ -193,6 +153,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
-    <script src="code.js"></script>
+    <script src="Scripts/code.js"></script>
+    <script src="Scripts/Footer.js"></script>
   </body>
 </html>
