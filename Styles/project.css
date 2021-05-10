@@ -1,6 +1,7 @@
 @media screen and (max-width: 430px) {
     .c1 {
         height: auto!important;
+        padding: 0 !important;
     }
     .c1-img {
         height: 20rem;
@@ -24,6 +25,14 @@
         padding-top: 2rem;
         font-size: 180%!important;
     }
+
+    /* .text-align-center {
+        text-align: left!important;
+    } */
+
+    .sm-tac {
+        text-align: center!important;
+    }
 }
 
 @media screen and (max-width: 1000px) {
@@ -44,8 +53,13 @@ body {
     margin-left: auto;
 }
 
+.c-padding {
+    padding-bottom: 2rem;
+    padding-top: 1.5rem;
+}
+
 .c1 {
-    height: 45rem;
+    height: 30rem;
     width: 100%;
 
 
@@ -55,7 +69,7 @@ body {
     background: #fff;
 }
 
-.c1 row {
+.c1 .row {
     
 }
 
@@ -82,14 +96,45 @@ body {
 
 }
 
+.c2 {
+
+}
+
 .c2-text {
     padding-top: 2rem;
 }
 
-.c2-title {
+.c-title {
     font-style: normal;
     font-weight: 600;
     font-size: 20px;
     line-height: 105%;
     box-sizing: border-box;
+    color: #000;
 }
+
+.c3 {
+
+}
+
+.text-align-center {
+    text-align: center;
+    color: #000;
+}
+
+
+.wp-wf {
+    height: 300px;
+    background-image: url(../img/Projects/Workplace/wrfr.svg);
+    animation: mymove 95s linear infinite;
+    background-position: center left;
+    border-radius: 15px;
+}
+
+
+@keyframes mymove {
+  0% {background-position: center left;} 
+  50% {background-position: center center;}
+  100% {background-position: center right;}
+}
+
