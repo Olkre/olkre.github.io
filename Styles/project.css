@@ -138,3 +138,13 @@ body {
   100% {background-position: center right;}
 }
 
+.c5-img-cont {
+    background: #fff;
+    padding: 12px;
+    border-radius: 17px;
+}
+
+.c5-img {
+    padding: 0;
+    margin: 0;
+}

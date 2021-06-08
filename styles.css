@@ -268,7 +268,7 @@ li.nav-item::marker {
 }
 
 .bg-img {
-	background-image: url(img/bg.png);
+	background-image: url(img/bg\ opt.png);
 	background-size: cover;
 	border-radius: 10px;
 }
