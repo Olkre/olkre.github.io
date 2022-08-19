@@ -146,7 +146,9 @@
 
 body {
     
-    font-family: 'Clash Display', sans-serif;
+    /*    font-family: 'Clash Grotesk', sans-serif;*/
+/*    font-family: 'Figtree', sans-serif;*/
+    font-family: 'Space Grotesk', sans-serif;
     color: #000;
 }
 
@@ -155,7 +157,7 @@ body {
 }
 
 p {
-	font-family: 'Clash Grotesk', sans-serif;
+/*	font-family: 'Clash Grotesk', sans-serif;*/
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -163,15 +165,16 @@ p {
 }
 
 h2 {
-	font-family: 'Clash Grotesk', sans-serif;
+/*	font-family: 'Clash Grotesk', sans-serif;*/
 	font-style: normal;
-	font-weight: 600!important;
+	font-weight: 500;
 	font-size: 24px;
 	line-height: 30px;
+    letter-spacing: -0.03em;
 }
 
 h3 {
-	font-family: 'Clash Grotesk', sans-serif;
+/*	font-family: 'Clash Grotesk', sans-serif;*/
 	font-style: normal;
 	font-weight: 500;
 	font-size: 20px;
@@ -303,12 +306,12 @@ li.nav-item::marker {
 
 
 .b1 h1 {
-	font-family: 'Clash Grotesk', sans-serif;
+/*	font-family: 'Clash Grotesk', sans-serif;*/
 	font-style: normal;
 	font-weight: bold;
 	font-size: 40px;
 	line-height: 37px;
-	letter-spacing: 0.03em;
+	letter-spacing: -0.03em;
 	text-transform: uppercase;
 }
 
@@ -321,7 +324,7 @@ li.nav-item::marker {
 }
 
 .b1-nav a {
-	font-family: Clash Grotesk;
+/*	font-family: Clash Grotesk;*/
 	font-style: normal;
 	font-weight: 500;
 	font-size: 14px;
@@ -354,7 +357,7 @@ li.nav-item::marker {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	padding: 10px;
+	padding: 20px;
 
 
 	width: 155px;
@@ -370,14 +373,18 @@ li.nav-item::marker {
 .btn-tg {
 	/* Inside Auto Layout */
 	color: #fff!important;
-	background: #00CD72;
-	transition: border-radius background .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+	background: #064BFB;
+    border-radius: 30px;
+    padding: 10px 10px;
+    margin-right: -5px;
+	transition: border-radius .15s ease-in-out, background .5s ease-in-out, background-color .2s ease-in-out,border-color .2s ease-in-out;
+	transition: border-radius .15s ease-in-out, background .5s ease-in-out, background-color .2s ease-in-out,border-color .2s ease-in-out;
 }
 
 .btn-tg:hover {
 	color: #fff!important;
-	background: #00C166;
-	border-radius: 2px;
+	background: #2E73FF;
+	border-radius: 15px;
 }
 
 .btn-em:hover {
@@ -427,9 +434,13 @@ a:hover {
 
 
 .card-title-cont {
-	padding-top: 10px;
+	padding-top: 12px;
 }
 
 .card-title {
-	margin-bottom: 3px;
+	margin-bottom: 7px;
+}
+
+span {
+    opacity: 0%;
 }

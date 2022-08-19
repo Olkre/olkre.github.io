@@ -1,9 +1,11 @@
 #app {
-    font-family: 'Clash Grotesk', sans-serif;
+/*    font-family: 'Clash Grotesk', sans-serif;*/
+    font-family: 'Figtree', sans-serif;
 }
 
 body {
-    font-family: 'Clash Grotesk', sans-serif;
+/*    font-family: 'Clash Grotesk', sans-serif;*/
+    font-family: 'Figtree', sans-serif;
 }
 
 h1 {
@@ -16,7 +18,7 @@ h1 {
 }
 
 h2 {
-    font-family: Clash Grotesk;
+
     font-style: normal;
     font-weight: 600;
     font-size: 24px;
@@ -24,7 +26,7 @@ h2 {
 }
 
 h3 {
-    font-family: Clash Grotesk;
+/*    font-family: Clash Grotesk;*/
     font-style: normal;
     font-weight: 500;
     font-size: 20px;
@@ -32,7 +34,7 @@ h3 {
 }
 
 p {
-    font-family: Clash Grotesk;
+/*    font-family: Clash Grotesk;*/
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
