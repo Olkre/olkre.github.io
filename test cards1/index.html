@@ -8,21 +8,42 @@
       fetch('file.json')
         .then(response => response.json())
         .then(json => {
+          // Create a div element to hold the cards
+          const cardsContainer = document.createElement('div');
+          cardsContainer.style.display = 'flex';
+          
+          // Get the array of card objects from the JSON file
           const cards = json.cards;
+          
+          // Loop through the array of card objects
           for (const card of cards) {
+            // For each card object, create a new div element to hold the card content
             const cardDiv = document.createElement('div');
             cardDiv.style.padding = '20px';
+            
+            // Create an h1 element for the card's title and set its text content
             const h1 = document.createElement('h1');
             h1.textContent = card.title;
+            
+            // Create an h3 element for the card's description and set its text content
             const h3 = document.createElement('h3');
             h3.textContent = card.description;
+            
+            // Create an img element for the card's image and set its src attribute
             const img = document.createElement('img');
             img.src = card.imageUrl;
+            
+            // Append the h1, h3, and img elements to the card div
             cardDiv.appendChild(h1);
             cardDiv.appendChild(h3);
             cardDiv.appendChild(img);
-            document.body.appendChild(cardDiv);
+            
+            // Append the card div to the cards container
+            cardsContainer.appendChild(cardDiv);
           }
+          
+          // Append the cards container to the document body
+          document.body.appendChild(cardsContainer);
         });
     </script>
   </body>
