@@ -1,18 +1,21 @@
 <!doctype html>
 <html>
   <head>
-    <title>JSON Text Elements Example</title>
+    <title>JSON Card Example</title>
   </head>
   <body>
     <script>
-      fetch('info.json')
+      fetch('path/to/file.json')
         .then(response => response.json())
         .then(json => {
-          const texts = json.texts;
-          for (const text of texts) {
+          const cards = json.cards;
+          for (const card of cards) {
             const h1 = document.createElement('h1');
-            h1.textContent = text;
+            h1.textContent = card.title;
+            const h3 = document.createElement('h3');
+            h3.textContent = card.description;
             document.body.appendChild(h1);
+            document.body.appendChild(h3);
           }
         });
     </script>
