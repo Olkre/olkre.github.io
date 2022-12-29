@@ -2,6 +2,13 @@
 <html>
   <head>
     <title>JSON Card Example</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      /* Use the Poppins font for all elements */
+      * {
+        font-family: 'Poppins', sans-serif;
+      }
+    </style>
   </head>
   <body>
     <script>
@@ -20,6 +27,8 @@
             // For each card object, create a new div element to hold the card content
             const cardDiv = document.createElement('div');
             cardDiv.style.padding = '20px';
+            cardDiv.style.backgroundColor = 'lightgrey';
+            cardDiv.style.borderRadius = '10px';
             
             // Create an h1 element for the card's title and set its text content
             const h1 = document.createElement('h1');
@@ -32,6 +41,7 @@
             // Create an img element for the card's image and set its src attribute
             const img = document.createElement('img');
             img.src = card.imageUrl;
+            img.style.borderRadius = '10px';
             
             // Append the h1, h3, and img elements to the card div
             cardDiv.appendChild(h1);
@@ -42,9 +52,16 @@
             cardsContainer.appendChild(cardDiv);
           }
           
+          // Append the cards
+
+          
           // Append the cards container to the document body
           document.body.appendChild(cardsContainer);
         });
+
+
+
+        
     </script>
   </body>
 </html>
