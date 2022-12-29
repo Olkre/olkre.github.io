@@ -10,12 +10,18 @@
         .then(json => {
           const cards = json.cards;
           for (const card of cards) {
+            const cardDiv = document.createElement('div');
+            cardDiv.style.padding = '20px';
             const h1 = document.createElement('h1');
             h1.textContent = card.title;
             const h3 = document.createElement('h3');
             h3.textContent = card.description;
-            document.body.appendChild(h1);
-            document.body.appendChild(h3);
+            const img = document.createElement('img');
+            img.src = card.imageUrl;
+            cardDiv.appendChild(h1);
+            cardDiv.appendChild(h3);
+            cardDiv.appendChild(img);
+            document.body.appendChild(cardDiv);
           }
         });
     </script>

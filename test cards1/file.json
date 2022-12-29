@@ -2,15 +2,18 @@
     "cards": [
       {
         "title": "Card 1",
-        "description": "This is the first card."
+        "description": "This is the first card.",
+        "imageUrl": "https://picsum.photos/200/300"
       },
       {
         "title": "Card 2",
-        "description": "This is the second card."
+        "description": "This is the second card.",
+        "imageUrl": "https://picsum.photos/200/300"
       },
       {
         "title": "Card 3",
-        "description": "This is the third card."
+        "description": "This is the third card.",
+        "imageUrl": "https://picsum.photos/200/300"
       }
     ]
   }
