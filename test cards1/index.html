@@ -1,17 +1,19 @@
 <!doctype html>
 <html>
   <head>
-    <title>JSON Text Example</title>
+    <title>JSON Text Elements Example</title>
   </head>
   <body>
     <script>
-      fetch('info.json')
+      fetch('path/to/file.json')
         .then(response => response.json())
         .then(json => {
-          const text = json.text;
-          const h1 = document.createElement('h1');
-          h1.textContent = text;
-          document.body.appendChild(h1);
+          const texts = json.texts;
+          for (const text of texts) {
+            const h1 = document.createElement('h1');
+            h1.textContent = text;
+            document.body.appendChild(h1);
+          }
         });
     </script>
   </body>

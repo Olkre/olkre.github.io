@@ -1,4 +1,8 @@
 {
-    "text": "Hello, world!"
+    "texts": [
+      "Text element 1",
+      "Text element 2",
+      "Text element 3"
+    ]
   }
   
