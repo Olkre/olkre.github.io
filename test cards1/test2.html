@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Background Color Switcher</title>
+  </head>
+  <body>
+    <h1>Background Color Switcher</h1>
+    
+    <button id="color-switch-button">Switch Background Color</button>
+    
+    <script>
+      const button = document.querySelector('#color-switch-button');
+      
+      let isWhite = true;
+      
+      // Check if the background color is stored in the local storage
+      if (localStorage.getItem('backgroundColor')) {
+        // Set the background color to the stored value
+        document.body.style.backgroundColor = localStorage.getItem('backgroundColor');
+        
+        // Update the value of isWhite based on the stored background color
+        isWhite = localStorage.getItem('backgroundColor') === 'white';
+      }
+      
+      button.addEventListener('click', () => {
+        if (isWhite) {
+          document.body.style.backgroundColor = 'black';
+        } else {
+          document.body.style.backgroundColor = 'white';
+        }
+        
+        // Save the current background color to the local storage
+        localStorage.setItem('backgroundColor', document.body.style.backgroundColor);
+        
+        isWhite = !isWhite;
+        
+        // Get the current time
+        const currentTime = new Date();
+        
+        // Format the time as a string
+        const timeString = currentTime.toLocaleTimeString();
+        
+        // Save the current time to the local storage
+        localStorage.setItem('time', timeString);
+        
+        // Check if the times array is stored in the local storage
+        if (localStorage.getItem('times')) {
+          // Get the stored times array
+          const times = JSON.parse(localStorage.getItem('times'));
+          
+          // Add the current time to the array
+          times.push(timeString);
+                  
+    </script>
+  </body>
+</html>

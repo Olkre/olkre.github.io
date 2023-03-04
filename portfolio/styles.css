@@ -1,0 +1,77 @@
+@font-face {
+    font-family: 'Uncut Sans';
+    src: url('Uncut-Sans-Variable.ttf') format("truetype-variations");
+    font-weight: 1 999;
+  }
+
+body {
+    background-color: #fff!important;
+}
+
+.row .col-3 {
+    padding: 8px;
+}
+
+@media only screen and (max-width: 1500px) {
+    .custom-container {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+}
+
+@media only screen and (min-width: 768px) {
+    .cards4 {
+        margin-top: -18px!important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .cards4 {
+        margin-top: 6px!important;
+    }
+    
+}
+
+.big-img {
+    border-radius: 20px!important;
+    
+}
+
+
+@media only screen and (max-width: 768px) {
+    .small-img {
+        padding-top: 20px!important;
+    }
+}
+
+.firstBlock {
+    padding-top: 30px!important;
+    padding-bottom: 30px!important;
+}
+
+.small-img {
+    padding: 4px!important;
+}
+
+.container {
+    padding: 0px 20px;
+}
+
+.custom-container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+
+
+  hr {
+    padding-bottom: 20px;
+  }
+
+.text-cards {
+    margin-bottom: -15px!important;
+}
+
+.cardIt {
+    padding-bottom: 50px;
+}
