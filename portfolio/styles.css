@@ -1,11 +1,22 @@
-@font-face {
-    font-family: 'Uncut Sans';
-    src: url('Uncut-Sans-Variable.ttf') format("truetype-variations");
-    font-weight: 1 999;
-  }
 
-body {
-    background-color: #fff!important;
+
+
+  @font-face {
+	font-family: "Uncut Sans";
+	font-style: normal;
+	font-weight: 100;
+	src: url("https://cdn.jsdelivr.net/gh/kaspernordkvist/uncut_sans/Webfonts/Uncut-Sans-Regular.woff2") format("woff2"),
+	     url("https://cdn.jsdelivr.net/gh/kaspernordkvist/uncut_sans/Webfonts/Uncut-Sans-Regular.woff") format("woff");
+	font-display: swap;
+}
+
+h2 {
+    font-family: "Uncut Sans", sans-serif;
+
+}
+
+p {
+    font-family: "Uncut Sans", sans-serif;
 }
 
 .row .col-3 {
@@ -27,13 +38,16 @@ body {
 
 @media only screen and (max-width: 768px) {
     .cards4 {
-        margin-top: 6px!important;
+        margin-top: 2px!important;
     }
+
+    
     
 }
 
 .big-img {
     border-radius: 20px!important;
+    padding: 4px!important;
     
 }
 
@@ -69,7 +83,7 @@ body {
   }
 
 .text-cards {
-    margin-bottom: -15px!important;
+    margin-bottom: -1px!important;
 }
 
 .cardIt {
