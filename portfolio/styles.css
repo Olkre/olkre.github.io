@@ -38,11 +38,27 @@ p {
 
 @media only screen and (max-width: 768px) {
     .cards4 {
-        margin-top: 2px!important;
+        margin-top: 4px!important;
     }
 
     
     
+}
+
+a:active { text-decoration: none!important; }
+
+a { text-decoration: none!important; }
+
+.links {
+    margin-left: 20px;
+    margin-top: -10px;
+    padding-bottom: 20px!important;
+}
+
+.links  a p {
+    margin-top: -12px!important;
+    color: green;
+    text-decoration: none!important;
 }
 
 .big-img {
