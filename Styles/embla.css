@@ -54,7 +54,7 @@
   transform: scale(0.8);
 }
 .embla__dot {
-  width: 130px;
+  width: 75px;
   height: 10px;
   border-radius: 10px;
   background: #343434;
@@ -166,19 +166,30 @@
 .custom-embla__button {
   position: absolute;
   top: 50%;
+  height: 100%;
   transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
-  padding: 10px;
+  padding: 50px;
   cursor: pointer;
-  z-index: 1;
+  z-index: 100;
 }
 .custom-embla__button--prev {
-  left: 10px;
+  left: 100px;
 }
 .custom-embla__button--next {
   right: 10px;
+}
+.custom-embla__button--prev2 {
+  left: 100px;
+  margin-left: -154px;
+  opacity: 0;
+}
+.custom-embla__button--next2 {
+  right: 10px;
+  margin-right: -74px;
+  opacity: 0;
 }
 .custom-embla__dots {
   display: flex;

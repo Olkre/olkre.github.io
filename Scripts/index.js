@@ -37,6 +37,10 @@ const embla2 = EmblaCarousel(emblaNode2, options2);
 
 const prevBtn2 = document.querySelector(".custom-embla__button--prev");
 const nextBtn2 = document.querySelector(".custom-embla__button--next");
+
+const prevBtn2a = document.querySelector(".custom-embla__button--prev2");
+const nextBtn2a = document.querySelector(".custom-embla__button--next2");
+
 const dotsContainer2 = document.querySelector(".custom-embla__dots");
 
 const setupDots2 = () => {
@@ -57,6 +61,8 @@ const updateDots2 = () => {
 
 prevBtn2.addEventListener("click", embla2.scrollPrev);
 nextBtn2.addEventListener("click", embla2.scrollNext);
+prevBtn2a.addEventListener("click", embla2.scrollPrev);
+nextBtn2a.addEventListener("click", embla2.scrollNext);
 
 embla2.on("select", updateDots2);
 
@@ -64,7 +70,7 @@ setupDots2();
 updateDots2();
 
 $(document).ready(function () {
-  $(".bcard").hover(
+  $(".video-hover-trigger").hover(
     function () {
       // on mouse enter
       var video = $(this).find("video")[0];
