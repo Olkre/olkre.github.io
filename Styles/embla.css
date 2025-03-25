@@ -35,12 +35,34 @@
   right: 10px;
 }
 .embla__dots {
+  position: absolute;
+  background: none;
+  padding: 8px;
   display: flex;
   justify-content: center;
-  margin-top: 4px;
-  margin-bottom: -15px;
+  margin-top: 130px;
+  margin-left: -10px;
+  margin-bottom: -5px;
+  transform: translateY(-5px);
   z-index: 102;
+  border-radius: 15px; /* Rounded corners */
 }
+
+.embla__dots,
+.custom-embla__dots {
+  /* opacity: 50%; */
+  transform: scale(0.8);
+}
+.embla__dot {
+  width: 130px;
+  height: 10px;
+  border-radius: 10px;
+  background: #343434;
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+}
+/* 
 .embla__dot {
   width: 10px;
   height: 10px;
@@ -49,9 +71,10 @@
   margin: 0 5px;
   cursor: pointer;
   border: none;
-}
+} */
 .embla__dot.is-selected {
-  background: #333;
+  background: #dddddd;
+  /* background: #333; */
 }
 
 .slide-content video {
@@ -61,12 +84,18 @@
 
 .bezel {
   z-index: 100;
-  margin-top: -840px;
+  margin-top: -830px;
+}
+
+.slide-content .bezel {
+  opacity: 0%;
+  z-index: 100;
+  margin-top: -830px;
 }
 
 .case7-screen {
   z-index: 102;
-  margin-top: -866px;
+  margin-top: -846px;
   margin-left: -8px;
   transform: scale(0.85);
   position: absolute;
@@ -110,4 +139,64 @@
 
 .hover-icon:hover {
   animation: spin 0.6s linear infinite;
+}
+
+.custom-embla {
+  width: 80%;
+  margin: 0 auto;
+  position: relative;
+}
+.custom-embla__container {
+  display: flex;
+  margin-top: -30px;
+}
+.custom-embla__slide {
+  width: 280px;
+  padding: 10px;
+}
+.custom-embla__slide > div {
+  margin-left: -66px;
+}
+
+.custom-embla__slide img {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+}
+.custom-embla__button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
+.custom-embla__button--prev {
+  left: 10px;
+}
+.custom-embla__button--next {
+  right: 10px;
+}
+.custom-embla__dots {
+  display: flex;
+  justify-content: center;
+  margin-top: -20px;
+  margin-bottom: 10px;
+}
+
+.custom-embla__dot {
+  width: 40px; /* Wider width for a rectangle */
+  height: 10px; /* Adjust the height to make them rectangular */
+  border-radius: 15px; /* Rounded corners */
+  background: #e4e4e4;
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+}
+
+.custom-embla__dot.is-selected {
+  background: #333;
 }

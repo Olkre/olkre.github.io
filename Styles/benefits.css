@@ -1,0 +1,36 @@
+.bcard {
+  transform: scale(0.7);
+}
+
+.bcard:hover {
+  transform: translateY(-20px) scale(0.7); /* Adjust the value as needed */
+}
+
+.bcard:hover .topIcon {
+  transform: translateY(-20px); /* Adjust the value as needed */
+}
+
+.bcard .benefitBtn {
+  transform: translateY(-5px); /* Adjust the value as needed */
+  opacity: 0;
+}
+
+.bcard:hover .benefitBtn {
+  transform: translateY(0px); /* Adjust the value as needed */
+
+  opacity: 100%;
+}
+
+.topIcon {
+  margin-top: -74px;
+  margin-left: 89px;
+}
+
+.bcard h2 {
+  font-feature-settings: "liga", "kern", "ss04";
+  font-size: 2.75rem;
+  line-height: normal;
+  margin-top: 0;
+  padding-top: 10px;
+  transform: translateY(12px);
+}
