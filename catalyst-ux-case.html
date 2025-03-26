@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/embla-carousel@8.0.0-rc22/embla.css"
+    />
+    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
+
+    <style>
+      .scrollButtonParent {
+        margin-top: -60px;
+      }
+      .scrollButton {
+        transform: translateY(60px);
+      }
+
+      body {
+        user-select: none;
+      }
+      .carousel-container {
+        margin: 20px auto;
+        max-width: 600px;
+      }
+
+      .embla {
+        overflow: hidden;
+      }
+
+      .embla__container {
+        display: flex;
+      }
+
+      .embla__slide {
+        flex: 0 0 100%;
+        min-width: 0;
+        text-align: center;
+        padding: 20px;
+        background-color: #f0f0f0;
+        margin-right: 10px;
+        height: 500px;
+        max-width: 340px;
+        border-radius: 20px;
+        border: black 2px solid;
+      }
+
+      .embla__dots {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+      }
+
+      .embla__dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #ccc;
+        margin: 0 5px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .embla__dot--active {
+        background-color: #333;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const screens = document.querySelectorAll(".screen");
+        const links = document.querySelectorAll("a");
+
+        links.forEach((link) => {
+          link.addEventListener("click", function (event) {
+            event.preventDefault();
+            const target = this.getAttribute("href").replace("#", "");
+            screens.forEach((screen) => {
+              if (screen.id === target) {
+                screen.classList.remove("hidden");
+              } else {
+                screen.classList.add("hidden");
+              }
+            });
+          });
+        });
+      });
+
+      function toggleTravelerLocal(button) {
+        // Get both buttons (the clicked one and its sibling)
+        const buttons = button.parentElement.querySelectorAll("button");
+
+        // Remove active state from all buttons
+        buttons.forEach((btn) => {
+          btn.classList.remove("bg-black", "text-white");
+        });
+
+        // Add active state to clicked button
+        button.classList.add("bg-black", "text-white");
+      }
+
+      function previewImage(input) {
+        const preview = document.getElementById("preview-image");
+        const defaultIcon = document.getElementById("default-icon");
+
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.classList.remove("hidden");
+            defaultIcon.classList.add("hidden");
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+    </script>
+    <style>
+      /* Hide default cursor */
+      * {
+        cursor: none;
+      }
+
+      /* Custom cursor */
+      .custom-cursor {
+        width: 20px;
+        height: 20px;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease;
+      }
+
+      /* Scale effect on clickable elements */
+      a:hover ~ .custom-cursor,
+      button:hover ~ .custom-cursor,
+      input:hover ~ .custom-cursor,
+      label:hover ~ .custom-cursor {
+        transform: scale(1.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="custom-cursor"></div>
+
+    <div class="flex max-w-6xl mx-auto">
+      <div class="fixed items-center justify-center hidden lg:flex">
+        <div style="transform: scale(0.75)" class="">
+          <a
+            href="#screen1"
+            class="hover:bg-black bg-gray-200 absolute p-2 hover:text-white transition rounded-3xl text-lg px-4"
+            style="z-index: 102; margin-top: -50px; margin-left: 174px"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="inline-block me-1"
+              style="margin-top: -6px"
+            >
+              <g clip-path="url(#clip0_165_4103)">
+                <path
+                  d="M9 14C10.1867 14 11.3467 13.6481 12.3334 12.9888C13.3201 12.3295 14.0892 11.3925 14.5433 10.2961C14.9974 9.19975 15.1162 7.99335 14.8847 6.82946C14.6532 5.66558 14.0818 4.59648 13.2426 3.75736C12.4035 2.91825 11.3344 2.3468 10.1705 2.11529C9.00666 1.88378 7.80026 2.0026 6.7039 2.45673C5.60754 2.91085 4.67047 3.67989 4.01118 4.66658C3.35189 5.65328 3 6.81331 3 8V11.1L1.2 9.3L0.5 10L3.5 13L6.5 10L5.8 9.3L4 11.1V8C4 7.0111 4.29324 6.0444 4.84265 5.22215C5.39206 4.39991 6.17295 3.75904 7.08658 3.38061C8.00021 3.00217 9.00555 2.90315 9.97545 3.09608C10.9454 3.289 11.8363 3.76521 12.5355 4.46447C13.2348 5.16373 13.711 6.05465 13.9039 7.02455C14.0969 7.99446 13.9978 8.99979 13.6194 9.91342C13.241 10.8271 12.6001 11.6079 11.7779 12.1574C10.9556 12.7068 9.98891 13 9 13V14Z"
+                  fill="currentColor"
+                  stroke="currentColor"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_165_4103">
+                  <rect width="16" height="16" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            Reset</a
+          >
+          <img
+            src="img/iphone-bezel.png"
+            alt="iPhone Bezel"
+            class=""
+            style="z-index: 100; pointer-events: none; user-select: none"
+          />
+          <img
+            src="img/iphone-bezel.png"
+            alt="iPhone Bezel"
+            class="absolute top-0"
+            style="z-index: 100; pointer-events: none; user-select: none"
+          />
+          <div
+            class="w-[402px] h-[874px] border border-red-200"
+            style="margin-top: -896px; margin-left: 24px; z-index: 0"
+          >
+            <!-- Screen 1-->
+            <div
+              id="screen1"
+              class="screen bg-white flex items-center justify-center min-h-screen px-4 pt-5"
+            >
+              <div
+                class="flex flex-col items-center text-center w-full max-w-sm space-y-6"
+              >
+                <!-- Image Placeholder -->
+                <div
+                  class="mt-10 w-full aspect-square bg-gray-300 flex items-center justify-center rounded-lg"
+                >
+                  <svg
+                    class="w-12 h-12 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3 5h18M3 19h18M3 5l9 7 9-7"
+                    />
+                  </svg>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="text-2xl font-bold">
+                  Real People,<br />Real Places,<br />Real Culture.
+                </h1>
+
+                <!-- Subtext -->
+                <p class="text-gray-600 text-base">
+                  Meet locals. Share moments.<br />Experience the soul of a
+                  city.
+                </p>
+
+                <!-- Get Started Button -->
+                <a
+                  href="#screen2"
+                  class="w-full border border-black rounded-lg py-3 text-lg font-semibold hover:bg-black hover:text-white transition"
+                >
+                  Get Started
+                </a>
+
+                <!-- Sign In Link -->
+                <a
+                  href="#screen5"
+                  class="text-black font-medium text-base hover:underline"
+                  >Sign In</a
+                >
+              </div>
+            </div>
+
+            <div
+              id="screen2"
+              class="w-full max-w-sm mx-auto p-4 space-y-6 screen hidden"
+            >
+              <h1 class="text-2xl font-bold text-center mt-12">
+                Create Your Profile
+              </h1>
+
+              <!-- Profile Icon -->
+              <div class="flex justify-center">
+                <label for="profile-image" class="cursor-pointer">
+                  <div
+                    class="w-24 h-24 rounded-full border-2 border-black flex items-center justify-center overflow-hidden"
+                  >
+                    <img
+                      id="preview-image"
+                      class="hidden w-full h-full object-cover"
+                    />
+                    <svg
+                      id="default-icon"
+                      class="w-12 h-12 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                      />
+                    </svg>
+                  </div>
+                </label>
+                <input
+                  type="file"
+                  id="profile-image"
+                  accept="image/*"
+                  class="hidden"
+                  onchange="previewImage(this)"
+                />
+              </div>
+
+              <!-- Name -->
+              <div>
+                <label class="block text-sm font-medium mb-1">Name</label>
+                <input
+                  type="text"
+                  value="Oleksandr"
+                  class="w-full border border-black rounded-md p-2"
+                />
+              </div>
+
+              <!-- Where are you from -->
+              <div>
+                <label class="block text-sm font-medium mb-1"
+                  >Where are you from?</label
+                >
+                <input
+                  type="text"
+                  value="Boston, MA"
+                  class="w-full border border-black rounded-md p-2"
+                />
+              </div>
+
+              <!-- Traveler or Local -->
+              <div>
+                <label class="block text-sm font-medium mb-1"
+                  >Are you a Traveler or Local?</label
+                >
+                <div class="flex gap-2 border border-black p-1 rounded-xl">
+                  <button
+                    class="bg-black text-white w-1/2 py-2 rounded-md font-semibold border border-black active:bg-black active:text-white"
+                    onclick="toggleTravelerLocal(this)"
+                  >
+                    Traveler
+                  </button>
+                  <button
+                    class="w-1/2 py-2 rounded-md font-semibold border border-black active:bg-black active:text-white"
+                    onclick="toggleTravelerLocal(this)"
+                  >
+                    Local
+                  </button>
+                </div>
+              </div>
+
+              <!-- Languages -->
+              <div>
+                <label class="block text-sm font-medium mb-1"
+                  >What languages do you speak?</label
+                >
+                <input
+                  type="text"
+                  value="English, Spanish"
+                  class="w-full border border-black rounded-md p-2"
+                />
+              </div>
+
+              <!-- Connect Instagram -->
+              <button
+                class="w-full border border-black rounded-md py-3 flex items-center justify-center gap-2 font-semibold"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm8 4h.01M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"
+                  />
+                </svg>
+                Connect Instagram
+              </button>
+
+              <!-- Continue Button -->
+              <a href="#screen3">
+                <button
+                  class="w-full mt-10 border border-black rounded-md py-3 font-semibold text-lg hover:bg-black hover:text-white transition"
+                >
+                  Continue
+                </button>
+              </a>
+            </div>
+
+            <!-- Screen 3-->
+            <div id="screen3" class="p-6 hidden screen">
+              <h1 class="text-2xl font-bold mb-2 mt-12">
+                What kind of experiences are you looking for?
+              </h1>
+              <p class="text-gray-500 mb-6">
+                Help us match you with locals and meetups you'll love.
+              </p>
+              <h2 class="text-xl font-semibold mb-4">Types of Experiences</h2>
+              <div id="experience-list" class="grid grid-cols-3 gap-4"></div>
+              <a href="#screen4">
+                <button class="w-full mt-8 p-3 bg-black text-white rounded-xl">
+                  Continue
+                </button>
+              </a>
+
+              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+              <script>
+                const experiences = [
+                  { name: "Active", icon: "img/icon01.png" },
+                  { name: "Coffee Chats", icon: "img/icon02.png" },
+                  { name: "Live Music", icon: "img/icon03.png" },
+                  { name: "Food", icon: "img/icon04.png" },
+                  { name: "Shopping", icon: "img/icon05.png" },
+                  { name: "Art & Culture", icon: "img/icon06.png" },
+                  { name: "Nature", icon: "img/icon07.png" },
+                  { name: "Nightlife", icon: "img/icon08.png" },
+                  { name: "Game Night", icon: "img/icon09.png" },
+                  { name: "Live Shows", icon: "img/icon10.png" },
+                ];
+
+                $(document).ready(function () {
+                  experiences.forEach((exp) => {
+                    $("#experience-list").append(
+                      `<div class="flex flex-col items-center   cursor-pointer">
+                        <div class="border rounded-full hover:bg-gray-100 p-4 icon-circle border-2 ">
+                            <img src="${exp.icon}" class="w-12 h-12 " />
+                        </div>
+            <span class="text-center text-sm">${exp.name}</span>
+          </div>`
+                    );
+                  });
+
+                  // Add click event to each experience
+                  $("#experience-list .icon-circle").click(function () {
+                    // Toggle border when an experience is clicked
+                    $(this).toggleClass(" border-black");
+                  });
+                });
+              </script>
+            </div>
+
+            <div
+              id="screen4"
+              class="screen p-4 max-w-md mx-auto bg-white rounded-lg hidden"
+            >
+              <h2 class="text-2xl font-bold mt-12">Availability</h2>
+              <p class="text-gray-500 text-sm">
+                Let us know when and where you're available for meetups.
+              </p>
+
+              <!-- Location Input -->
+              <div class="mt-4">
+                <label class="block font-medium">Location</label>
+                <div
+                  class="flex items-center border rounded-lg overflow-hidden"
+                >
+                  <input
+                    type="text"
+                    class="w-full p-2 outline-none"
+                    value="Boston, MA"
+                  />
+                  <button class="p-2 bg-gray-200">📍</button>
+                </div>
+              </div>
+
+              <!-- Travel Distance -->
+              <div class="mt-4">
+                <label class="block font-medium">Travel Distance</label>
+                <div class="flex items-center">
+                  <input
+                    type="range"
+                    min="0"
+                    max="50"
+                    value="20"
+                    class="w-full"
+                    id="travelDistance"
+                  />
+                  <span id="distanceValue" class="ml-2">20 miles</span>
+                </div>
+              </div>
+
+              <!-- Toggle Buttons -->
+              <div
+                class="mt-4 flex items-center justify-between border p-2 rounded-lg"
+              >
+                <span>Notify About New Events?</span>
+                <input type="checkbox" id="notifyToggle" class="hidden" />
+                <label
+                  for="notifyToggle"
+                  class="w-10 h-5 bg-gray-300 rounded-full flex items-center cursor-pointer"
+                >
+                  <span
+                    class="w-4 h-4 bg-white rounded-full transform transition-transform"
+                  ></span>
+                </label>
+              </div>
+
+              <div
+                class="mt-4 flex items-center justify-between border p-2 rounded-lg"
+              >
+                <span>I am available anytime</span>
+                <input type="checkbox" id="timeToggle" class="hidden" />
+                <label
+                  for="timeToggle"
+                  class="w-10 h-5 bg-gray-300 rounded-full flex items-center cursor-pointer"
+                >
+                  <span
+                    class="w-4 h-4 bg-white rounded-full transform transition-transform"
+                  ></span>
+                </label>
+              </div>
+
+              <script>
+                $(document).ready(function () {
+                  $("#timeToggle").on("change", function () {
+                    if ($(this).is(":checked")) {
+                      $(".ifunavailable").hide();
+                    } else {
+                      $(".ifunavailable").show();
+                    }
+                  });
+                });
+              </script>
+
+              <!-- Calendar -->
+              <div class="mt-4 ifunavailable">
+                <div
+                  id="calendar-container"
+                  class="max-w-md mx-auto bg-white rounded-lg"
+                >
+                  <h2 class="text-2xl font-bold">Select Date Range</h2>
+
+                  <div id="selected-range" class="mt-2 text-gray-700">
+                    Selected: <span id="start-date">None</span> -
+                    <span id="end-date">None</span>
+                  </div>
+
+                  <!-- Calendar -->
+                  <div class="grid grid-cols-7 gap-1 text-center text-sm mt-4">
+                    <span>Mo</span><span>Tu</span><span>We</span><span>Th</span
+                    ><span>Fr</span><span>Sa</span><span>Su</span>
+                  </div>
+
+                  <div
+                    id="calendar"
+                    class="grid grid-cols-7 gap-1 text-center mt-2"
+                  >
+                    <!-- Days will be generated dynamically -->
+                  </div>
+                </div>
+
+                <script>
+                  $(document).ready(function () {
+                    const daysInMonth = 30; // Example for simplicity
+                    let startDate = null;
+                    let endDate = null;
+
+                    // Generate calendar days
+                    for (let i = 1; i <= daysInMonth; i++) {
+                      $("#calendar").append(
+                        `<div class="p-2 cursor-pointer border rounded day" data-day="${i}">${i}</div>`
+                      );
+                    }
+
+                    // Click event for selecting range
+                    $(".day").on("click", function () {
+                      let selectedDay = parseInt($(this).attr("data-day"));
+
+                      if (!startDate || (startDate && endDate)) {
+                        // Reset selection
+                        startDate = selectedDay;
+                        endDate = null;
+                        $(".day").removeClass("bg-black text-white"); // Reset styling
+                        $(this).addClass("bg-black text-white"); // Highlight start date
+                      } else if (selectedDay > startDate) {
+                        endDate = selectedDay;
+                        // Highlight range
+                        $(".day").each(function () {
+                          let day = parseInt($(this).attr("data-day"));
+                          if (day >= startDate && day <= endDate) {
+                            $(this).addClass("bg-black text-white");
+                          }
+                        });
+                      }
+
+                      // Update selected range display
+                      $("#start-date").text(startDate || "None");
+                      $("#end-date").text(endDate || "None");
+                    });
+                  });
+                </script>
+              </div>
+              <br />
+              <hr />
+              <!-- Button -->
+              <a href="screen5">
+                <button class="mt-4 w-full bg-black text-white p-2 rounded-lg">
+                  See events
+                </button>
+              </a>
+
+              <script>
+                $(document).ready(function () {
+                  $("#travelDistance").on("input", function () {
+                    $("#distanceValue").text($(this).val() + " miles");
+                  });
+
+                  $("#notifyToggle, #timeToggle").on("change", function () {
+                    $(this).next().toggleClass("bg-gray-300 bg-black");
+                    $(this).next().find("span").toggleClass("translate-x-5");
+                  });
+                });
+              </script>
+            </div>
+
+            <!-- Screen 5-->
+            <div class="screen w-full h-full hidden" id="screen5">
+              <div
+                class="w-[390px] mt-12 pt-2 px-3 flex justify-between absolute"
+                style="z-index: 100"
+              >
+                <button
+                  class="px-4 py-1 text-black text-md font-medium bg-white border border-black rounded-full hover:bg-gray-100"
+                >
+                  + Make a post
+                </button>
+                <div class="flex gap-3">
+                  <a href="#screen3" class="flex flex-col items-center">
+                    <button
+                      class="text-center flex flex-col items-center py-1 px-2 text-black text-md font-medium bg-white border border-black rounded-full hover:bg-gray-100"
+                    >
+                      <svg
+                        width="21"
+                        height="21"
+                        viewBox="0 0 21 21"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7.7502 20.4497L7.3502 17.2497C7.13353 17.1664 6.92953 17.0664 6.7382 16.9497C6.54686 16.833 6.3592 16.708 6.1752 16.5747L3.2002 17.8247L0.450195 13.0747L3.0252 11.1247C3.00853 11.008 3.0002 10.8957 3.0002 10.7877V10.1127C3.0002 10.004 3.00853 9.89137 3.0252 9.77471L0.450195 7.82471L3.2002 3.07471L6.1752 4.32471C6.35853 4.19137 6.5502 4.06637 6.7502 3.94971C6.9502 3.83304 7.1502 3.73304 7.3502 3.64971L7.7502 0.449707H13.2502L13.6502 3.64971C13.8669 3.73304 14.0712 3.83304 14.2632 3.94971C14.4552 4.06637 14.6425 4.19137 14.8252 4.32471L17.8002 3.07471L20.5502 7.82471L17.9752 9.77471C17.9919 9.89137 18.0002 10.004 18.0002 10.1127V10.7867C18.0002 10.8954 17.9835 11.008 17.9502 11.1247L20.5252 13.0747L17.7752 17.8247L14.8252 16.5747C14.6419 16.708 14.4502 16.833 14.2502 16.9497C14.0502 17.0664 13.8502 17.1664 13.6502 17.2497L13.2502 20.4497H7.7502ZM10.5502 13.9497C11.5169 13.9497 12.3419 13.608 13.0252 12.9247C13.7085 12.2414 14.0502 11.4164 14.0502 10.4497C14.0502 9.48304 13.7085 8.65804 13.0252 7.97471C12.3419 7.29137 11.5169 6.94971 10.5502 6.94971C9.56686 6.94971 8.73753 7.29137 8.0622 7.97471C7.38686 8.65804 7.04953 9.48304 7.0502 10.4497C7.05086 11.4164 7.38853 12.2414 8.0632 12.9247C8.73786 13.608 9.56686 13.9497 10.5502 13.9497Z"
+                          fill="black"
+                        />
+                      </svg>
+                    </button>
+                    <div class="" style="margin-top: 3px">settings</div>
+                  </a>
+                  <a href="#screen2" class="flex flex-col items-center">
+                    <button
+                      class="text-center flex flex-col items-center py-1 px-2 text-black text-md font-medium bg-white border border-black rounded-full hover:bg-gray-100"
+                    >
+                      <svg
+                        width="23"
+                        height="23"
+                        viewBox="0 0 23 23"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M15.5576 8.44971C15.5576 9.51057 15.1362 10.528 14.386 11.2781C13.6359 12.0283 12.6185 12.4497 11.5576 12.4497C10.4968 12.4497 9.47934 12.0283 8.72919 11.2781C7.97904 10.528 7.55762 9.51057 7.55762 8.44971C7.55762 7.38884 7.97904 6.37143 8.72919 5.62128C9.47934 4.87113 10.4968 4.44971 11.5576 4.44971C12.6185 4.44971 13.6359 4.87113 14.386 5.62128C15.1362 6.37143 15.5576 7.38884 15.5576 8.44971ZM13.5576 8.44971C13.5576 8.98014 13.3469 9.48885 12.9718 9.86392C12.5968 10.239 12.0881 10.4497 11.5576 10.4497C11.0272 10.4497 10.5185 10.239 10.1434 9.86392C9.76833 9.48885 9.55762 8.98014 9.55762 8.44971C9.55762 7.91927 9.76833 7.41057 10.1434 7.03549C10.5185 6.66042 11.0272 6.44971 11.5576 6.44971C12.0881 6.44971 12.5968 6.66042 12.9718 7.03549C13.3469 7.41057 13.5576 7.91927 13.5576 8.44971Z"
+                          fill="black"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M11.5576 0.449707C5.48262 0.449707 0.557617 5.37471 0.557617 11.4497C0.557617 17.5247 5.48262 22.4497 11.5576 22.4497C17.6326 22.4497 22.5576 17.5247 22.5576 11.4497C22.5576 5.37471 17.6326 0.449707 11.5576 0.449707ZM2.55762 11.4497C2.55762 13.5397 3.27062 15.4637 4.46562 16.9917C5.30506 15.8898 6.38777 14.9968 7.62926 14.3824C8.87074 13.768 10.2374 13.4488 11.6226 13.4497C12.99 13.4481 14.3397 13.7588 15.5687 14.3581C16.7978 14.9574 17.8738 15.8294 18.7146 16.9077C19.5811 15.7713 20.1645 14.4449 20.4165 13.0383C20.6686 11.6317 20.582 10.1852 20.1641 8.81869C19.7462 7.45214 19.0088 6.20475 18.0131 5.17974C17.0174 4.15473 15.7919 3.38157 14.438 2.92422C13.0841 2.46687 11.6408 2.33848 10.2275 2.54968C8.81414 2.76088 7.47141 3.3056 6.31039 4.13876C5.14936 4.97192 4.20343 6.06958 3.55085 7.3409C2.89826 8.61223 2.5578 10.0207 2.55762 11.4497ZM11.5576 20.4497C9.49152 20.4531 7.48776 19.7423 5.88562 18.4377C6.53043 17.5143 7.38881 16.7604 8.38769 16.2402C9.38657 15.7199 10.4964 15.4487 11.6226 15.4497C12.7348 15.4487 13.8311 15.7132 14.8206 16.221C15.8101 16.7289 16.664 17.4655 17.3116 18.3697C15.6971 19.7167 13.6603 20.453 11.5576 20.4497Z"
+                          fill="black"
+                        />
+                      </svg>
+                    </button>
+                    profile
+                  </a>
+                </div>
+              </div>
+
+              <style>
+                .scroll-container {
+                  overflow-x: auto;
+                  width: 100%; /* or a fixed value like 600px */
+                  scroll-snap-type: x mandatory; /* Optional: snapping effect */
+                  scroll-behavior: smooth; /* Optional: smooth scrolling */
+                }
+
+                .inner-container {
+                  transform: translateX(
+                    -340px
+                  ); /* Shift left by one item’s width */
+                }
+
+                .snap-child {
+                  scroll-snap-align: start; /* Optional: aligns items when scrolling stops */
+                }
+              </style>
+              <div
+                id="scrollContainer"
+                class="w-full h-[874px] py-12 overflow-y-auto scroll-smooth"
+                style="padding-top: 6rem"
+              >
+                <!-- Carousel 3 -->
+                <div class="carousel-container snap-item">
+                  <div class="embla__dots" id="dots3"></div>
+                  <div class="embla" id="embla3">
+                    <div class="embla__container">
+                      <div class="embla__slide ms-2 text-left">
+                        <!-- About Maria S. Section -->
+                        <div class="">
+                          <div
+                            class="w-24 h-24 rounded-full border-2 border-gray-300 mb-4"
+                          ></div>
+                          <h2
+                            class="text-2xl font-bold text-gray-900 mb-2 text-left"
+                          >
+                            About Maria S.
+                          </h2>
+                          <p class="text-gray-700 mb-4 text-left">
+                            Passionate traveler and coffee enthusiast who loves
+                            meeting new people.
+                          </p>
+                          <div class="grid grid-cols-2 gap-y-4 mb-4">
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                From
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Lisbon, Portugal
+                              </p>
+                            </div>
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Languages
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Portuguese, Spanish, English
+                              </p>
+                            </div>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <a
+                              href="#"
+                              class="text-gray-500 hover:text-gray-700"
+                              >Instagram</a
+                            >
+                            <button
+                              class="px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm hover:bg-gray-100"
+                            >
+                              Open
+                            </button>
+                          </div>
+                          <div>
+                            <div
+                              class="border w-[290px] mt-2 rounded-t-xl h-[300px] border-black"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="embla__slide">
+                        <div class="flex flex-col justify-between h-full">
+                          <div class="flex items-start text-left space-x-4">
+                            <!-- Avatar Placeholder -->
+                            <div
+                              class="w-12 h-12 rounded-full border-2 border-gray-300"
+                            ></div>
+                            <!-- Text -->
+                            <div>
+                              <p class="text-sm text-gray-500">Hosted by</p>
+                              <p class="text-lg font-semibold text-gray-800">
+                                Maria S.
+                              </p>
+                            </div>
+                          </div>
+                          <div
+                            class="max-w-xs mx-auto rounded-lg flex flex-col"
+                          >
+                            <!-- Tags -->
+                            <div class="flex space-x-1 mb-3">
+                              <button
+                                class="flex items-center px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm"
+                              >
+                                <span class="mr-2">☕</span> Coffee
+                              </button>
+                              <button
+                                class="flex items-center px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm"
+                              >
+                                <span class="mr-2">📸</span> Photography
+                              </button>
+                            </div>
+                            <!-- Text -->
+                            <p
+                              class="text-2xl text-left font-bold text-gray-800"
+                            >
+                              Join me for a coffee crawl!
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="embla__slide">
+                        <div
+                          class="p-6 h-full flex flex-col justify-end gap-3 text-left"
+                        >
+                          <!-- Heading -->
+                          <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                            Hangout details
+                          </h2>
+                          <!-- Description -->
+                          <p class="text-gray-700 mb-4">
+                            Exploring the best coffee shops in the old town,
+                            snapping pics along the way.
+                          </p>
+                          <!-- Details Grid -->
+                          <div class="grid grid-cols-2 gap-y-4">
+                            <!-- When -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                When
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                3pm Tomorrow
+                              </p>
+                            </div>
+                            <!-- Group size -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Group size
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                3-5 people
+                              </p>
+                            </div>
+                            <!-- Where -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Where
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Seattle Old Town
+                              </p>
+                            </div>
+                            <!-- Languages -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Languages
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Portuguese, Spanish, English
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <a href="#screen6" class="px-6 w-[400px] flex">
+                    <button
+                      class="w-full mt-5 border border-black rounded-md py-3 font-semibold text-lg hover:bg-black hover:text-white transition"
+                    >
+                      Connect
+                    </button>
+                  </a>
+
+                  <div class="scrollButtonParent px-6 w-[400px] flex">
+                    <button
+                      class="scrollButton w-full mb-6 rounded-md py-1 font-semibold text-lg hover:bg-black hover:text-white transition"
+                    >
+                      Skip
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Carousel 2 -->
+                <div class="carousel-container snap-item">
+                  <div class="embla__dots" id="dots2"></div>
+
+                  <div class="embla" id="embla2">
+                    <div class="embla__container">
+                      <div class="embla__slide ms-2 text-left">
+                        <!-- About Oleksandr K. Section -->
+                        <div class="">
+                          <div
+                            class="w-24 h-24 rounded-full border-2 border-gray-300 mb-4"
+                          ></div>
+                          <h2
+                            class="text-2xl font-bold text-gray-900 mb-2 text-left"
+                          >
+                            About Oleksandr K.
+                          </h2>
+                          <p class="text-gray-700 mb-4 text-left">
+                            Some bio text
+                          </p>
+                          <div class="grid grid-cols-2 gap-y-4 mb-4">
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                From
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Kyiv, Ukraine
+                              </p>
+                            </div>
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Languages
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Ukrainian, English, Russian
+                              </p>
+                            </div>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <a
+                              href="#"
+                              class="text-gray-500 hover:text-gray-700"
+                              >Instagram</a
+                            >
+                            <button
+                              class="px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm hover:bg-gray-100"
+                            >
+                              Open
+                            </button>
+                          </div>
+                          <div>
+                            <div
+                              class="border w-[290px] mt-2 rounded-t-xl h-[300px] border-black"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="embla__slide">
+                        <div class="flex flex-col justify-between h-full">
+                          <div class="flex items-start text-left space-x-4">
+                            <!-- Avatar Placeholder -->
+                            <div
+                              class="w-12 h-12 rounded-full border-2 border-gray-300"
+                            ></div>
+                            <!-- Text -->
+                            <div>
+                              <p class="text-sm text-gray-500">Hosted by</p>
+                              <p class="text-lg font-semibold text-gray-800">
+                                Oleksandr K.
+                              </p>
+                            </div>
+                          </div>
+                          <div
+                            class="max-w-xs mx-auto rounded-lg flex flex-col"
+                          >
+                            <!-- Tags -->
+                            <div class="flex space-x-1 mb-3">
+                              <button
+                                class="flex items-center px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm"
+                              >
+                                <span class="mr-2">🌲</span> Outdoors
+                              </button>
+                              <button
+                                class="flex items-center px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm"
+                              >
+                                <span class="mr-2">🏃</span> Active
+                              </button>
+                            </div>
+                            <!-- Text -->
+                            <p
+                              class="text-2xl text-left font-bold text-gray-800"
+                            >
+                              Come longboard with me!
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="embla__slide">
+                        <div
+                          class="p-6 h-full flex flex-col justify-end gap-3 text-left"
+                        >
+                          <!-- Heading -->
+                          <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                            Hangout details
+                          </h2>
+                          <!-- Description -->
+                          <p class="text-gray-700 mb-4">
+                            Longboarding together along the Thames river in the
+                            downtown
+                          </p>
+                          <!-- Details Grid -->
+                          <div class="grid grid-cols-2 gap-y-4">
+                            <!-- When -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                When
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                6pm Tonight
+                              </p>
+                            </div>
+                            <!-- Group size -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Group size
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                2-4 people
+                              </p>
+                            </div>
+                            <!-- Where -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Where
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Boston Downtown
+                              </p>
+                            </div>
+                            <!-- Languages -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Languages
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Ukrainian, English, Russian
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <a href="#screen6" class="px-6 w-[400px] flex">
+                    <button
+                      class="w-full mt-5 border border-black rounded-md py-3 font-semibold text-lg hover:bg-black hover:text-white transition"
+                    >
+                      Connect
+                    </button>
+                  </a>
+
+                  <div class="scrollButtonParent px-6 w-[400px] flex">
+                    <button
+                      class="scrollButton w-full mb-6 rounded-md py-1 font-semibold text-lg hover:bg-black hover:text-white transition"
+                    >
+                      Skip
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Carousel 1 -->
+                <div class="carousel-container snap-item">
+                  <div class="embla__dots" id="dots1"></div>
+                  <div class="embla" id="embla1">
+                    <div class="embla__container">
+                      <div class="embla__slide ms-2 text-left">
+                        <!-- About Javier M. Section -->
+                        <div class="">
+                          <div
+                            class="w-24 h-24 rounded-full border-2 border-gray-300 mb-4"
+                          ></div>
+                          <h2
+                            class="text-2xl font-bold text-gray-900 mb-2 text-left"
+                          >
+                            About Javier M.
+                          </h2>
+                          <p class="text-gray-700 mb-4 text-left">
+                            Avid hiker and foodie who enjoys sharing stories
+                            over a good meal.
+                          </p>
+                          <div class="grid grid-cols-2 gap-y-4 mb-4">
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                From
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Santiago, Chile
+                              </p>
+                            </div>
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Languages
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Spanish, English, French
+                              </p>
+                            </div>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <a
+                              href="#"
+                              class="text-gray-500 hover:text-gray-700"
+                              >Instagram</a
+                            >
+                            <button
+                              class="px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm hover:bg-gray-100"
+                            >
+                              Open
+                            </button>
+                          </div>
+                          <div>
+                            <div
+                              class="border w-[290px] mt-2 rounded-t-xl h-[300px] border-black"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="embla__slide">
+                        <div class="flex flex-col justify-between h-full">
+                          <div class="flex items-start text-left space-x-4">
+                            <!-- Avatar Placeholder -->
+                            <div
+                              class="w-12 h-12 rounded-full border-2 border-gray-300"
+                            ></div>
+                            <!-- Text -->
+                            <div>
+                              <p class="text-sm text-gray-500">Hosted by</p>
+                              <p class="text-lg font-semibold text-gray-800">
+                                Javier M.
+                              </p>
+                            </div>
+                          </div>
+                          <div
+                            class="max-w-xs mx-auto rounded-lg flex flex-col"
+                          >
+                            <!-- Tags -->
+                            <div class="flex space-x-1 mb-3">
+                              <button
+                                class="flex items-center px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm"
+                              >
+                                <span class="mr-2">⛰️</span> Hiking
+                              </button>
+                              <button
+                                class="flex items-center px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm"
+                              >
+                                <span class="mr-2">🍲</span> Food
+                              </button>
+                            </div>
+                            <!-- Text -->
+                            <p
+                              class="text-2xl text-left font-bold text-gray-800"
+                            >
+                              Hike and dine with me!
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="embla__slide">
+                        <div
+                          class="p-6 h-full flex flex-col justify-end gap-3 text-left"
+                        >
+                          <!-- Heading -->
+                          <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                            Hangout details
+                          </h2>
+                          <!-- Description -->
+                          <p class="text-gray-700 mb-4">
+                            A short hike in the hills followed by a homemade
+                            Chilean meal.
+                          </p>
+                          <!-- Details Grid -->
+                          <div class="grid grid-cols-2 gap-y-4">
+                            <!-- When -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                When
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                10am Saturday
+                              </p>
+                            </div>
+                            <!-- Group size -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Group size
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                4-6 people
+                              </p>
+                            </div>
+                            <!-- Where -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Where
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Boulder, Colorado
+                              </p>
+                            </div>
+                            <!-- Languages -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Languages
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Spanish, English, French
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <a href="#screen6" class="px-6 w-[400px] flex">
+                    <button
+                      class="w-full mt-5 border border-black rounded-md py-3 font-semibold text-lg hover:bg-black hover:text-white transition"
+                    >
+                      Connect
+                    </button>
+                  </a>
+
+                  <div class="scrollButtonParent px-6 w-[400px] flex">
+                    <button
+                      class="scrollButton w-full mb-6 rounded-md py-1 font-semibold text-lg hover:bg-black hover:text-white transition"
+                    >
+                      Skip
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Carousel 1 -->
+                <div class="carousel-container snap-item">
+                  <div class="embla__dots" id="dots4"></div>
+
+                  <div class="embla" id="embla4">
+                    <div class="embla__container">
+                      <div class="embla__slide ms-2 text-left">
+                        <!-- About Aisha R. Section -->
+                        <div class="">
+                          <div
+                            class="w-24 h-24 rounded-full border-2 border-gray-300 mb-4"
+                          ></div>
+                          <h2
+                            class="text-2xl font-bold text-gray-900 mb-2 text-left"
+                          >
+                            About Aisha R.
+                          </h2>
+                          <p class="text-gray-700 mb-4 text-left">
+                            Art lover and amateur painter who enjoys exploring
+                            galleries and creating.
+                          </p>
+                          <div class="grid grid-cols-2 gap-y-4 mb-4">
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                From
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Marrakech, Morocco
+                              </p>
+                            </div>
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Languages
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Arabic, French, English
+                              </p>
+                            </div>
+                          </div>
+                          <div class="flex justify-between items-center">
+                            <a
+                              href="#"
+                              class="text-gray-500 hover:text-gray-700"
+                              >Instagram</a
+                            >
+                            <button
+                              class="px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm hover:bg-gray-100"
+                            >
+                              Open
+                            </button>
+                          </div>
+                          <div>
+                            <div
+                              class="border w-[290px] mt-2 rounded-t-xl h-[300px] border-black"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="embla__slide">
+                        <div class="flex flex-col justify-between h-full">
+                          <div class="flex items-start text-left space-x-4">
+                            <!-- Avatar Placeholder -->
+                            <div
+                              class="w-12 h-12 rounded-full border-2 border-gray-300"
+                            ></div>
+                            <!-- Text -->
+                            <div>
+                              <p class="text-sm text-gray-500">Hosted by</p>
+                              <p class="text-lg font-semibold text-gray-800">
+                                Aisha R.
+                              </p>
+                            </div>
+                          </div>
+                          <div
+                            class="max-w-xs mx-auto rounded-lg flex flex-col"
+                          >
+                            <!-- Tags -->
+                            <div class="flex space-x-1 mb-3">
+                              <button
+                                class="flex items-center px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm"
+                              >
+                                <span class="mr-2">🎨</span> Art
+                              </button>
+                              <button
+                                class="flex items-center px-4 py-2 border border-gray-300 rounded-full text-gray-700 text-sm"
+                              >
+                                <span class="mr-2">🖌️</span> Painting
+                              </button>
+                            </div>
+                            <!-- Text -->
+                            <p
+                              class="text-2xl text-left font-bold text-gray-800"
+                            >
+                              Paint and explore with me!
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="embla__slide">
+                        <div
+                          class="p-6 h-full flex flex-col justify-end gap-3 text-left"
+                        >
+                          <!-- Heading -->
+                          <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                            Hangout details
+                          </h2>
+                          <!-- Description -->
+                          <p class="text-gray-700 mb-4">
+                            Visiting local art galleries followed by a casual
+                            painting session.
+                          </p>
+                          <!-- Details Grid -->
+                          <div class="grid grid-cols-2 gap-y-4">
+                            <!-- When -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                When
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                2pm Sunday
+                              </p>
+                            </div>
+                            <!-- Group size -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Group size
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                3-5 people
+                              </p>
+                            </div>
+                            <!-- Where -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Where
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Montreal, Canada
+                              </p>
+                            </div>
+                            <!-- Languages -->
+                            <div>
+                              <p class="text-sm text-gray-500 uppercase">
+                                Languages
+                              </p>
+                              <p class="text-gray-900 font-medium">
+                                Arabic, French, English
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <a href="#screen6" class="px-6 w-[400px] flex">
+                    <button
+                      class="w-full mt-5 border border-black rounded-md py-3 font-semibold text-lg hover:bg-black hover:text-white transition"
+                    >
+                      Connect
+                    </button>
+                  </a>
+                </div>
+
+                <script>
+                  function setupCarousel(emblaNode, dotsNode) {
+                    // Initialize Embla Carousel
+                    const embla = EmblaCarousel(emblaNode, {
+                      loop: false,
+                      startIndex: 1, // Start at element 2 (index 1)
+                    });
+
+                    // Setup dots
+                    const dotsArray = [];
+                    for (let i = 0; i < 3; i++) {
+                      const dot = document.createElement("button");
+                      dot.className = "embla__dot";
+                      dot.addEventListener("click", () => embla.scrollTo(i));
+                      dotsArray.push(dot);
+                      dotsNode.appendChild(dot);
+                    }
+
+                    // Update active dot
+                    const updateDots = () => {
+                      dotsArray.forEach((dot, index) => {
+                        dot.classList.toggle(
+                          "embla__dot--active",
+                          index === embla.selectedScrollSnap()
+                        );
+                      });
+                    };
+
+                    // Initial dot state
+                    updateDots();
+
+                    // Update dots on scroll
+                    embla.on("select", updateDots);
+
+                    return embla;
+                  }
+
+                  // Initialize all three carousels
+                  const embla1 = setupCarousel(
+                    document.getElementById("embla1"),
+                    document.getElementById("dots1")
+                  );
+
+                  const embla2 = setupCarousel(
+                    document.getElementById("embla2"),
+                    document.getElementById("dots2")
+                  );
+
+                  const embla3 = setupCarousel(
+                    document.getElementById("embla3"),
+                    document.getElementById("dots3")
+                  );
+
+                  const embla4 = setupCarousel(
+                    document.getElementById("embla4"),
+                    document.getElementById("dots4")
+                  );
+                </script>
+              </div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  const container = document.getElementById("scrollContainer");
+                  const items = document.querySelectorAll(".snap-item");
+
+                  function updateSnapping() {
+                    let containerRect = container.getBoundingClientRect();
+                    let closestItem = null;
+                    let minDistance = 200;
+
+                    items.forEach((item) => {
+                      let rect = item.getBoundingClientRect();
+                      let distance = Math.abs(
+                        rect.top +
+                          rect.height / 2 -
+                          containerRect.top -
+                          containerRect.height / 2
+                      );
+
+                      if (distance < minDistance) {
+                        minDistance = distance;
+                        closestItem = item;
+                      }
+                    });
+
+                    if (closestItem) {
+                      closestItem.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                      });
+
+                      items.forEach((item) => {
+                        if (item === closestItem) {
+                          item.style.filter = "blur(0px)";
+                          item.style.opacity = "1";
+                          item.style.transform = "scale(1)";
+                        } else {
+                          item.style.filter = "blur(0px)";
+                          item.style.transform = "scale(0.95)";
+                          item.style.opacity = ".1";
+                        }
+                      });
+                    }
+                  }
+
+                  container.addEventListener("scroll", () => {
+                    clearTimeout(container.scrollTimeout);
+                    container.scrollTimeout = setTimeout(updateSnapping, 50);
+                  });
+
+                  updateSnapping(); // Run on load
+                });
+              </script>
+            </div>
+
+            <div
+              id="screen6"
+              class="screen bg-white hidden flex flex-col items-center justify-center min-h-screen px-4 pt-5"
+            >
+              instagram or phone number redirect here
+              <a href="#screen5" class="px-6 w-[400px] flex">
+                <button
+                  class="w-full mt-5 border border-black rounded-md py-3 font-semibold text-lg hover:bg-black hover:text-white transition"
+                >
+                  go back
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-1/3 h-full bg-blue-400 opacity-0 hidden lg:flex">
+        some text
+      </div>
+      <div class="px-5 ps-12 w-2/3 mt-12 ms-12">
+        <h3 class="text-3xl font-semibold mt-12 mb-3">Team</h3>
+        <p class="text-gray-600">
+          Oleksandr Kreshchuk<span class="text-gray-400">
+            – Prototype, Visual</span
+          >
+          <br />
+          Aaron Lee<span class="text-gray-400"> – Wireframes, Research</span>
+          <br />
+          Devin Hayden<span class="text-gray-400"> – Visual</span>
+          <br />
+        </p>
+        <h3 class="text-3xl font-semibold mt-12 mb-3">Problem</h3>
+        <p class="text-gray-500 leading-relaxed">
+          Travelers often struggle to connect with locals in authentic,
+          spontaneous ways that go beyond tourist attractions. Existing
+          platforms focus on preplanned events, guided tours, or static
+          recommendations, which can feel commercialized or lack real human
+          connection. At the same time, locals may want to share their city or
+          culture casually but have no easy way to meet travelers safely and on
+          their own terms. There is a gap in tools that enable low pressure,
+          real time meetups for meaningful cultural exchange. WanderMatch
+          addresses this by making spontaneous, local experiences accessible,
+          whether it’s a coffee chat, walk, or language exchange, helping
+          travelers truly engage with a city through its people.
+        </p>
+        <h3 class="text-3xl font-semibold mt-12 mb-3">Solution</h3>
+        <p class="text-gray-500 leading-relaxed">
+          We chose WanderMatch to create a simple yet powerful way for travelers
+          and locals to connect instantly over shared interests. By blending a
+          swipe to match interface with curated local experiences, users can
+          discover real time opportunities without the pressure of formal events
+          or guided tours. The ability to filter by interest, availability, and
+          language ensures relevant, safe, and enjoyable meetups. WanderMatch
+          empowers both locals and travelers to create and join cultural
+          exchanges that feel personal and authentic, solving the problem of
+          shallow travel experiences and lack of connection.
+        </p>
+        <h3 class="text-3xl font-semibold mt-12 mb-3">Wireframes</h3>
+
+        <img src="/images/cases/designathon_wireframes2.svg" class="w-full
+        h-fit"/ >
+
+        <h3 class="text-3xl font-semibold mt-12 mb-3">Visual Explorations</h3>
+        <img src="/images/cases/visualscreens.png" class="w-full h-fit"/ >
+      </div>
+    </div>
+
+    <script>
+      const cursor = document.querySelector(".custom-cursor");
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX - 10 + "px";
+        cursor.style.top = e.clientY - 10 + "px";
+      });
+    </script>
+
+    <script>
+      document.querySelectorAll(".scrollButton").forEach((button) => {
+        button.addEventListener("click", function () {
+          const container = document.getElementById("scrollContainer"); // Directly target the container by ID
+          if (container) {
+            container.scrollBy({ top: 725, behavior: "smooth" }); // Scroll down by 400px
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

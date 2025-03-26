@@ -59,6 +59,27 @@
       #bcard3 h2 {
         @apply text-[#6E6892];
       }
+
+      .wr-artifact p {
+        @apply text-sm  text-gray-400 mb-1;
+      }
+      .wr-artifact {
+        @apply flex-shrink-0;
+      }
+
+      .wr-container {
+        @apply pb-2;
+      }
+
+      .wr-container::-webkit-scrollbar {
+        height: 8px; /* Adjust scrollbar height */
+        margin-top: 10px;
+      }
+
+      .wr-container::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+      }
     </style>
   </head>
   <body class="bg-[#eee]">
@@ -926,7 +947,14 @@
       <div class="case-card p-2 pt-1 bg-white rounded-4xl mt-4 h-[340px]">
         <div class="case-header w-full p-4 pb-1 flex justify-between">
           <h4>Designathon Entry</h4>
-          <a class="case-link" href="/catalyst-ux.html"> Prototype <i>→</i> </a>
+          <a
+            class="case-link"
+            href="/catalyst-ux-case.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Prototype and Case <i>→</i>
+          </a>
         </div>
         <img
           style="
@@ -942,7 +970,58 @@
         />
       </div>
 
-      <div class="columns-container w-full flex-col flex lg:flex-row gap-4">
+      <div
+        class="case-card pb-2 pt-1 bg-white rounded-4xl mt-4 h-[360px] overflow-hidden"
+      >
+        <div class="case-header w-full p-4 pb-1 flex justify-between">
+          <h4>Wood&Room Website Artifacts</h4>
+          <a
+            class="case-link opacity-30"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            See more <i>→</i>
+          </a>
+        </div>
+        <div class="flex overflow-auto gap-4 whitespace-nowrap wr-container">
+          <div class="wr-artifact ms-4">
+            <p>Home Section</p>
+            <img style="width: 430px" src="/images/wr-artifacts/block1.png" />
+          </div>
+          <div class="wr-artifact">
+            <p>Product Card</p>
+            <img
+              style="width: 160px"
+              src="/images/wr-artifacts/productcard.png"
+            />
+          </div>
+          <div class="wr-artifact">
+            <p>Preview Image</p>
+            <img style="width: 360px" src="/images/wr-artifacts/block3.png" />
+          </div>
+          <div class="wr-artifact">
+            <p>Review Card</p>
+            <img style="width: 160px" src="/images/wr-artifacts/block4.png" />
+          </div>
+          <div class="wr-artifact">
+            <p>Block</p>
+            <img style="width: 270px" src="/images/wr-artifacts/block5.png" />
+          </div>
+          <div class="wr-artifact">
+            <p>Product Card</p>
+            <img style="width: 160px" src="/images/wr-artifacts/block6.png" />
+          </div>
+          <div class="wr-artifact">
+            <p>Logo Scalability</p>
+            <img style="width: 360px" src="/images/wr-artifacts/block7.png" />
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="columns-container w-full flex-col flex lg:flex-row gap-4 mt-0"
+      >
         <div class="cases-column mt-4 w-full lg:w-1/2 flex flex-col gap-5">
           <div if="case5" class="gap-2 flex flex-col">
             <div class="case-header w-full p-4 pb-1 flex justify-between">
@@ -987,7 +1066,26 @@
               </a>
             </div>
             <img src="images/case1_2.png" />
-            <div class="flex gap-2 w-full pb-2 justify-center">
+            <div class="flex gap-2 w-full pb-2 justify-center hidden">
+              <img src="images/case1_1.png" class="w-1/2 max-w-full" />
+              <img src="images/case1_3.png" class="w-1/2 max-w-full" />
+            </div>
+          </div>
+          <div id="case1" class="gap-2 pb-6 flex flex-col">
+            <div
+              class="case-header w-full p-4 flex justify-between items-center"
+            >
+              <h4>More coming soon..</h4>
+              <a
+                class="case-link opacity-0"
+                target="_blank"
+                href="https://readymag.website/u348340430/hustless3d/"
+              >
+                Website <i>→</i>
+              </a>
+            </div>
+            <img src="images/logoolkre.jpeg" class="rounded-3xl mb-2" />
+            <div class="flex gap-2 w-full pb-2 justify-center hidden">
               <img src="images/case1_1.png" class="w-1/2 max-w-full" />
               <img src="images/case1_3.png" class="w-1/2 max-w-full" />
             </div>

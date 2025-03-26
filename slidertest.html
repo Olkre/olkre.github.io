@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Embla Slider with Mouse Wheel Support</title>
+    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background: #f7f7f7;
+      }
+      .embla {
+        position: relative;
+        overflow: hidden;
+        max-width: 800px;
+        margin: 50px auto;
+      }
+      .embla__viewport {
+        overflow: hidden;
+        width: 100%;
+      }
+      .embla__container {
+        display: flex;
+      }
+      .embla__slide {
+        flex: 0 0 80%;
+        margin-right: 20px;
+        background: #ccc;
+        border-radius: 1rem;
+        text-align: center;
+        font-size: 2rem;
+        padding: 5rem 0;
+        user-select: none;
+      }
+      .embla__button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .embla__button--prev {
+        left: -20px;
+      }
+      .embla__button--next {
+        right: -20px;
+      }
+      .embla__dots {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 10px;
+      }
+      .embla__dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #bbb;
+        cursor: pointer;
+      }
+      .embla__dot.is-selected {
+        background: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="embla">
+      <div class="embla__viewport">
+        <div class="embla__container">
+          <div class="embla__slide">Slide 1</div>
+          <div class="embla__slide">Slide 2</div>
+          <div class="embla__slide">Slide 3</div>
+          <div class="embla__slide">Slide 4</div>
+          <div class="embla__slide">Slide 5</div>
+        </div>
+      </div>
+      <button class="embla__button embla__button--prev">◀</button>
+      <button class="embla__button embla__button--next">▶</button>
+      <div class="embla__dots"></div>
+    </div>
+
+    <script>
+      const emblaNode = document.querySelector(".embla__viewport");
+      const embla = EmblaCarousel(emblaNode, { loop: true, draggable: true });
+
+      const prevButton = document.querySelector(".embla__button--prev");
+      const nextButton = document.querySelector(".embla__button--next");
+      const dotsContainer = document.querySelector(".embla__dots");
+
+      const slidesCount = embla.slideNodes().length;
+      const dots = Array.from({ length: slidesCount }, (_, i) => {
+        const dot = document.createElement("button");
+        dot.className = "embla__dot";
+        dot.addEventListener("click", () => embla.scrollTo(i));
+        dotsContainer.appendChild(dot);
+        return dot;
+      });
+
+      function selectDot() {
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("is-selected", embla.selectedScrollSnap() === i);
+        });
+      }
+
+      embla.on("select", selectDot);
+      selectDot();
+
+      prevButton.addEventListener("click", embla.scrollPrev);
+      nextButton.addEventListener("click", embla.scrollNext);
+
+      // Mouse wheel support
+      emblaNode.addEventListener(
+        "wheel",
+        (event) => {
+          if (event.deltaY > 0) {
+            embla.scrollNext();
+          } else {
+            embla.scrollPrev();
+          }
+          event.preventDefault();
+        },
+        { passive: false }
+      );
+    </script>
+  </body>
+</html>
