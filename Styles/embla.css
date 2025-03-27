@@ -38,7 +38,7 @@
   position: absolute;
   background: none;
   padding: 8px;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   margin-top: 130px;
   margin-left: -10px;
@@ -54,7 +54,8 @@
   transform: scale(0.8);
 }
 .embla__dot {
-  width: 75px;
+  width: 100%;
+  /* width: 75px; */
   height: 10px;
   border-radius: 10px;
   background: #343434;
@@ -79,7 +80,7 @@
 
 .slide-content video {
   transform: scale(0.9);
-  border-radius: 60px;
+  border-radius: 70px;
 }
 
 .bezel {
@@ -87,19 +88,13 @@
   margin-top: -830px;
 }
 
-.slide-content .bezel {
-  opacity: 0%;
-  z-index: 100;
-  margin-top: -830px;
-}
-
-.case7-screen {
+/* .case7-screen {
   z-index: 102;
   margin-top: -846px;
   margin-left: -8px;
   transform: scale(0.85);
   position: absolute;
-}
+} */
 
 @keyframes spin {
   from {

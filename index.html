@@ -9,7 +9,7 @@
     <link href="/Styles/index.css" rel="stylesheet" />
     <link href="/Styles/benefits.css" rel="stylesheet" />
     <link href="/Styles/embla.css" rel="stylesheet" />
-    <link rel="icon" href="img/logo.png" />
+    <link rel="icon" href="images/favicon_olkre.png" />
     <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style type="text/tailwindcss">
@@ -26,7 +26,7 @@
       }
 
       .cases-column > div {
-        @apply transition p-2 bg-white hover:border-white hover:bg-white/75 border-white/0 border rounded-4xl;
+        @apply transition-all p-2 bg-white hover:border-white hover:bg-white/75 border-white/0 border rounded-4xl starting:opacity-0 opacity-100 duration-500;
       }
 
       .case-link i {
@@ -34,7 +34,7 @@
       }
 
       .case-link:hover i {
-        @apply italic translate-x-2;
+        @apply italic;
       }
 
       .topIcon path {
@@ -80,10 +80,29 @@
         background-color: rgba(0, 0, 0, 0.3);
         border-radius: 10px;
       }
+
+      .case7-screen {
+        @apply mt-[-1139px] lg:mt-[-536px] ml-[-8px] scale-[0.85] absolute z-[102];
+      }
+
+      .embla .bezel {
+        @apply lg:opacity-0 opacity-100;
+      }
+
+      .embla__slide {
+        @apply h-[837px] lg:h-[637px];
+      }
+
+      .slide-content .bezel {
+        z-index: 100;
+        @apply mt-[-1134px];
+      }
     </style>
   </head>
   <body class="bg-[#eee]">
-    <div class="flex justify-between max-w-lg w-full p-4 mx-auto">
+    <div
+      class="flex justify-between max-w-lg w-full p-4 mx-auto starting:opacity-0 opacity-100 transition-all duration-500"
+    >
       <div id="logo">
         <svg
           width="56"
@@ -252,8 +271,11 @@
         id="introblock"
         class="flex flex-col text-center gap-4 lg:gap-0 lg:flex-row lg:text-left items-center justify-center py-12 my-12"
       >
-        <div class="w-fit">
+        <div
+          class="w-fit starting:-translate-y-4 starting:opacity-0 -translate-y-0 opacity-100 transition-all duration-500 ease-out"
+        >
           <svg
+            class="max-w-full"
             width="420"
             height="142"
             viewBox="0 0 419 142"
@@ -340,7 +362,9 @@
             Websites / Frontend<br />
             3D illustrations / visualization
           </p>
-          <div class="">
+          <div
+            class="starting:-translate-y-full starting:opacity-0 -translate-y-0 opacity-100 transition-all duration-600 ease-out"
+          >
             <a href="mailto:oleksandr.kre@gmail.com" class="contact-link">
               <div class="contact-inner">
                 <div class="contact-button">Contact me →</div>
@@ -365,25 +389,57 @@
         </div>
       </div>
 
-      <div class="columns-container w-full flex-col flex lg:flex-row gap-4">
-        <div class="cases-column w-full lg:w-1/2 flex flex-col gap-4">
-          <div id="case1" class="gap-2 lg:flex flex-col hidden overflow-hidden">
+      <div
+        class="columns-container w-full flex-col flex lg:flex-row gap-4 content-center"
+      >
+        <div
+          class="cases-column w-full lg:w-1/2 mx-auto flex max-w-xl flex-col gap-4"
+        >
+          <div
+            id="case1"
+            class="gap-2 flex flex-col max-w-4xl lg:w-full overflow-hidden"
+          >
             <div
-              class="case-header w-full p-4 pb-1 flex justify-between items-center"
+              class="case-header w-full pb-1 flex justify-between items-center p-3"
             >
               <h4>Playbis 3D stories</h4>
-              <div class="flex">
-                <button class="case-link embla__button--prev" target="_blank">
-                  <i>←</i>
+              <div class="flex inline-flex">
+                <button
+                  class="next-btn1 embla__button--prev group w-fit flex-none transition-all duration-300 overflow-visible p-0 rounded-full"
+                >
+                  <div
+                    class="next-btn-container w-full h-full p-0.5 rounded-full duration-300 bg-white border border-gray-100"
+                  >
+                    <div
+                      class="case-link next-btn-content border-0 w-full h-full text-sm justify-center text-[#101010] bg-white items-center font-medium inline-flex overflow-hidden px-2 py-0 rounded-full"
+                      style="border: 0 !important"
+                    >
+                      <span>←</span>
+                    </div>
+                  </div>
                 </button>
-                <button class="case-link embla__button--next" target="_blank">
-                  Next slide <i>→</i>
+                <button
+                  class="next-btn1 embla__button--next group w-fit transition-all duration-300 overflow-visible p-0 rounded-full"
+                >
+                  <div
+                    class="next-btn-container transition-all w-full h-full p-0.5 rounded-full duration-300 bg-white border border-gray-100"
+                  >
+                    <div
+                      class="case-link cl-level-3 transition-all next-btn-content border-0 w-full h-full text-sm justify-center text-[#101010] bg-white items-center font-medium inline-flex overflow-hidden px-2 py-0 rounded-full"
+                      style="border: 0 !important"
+                    >
+                      Next slide <span class="ms-1">→</span>
+                    </div>
+                  </div>
                 </button>
               </div>
             </div>
-            <div class="embla__dots"></div>
+            <div
+              class="embla__dots w-xl lg:w-md pe-4 hidden md:flex"
+              style="padding-right: 20px"
+            ></div>
             <img
-              class="bezel absolute"
+              class="bezel absolute hidden lg:block"
               src="/images/case7/bezel.png"
               style="
                 margin-top: -542.5px;
@@ -399,7 +455,7 @@
 
             <div class="embla">
               <div class="embla__container">
-                <div class="embla__slide h-[637px]">
+                <div class="embla__slide">
                   <div class="slide-content" style="margin-top: -30px">
                     <video
                       src="/images/case7/7_1.mp4"
@@ -415,7 +471,7 @@
                   </div>
                 </div>
 
-                <div class="embla__slide h-[637px]">
+                <div class="embla__slide">
                   <div class="slide-content" style="margin-top: -30px">
                     <video
                       src="/images/case7/7_2.mp4"
@@ -431,7 +487,7 @@
                   </div>
                 </div>
 
-                <div class="embla__slide h-[637px]">
+                <div class="embla__slide">
                   <div class="slide-content" style="margin-top: -30px">
                     <video
                       src="/images/case7/7_3.mp4"
@@ -447,7 +503,7 @@
                   </div>
                 </div>
 
-                <div class="embla__slide h-[637px]">
+                <div class="embla__slide">
                   <div class="slide-content" style="margin-top: -30px">
                     <video
                       src="/images/case7/bg.mp4"
@@ -462,7 +518,7 @@
                     <img src="/images/case7/screen4.png" class="case7-screen" />
                   </div>
                 </div>
-                <div class="embla__slide h-[637px]">
+                <div class="embla__slide">
                   <div class="slide-content" style="margin-top: -30px">
                     <video
                       src="/images/case7/bg.mp4"
@@ -486,7 +542,7 @@
           </div>
           <div
             id="case4"
-            class="gap-2 flex flex-col video-hover-trigger h-[276px] overflow-hidden"
+            class="gap-2 flex flex-col video-hover-trigger lg:h-[276px] h-[400px] overflow-hidden"
           >
             <style>
               .video-container video {
@@ -543,15 +599,47 @@
             </div>
           </div>
         </div>
-        <div class="cases-column w-full lg:w-1/2 flex flex-col gap-5">
+        <div
+          class="cases-column w-full max-w-xl mx-auto lg:w-1/2 flex flex-col gap-5"
+        >
           <section
             id="case2"
-            class="case-card bg-white rounded-4xl gap-2 flex flex-col transition p-2 bg-white hover:border-white hover:bg-gray/25 border-white/0 border rounded-4xl"
+            class="case-card bg-white rounded-4xl gap-2 flex flex-col transition p-2 bg-white rounded-4xl"
             style="overflow: hidden"
           >
             <div class="case-header w-full p-4 pb-1 flex justify-between">
               <h4>3D Benefit cards</h4>
-              <div class="flex" style="z-index: 1000">
+              <div class="flex inline-flex" style="z-index: 1000">
+                <button
+                  class="next-btn1 custom-embla__button--prev group w-fit flex-none transition-all duration-300 overflow-visible p-0 rounded-full"
+                >
+                  <div
+                    class="next-btn-container w-full h-full p-0.5 rounded-full duration-300 bg-white border border-gray-100"
+                  >
+                    <div
+                      class="case-link next-btn-content border-0 w-full h-full text-sm justify-center text-[#101010] bg-white items-center font-medium inline-flex overflow-hidden px-2 py-0 rounded-full"
+                      style="border: 0 !important"
+                    >
+                      <span>←</span>
+                    </div>
+                  </div>
+                </button>
+                <button
+                  class="next-btn1 custom-embla__button--next group w-fit transition-all duration-300 overflow-visible p-0 rounded-full"
+                >
+                  <div
+                    class="next-btn-container transition-all w-full h-full p-0.5 rounded-full duration-300 bg-white border border-gray-100"
+                  >
+                    <div
+                      class="case-link cl-level-3 transition-all next-btn-content border-0 w-full h-full text-sm justify-center text-[#101010] bg-white items-center font-medium inline-flex overflow-hidden px-2 py-0 rounded-full"
+                      style="border: 0 !important"
+                    >
+                      Next slide <span class="ms-1">→</span>
+                    </div>
+                  </div>
+                </button>
+              </div>
+              <div class="hidden" style="z-index: 1000">
                 <button
                   class="case-link custom-embla__button--prev"
                   target="_blank"
@@ -875,11 +963,22 @@
           <div id="case5" class="gap-2 flex flex-col video-hover-trigger">
             <div class="case-header w-full p-4 pb-1 flex justify-between">
               <h4>3D folder animation</h4>
-              <a
-                class="case-link"
-                href="https://readymag.website/u348340430/hustless3d/"
-              >
-                Tweet <i>→</i>
+
+              <a href="https://x.com/ol_dsn/status/1877561233219395909">
+                <button
+                  class="next-btn1 embla__button--next group w-fit transition-all duration-300 overflow-visible p-0 rounded-full"
+                >
+                  <div
+                    class="next-btn-container transition-all w-full h-full p-0.5 rounded-full duration-300 bg-white border border-gray-100"
+                  >
+                    <div
+                      class="case-link cl-level-3 transition-all next-btn-content border-0 w-full h-full text-sm justify-center text-[#101010] bg-white items-center font-medium inline-flex overflow-hidden px-2 py-0 rounded-full"
+                      style="border: 0 !important"
+                    >
+                      Tweet <span class="ms-1">→</span>
+                    </div>
+                  </div>
+                </button>
               </a>
             </div>
             <!-- <img src="images/case2.png" /> -->
@@ -944,7 +1043,9 @@
         </div>
       </div>
 
-      <div class="case-card p-2 pt-1 bg-white rounded-4xl mt-4 h-[340px]">
+      <div
+        class="case-card p-2 pt-1 bg-white rounded-4xl mt-4 lg:h-[340px] h-[260px] max-w-xl lg:max-w-full mx-auto"
+      >
         <div class="case-header w-full p-4 pb-1 flex justify-between">
           <h4>Designathon Entry</h4>
           <a
@@ -957,6 +1058,7 @@
           </a>
         </div>
         <img
+          class="lg:pt-0 pt-12"
           style="
             margin-top: -112.5px;
             margin-left: 8.5px;
@@ -971,7 +1073,7 @@
       </div>
 
       <div
-        class="case-card pb-2 pt-1 bg-white rounded-4xl mt-4 h-[360px] overflow-hidden"
+        class="case-card pb-2 pt-1 bg-white rounded-4xl mt-4 h-[360px] overflow-hidden lg:max-w-full max-w-xl mx-auto"
       >
         <div class="case-header w-full p-4 pb-1 flex justify-between">
           <h4>Wood&Room Website Artifacts</h4>
@@ -1020,7 +1122,7 @@
       </div>
 
       <div
-        class="columns-container w-full flex-col flex lg:flex-row gap-4 mt-0"
+        class="columns-container w-full flex-col flex lg:flex-row gap-4 mt-0 max-w-xl lg:max-w-full mx-auto"
       >
         <div class="cases-column mt-4 w-full lg:w-1/2 flex flex-col gap-5">
           <div if="case5" class="gap-2 flex flex-col">
