@@ -72,6 +72,7 @@ updateDots2();
 $(document).ready(function () {
   $(".video-hover-trigger").hover(
     function () {
+      console.log("video trigger activated");
       // on mouse enter
       var video = $(this).find("video")[0];
       var text = $(this).find(".hover-play-text")[0];
