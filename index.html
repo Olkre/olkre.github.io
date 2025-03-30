@@ -397,7 +397,7 @@
         >
           <div
             id="case1"
-            class="gap-2 flex flex-col max-w-4xl lg:w-full overflow-hidden"
+            class="gap-2 md:flex hidden flex-col max-w-4xl lg:w-full overflow-hidden"
           >
             <div
               class="case-header w-full pb-1 flex justify-between items-center p-3"
@@ -542,7 +542,7 @@
           </div>
           <div
             id="case4"
-            class="gap-2 flex flex-col video-hover-trigger lg:h-[276px] h-[400px] overflow-hidden"
+            class="gap-2 flex flex-col video-hover-trigger lg:h-[286px] h-[470px] md:h-[400px] overflow-hidden"
           >
             <style>
               .video-container video {
@@ -556,12 +556,7 @@
               style="z-index: 100"
             >
               <h4>Wood&Room Logo</h4>
-              <a
-                class="case-link"
-                href="https://readymag.website/u348340430/hustless3d/"
-              >
-                Tweet <i>→</i>
-              </a>
+              <a class="case-link" href="##"> Hover to play </a>
             </div>
             <button
               class="absolute bg-black/5 flex items-center gap-1 mt-16 ms-3 px-1 pe-2 rounded-3xl text-sm tracking-tighter text-gray-500"
@@ -584,17 +579,28 @@
               <span
                 id="hover-play-text"
                 class="transition-opacity duration-500 hover-play-text"
+                onclick="document.querySelectorAll('.video-container video').forEach(video => video.play());"
               >
-                Hover to Play
+                Play
               </span>
             </button>
+            <video
+              src="images/cases/wr-anim.mp4"
+              muted
+              loop
+              class="rounded-3xl hover-play-video mt-3 md:hidden block w-[200%]"
+              autoplay="autoplay"
+              playsinline
+              style="transform: scale(1.5); margin-top: 60px"
+            ></video>
 
             <div class="video-container">
               <video
                 src="images/cases/wr-anim.mp4"
                 muted
                 loop
-                class="rounded-3xl hover-play-video"
+                class="rounded-3xl hover-play-video hidden md:block"
+                playsinline
               ></video>
             </div>
           </div>
@@ -1044,7 +1050,7 @@
       </div>
 
       <div
-        class="case-card p-2 pt-1 bg-white rounded-4xl mt-4 lg:h-[340px] h-[260px] max-w-xl lg:max-w-full mx-auto"
+        class="case-card p-2 pt-1 bg-white rounded-4xl mt-4 lg:h-[340px] xs:h-[200px] md:h-[260px] max-w-xl lg:max-w-full mx-auto"
       >
         <div class="case-header w-full p-4 pb-1 flex justify-between">
           <h4>Designathon Entry</h4>
@@ -1054,22 +1060,26 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            Prototype and Case <i>→</i>
+            <span class="md:block hidden"> Prototype and Case <i>→</i> </span>
+            <span class="block md:hidden"> Case <i>→</i> </span>
           </a>
         </div>
-        <img
-          class="lg:pt-0 pt-12"
+        <video
+          class="lg:pt-0 pt-12 mt-[-40px] lg:mt-0 rounded-3xl"
           style="
-            margin-top: -112.5px;
-            margin-left: 8.5px;
+            /* margin-top: -112.5px; */
+            margin-left: 5px;
             user-select: none;
             -webkit-user-drag: none;
             user-drag: none;
             pointer-events: none;
-            clip-path: inset(0 0 32% 0);
+            clip-path: inset(1% 0 0% 0);
           "
-          src="/images/cases/designathon_wireframes.svg"
-        />
+          src="/images/cases/designathon_wireframes.mp4"
+          muted
+          loop
+          autoplay
+        ></video>
       </div>
 
       <div
