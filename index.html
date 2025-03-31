@@ -97,11 +97,15 @@
         z-index: 100;
         @apply mt-[-1134px];
       }
+
+      .case-container {
+        @apply transition-all starting:opacity-0 starting:translate-y-4 opacity-100 translate-y-0;
+      }
     </style>
   </head>
   <body class="bg-[#eee]">
     <div
-      class="flex justify-between max-w-lg w-full p-4 mx-auto starting:opacity-0 opacity-100 transition-all duration-500"
+      class="flex justify-between max-w-lg w-full p-4 mx-auto opacity-100 translate-y-0 transition-all duration-500 ease-out starting:opacity-0 starting:-translate-y-full"
     >
       <div id="logo">
         <svg
@@ -272,7 +276,7 @@
         class="flex flex-col text-center gap-4 lg:gap-0 lg:flex-row lg:text-left items-center justify-center py-12 my-12"
       >
         <div
-          class="w-fit starting:-translate-y-4 starting:opacity-0 -translate-y-0 opacity-100 transition-all duration-500 ease-out"
+          class="w-fit starting:translate-y-4 starting:opacity-0 translate-y-0 opacity-100 transition-all duration-500 ease-out"
         >
           <svg
             class="max-w-full"
@@ -357,13 +361,15 @@
           </svg>
         </div>
         <div class="lg:ms-12 w-fit">
-          <p class="mb-3 leading-8">
+          <p
+            class="mb-3 leading-8 starting:translate-y-full starting:opacity-0 translate-y-0 opacity-100 transition-all duration-400 ease-out"
+          >
             User Interfaces<br />
             Websites / Frontend<br />
             3D illustrations / visualization
           </p>
           <div
-            class="starting:-translate-y-full starting:opacity-0 -translate-y-0 opacity-100 transition-all duration-600 ease-out"
+            class="starting:translate-y-full starting:opacity-0 translate-y-0 opacity-100 transition-all duration-600 ease-out"
           >
             <a href="mailto:oleksandr.kre@gmail.com" class="contact-link">
               <div class="contact-inner">
@@ -397,7 +403,7 @@
         >
           <div
             id="case1"
-            class="gap-2 md:flex hidden flex-col max-w-4xl lg:w-full overflow-hidden"
+            class="case-container duration-700 gap-2 md:flex hidden flex-col max-w-4xl lg:w-full overflow-hidden"
           >
             <div
               class="case-header w-full pb-1 flex justify-between items-center p-3"
@@ -564,8 +570,8 @@
                 src="images/cases/wr-anim.mp4"
                 muted
                 loop
-                class="rounded-3xl hover-play-video hidden md:block"
                 playsinline
+                class="rounded-3xl hover-play-video hidden md:block"
               ></video>
             </div>
             <video
@@ -584,7 +590,7 @@
         >
           <section
             id="case2"
-            class="case-card bg-white rounded-4xl gap-2 flex flex-col transition p-2 bg-white rounded-4xl"
+            class="case-container duration-400 case-card bg-white rounded-4xl gap-2 flex flex-col transition p-2 bg-white rounded-4xl"
             style="overflow: hidden"
           >
             <div class="case-header w-full p-4 pb-1 flex justify-between">
@@ -963,7 +969,14 @@
               src="images/case2.mp4"
               muted
               loop
-              class="rounded-3xl hover-play-video"
+              class="rounded-3xl hover-play-video xs:hidden md:block"
+            ></video>
+            <video
+              src="images/case2.mp4"
+              muted
+              loop
+              autoplay
+              class="rounded-3xl md:hidden xs:block"
             ></video>
 
             <script>
@@ -1025,6 +1038,8 @@
           muted
           loop
           autoplay
+          muted
+          playsinline
         ></video>
       </div>
 
