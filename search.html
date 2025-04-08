@@ -257,8 +257,8 @@
           modalBackdrop.classList.remove("opacity-0", "backdrop-blur-none");
           modalBackdrop.classList.add("opacity-100", "backdrop-blur-md");
 
-          modalContent.classList.remove("blur-md");
-          modalContent.classList.remove("translate-y-10", "opacity-0");
+          modalContent.classList.remove("blur-lg");
+          modalContent.classList.remove("translate-y-20", "opacity-0");
           modalContent.classList.add("translate-y-0", "opacity-100");
           // Set focus on search input
           searchInput.focus();
@@ -271,8 +271,8 @@
         modalBackdrop.classList.add("opacity-0", "backdrop-blur-none");
 
         modalContent.classList.remove("translate-y-0", "opacity-100");
-        modalContent.classList.add("translate-y-10", "opacity-0");
-        modalContent.classList.add("blur-md");
+        modalContent.classList.add("translate-y-20", "opacity-0");
+        modalContent.classList.add("blur-lg");
 
         // After the transition duration, hide the modal
         setTimeout(() => {
