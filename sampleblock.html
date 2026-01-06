@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Heatmap Example</title>
+  </head>
+  <body style="background:black;">
+    <div id="root"></div>
+    <script type="module">
+      import React from "https://esm.sh/react";
+      import ReactDOM from "https://esm.sh/react-dom/client";
+      import { Heatmap } from "https://esm.sh/@paper-design/shaders-react";
+
+      function GeneratedComponent() {
+        return React.createElement(Heatmap, {
+          colors: ['#11206A','#1F3BA2','#2F63E7','#6BD7FF','#FFE679','#FF991E','#FF4C00'],
+          colorBack: "#00000000",
+          speed: 1,
+          contour: 0.5,
+          angle: 244.3,
+          noise: 0.99,
+          innerGlow: 0.5,
+          outerGlow: 0.5,
+          scale: 0.75,
+          image: "https://workers.paper.design/file-assets/01K4QND352DZ3BBR8RB8Q923W5/01K4QP8RAPXPK2Q0GPZ857VYER.png",
+          frame: 498215.9,
+          style: { backgroundColor:'#000', borderRadius:'12px', height:'516px', width:'516px' }
+        });
+      }
+
+      ReactDOM.createRoot(document.getElementById("root"))
+        .render(React.createElement(GeneratedComponent));
+    </script>
+  </body>
+</html>
