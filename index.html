@@ -27,7 +27,8 @@
     <link href="Styles/index.css" rel="stylesheet" />
     <link href="Styles/benefits.css" rel="stylesheet" />
     <link href="Styles/embla.css" rel="stylesheet" />
-    <link rel="icon" href="images/favicon_olkre.png" />
+    <link rel="icon" href="images/favicon_olkre.webp" type="image/webp" />
+    <link rel="icon" href="images/favicon_olkre.png" type="image/png" />
     <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style type="text/tailwindcss">
@@ -472,7 +473,7 @@
             ></div>
             <img
               class="bezel absolute hidden lg:block"
-              src="/images/case7/bezel.png"
+              src="/images/case7/bezel.webp"
               style="
                 margin-top: 26.5px;
                 margin-left: -8px;
@@ -490,79 +491,84 @@
                 <div class="embla__slide">
                   <div class="slide-content" style="margin-top: -30px">
                     <video
-                      src="/images/case7/7_1.mp4"
                       autoplay
                       muted
                       loop
                       width="600"
                     >
+                      <source src="/images/case7/7_1.webm" type="video/webm" />
+                      <source src="/images/case7/7_1.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
-                    <img class="bezel" src="/images/case7/bezel.png" />
-                    <img src="/images/case7/screen1.png" class="case7-screen" />
+                    <img class="bezel" src="/images/case7/bezel.webp" />
+                    <img src="/images/case7/screen1.webp" class="case7-screen" />
                   </div>
                 </div>
 
                 <div class="embla__slide">
                   <div class="slide-content" style="margin-top: -30px">
                     <video
-                      src="/images/case7/7_2.mp4"
                       autoplay
                       muted
                       loop
                       width="600"
                     >
+                      <source src="/images/case7/7_2.webm" type="video/webm" />
+                      <source src="/images/case7/7_2.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
-                    <img class="bezel" src="/images/case7/bezel.png" />
-                    <img src="/images/case7/screen2.png" class="case7-screen" />
+                    <img class="bezel" src="/images/case7/bezel.webp" />
+                    <img src="/images/case7/screen2.webp" class="case7-screen" />
                   </div>
                 </div>
 
                 <div class="embla__slide">
                   <div class="slide-content" style="margin-top: -30px">
                     <video
-                      src="/images/case7/7_3.mp4"
                       autoplay
                       muted
                       loop
                       width="600"
                     >
+                      <source src="/images/case7/7_3.webm" type="video/webm" />
+                      <source src="/images/case7/7_3.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
-                    <img class="bezel" src="/images/case7/bezel.png" />
-                    <img src="/images/case7/screen3.png" class="case7-screen" />
+                    <img class="bezel" src="/images/case7/bezel.webp" />
+                    <img src="/images/case7/screen3.webp" class="case7-screen" />
                   </div>
                 </div>
 
                 <div class="embla__slide">
                   <div class="slide-content" style="margin-top: -30px">
                     <video
-                      src="/images/case7/bg.mp4"
                       autoplay
                       muted
                       loop
                       width="600"
                     >
+                      <source src="/images/case7/bg.webm" type="video/webm" />
+                      <source src="/images/case7/bg.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
-                    <img class="bezel" src="/images/case7/bezel.png" />
-                    <img src="/images/case7/screen4.png" class="case7-screen" />
+                    <img class="bezel" src="/images/case7/bezel.webp" />
+                    <img src="/images/case7/screen4.webp" class="case7-screen" />
                   </div>
                 </div>
                 <div class="embla__slide">
                   <div class="slide-content" style="margin-top: -30px">
                     <video
-                      src="/images/case7/bg.mp4"
                       autoplay
                       muted
                       loop
                       width="600"
                     >
+                      <source src="/images/case7/bg.webm" type="video/webm" />
+                      <source src="/images/case7/bg.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
-                    <img class="bezel" src="/images/case7/bezel.png" />
-                    <img src="/images/case7/screen5.png" class="case7-screen" />
+                    <img class="bezel" src="/images/case7/bezel.webp" />
+                    <img src="/images/case7/screen5.webp" class="case7-screen" />
                   </div>
                 </div>
               </div>
@@ -618,22 +624,26 @@
 
             <div class="video-hover-trigger">
               <video
-                src="images/cases/wr-anim.mp4"
                 muted
                 loop
                 playsinline
                 class="rounded-3xl hover-play-video hidden md:block"
-              ></video>
+              >
+                <source src="images/cases/wr-anim.webm" type="video/webm" />
+                <source src="images/cases/wr-anim.mp4" type="video/mp4" />
+              </video>
             </div>
             <video
-              src="images/cases/wr-anim.mp4"
               muted
               loop
               class="rounded-3xl hover-play-video mt-3 md:hidden block w-[200%]"
               autoplay="autoplay"
               playsinline
               style="transform: scale(1.5); margin-top: 60px"
-            ></video>
+            >
+              <source src="images/cases/wr-anim.webm" type="video/webm" />
+              <source src="images/cases/wr-anim.mp4" type="video/mp4" />
+            </video>
           </div>
         </div>
         <div
@@ -726,13 +736,15 @@
                     </svg>
                     <h2 class="text-center">Make it yours</h2>
                     <video
-                      src="/images/benefits/render1.mp4"
                       muted=""
                       playsinline=""
                       preload="auto"
                       loop=""
                       class="rounded-3xl mt-1"
-                    ></video>
+                    >
+                      <source src="/images/benefits/render1.webm" type="video/webm" />
+                      <source src="/images/benefits/render1.mp4" type="video/mp4" />
+                    </video>
                     <button
                       style="margin-top: -40px; margin-left: 138px"
                       class="absolute bg-black/5 flex items-center gap-1 px-1 pe-2 backdrop-blur-lg rounded-3xl text-sm tracking-tighter text-black/80"
@@ -794,13 +806,15 @@
                     </svg>
                     <h2 class="text-center">Multifunctional</h2>
                     <video
-                      src="/images/benefits/fold.mp4"
                       muted=""
                       playsinline=""
                       preload="auto"
                       loop=""
                       class="rounded-3xl mt-1"
-                    ></video>
+                    >
+                      <source src="/images/benefits/fold.webm" type="video/webm" />
+                      <source src="/images/benefits/fold.mp4" type="video/mp4" />
+                    </video>
                     <button
                       style="margin-top: -40px; margin-left: 138px"
                       class="absolute bg-black/5 flex items-center gap-1 px-1 pe-2 backdrop-blur-lg rounded-3xl text-sm tracking-tighter text-black/80"
@@ -892,13 +906,15 @@
 
                     <h2 class="text-center text-[#6E6892]">High-Quality</h2>
                     <video
-                      src="/images/benefits/render3-3.mp4"
                       muted=""
                       playsinline=""
                       preload="auto"
                       loop=""
                       class="rounded-3xl mt-1"
-                    ></video>
+                    >
+                      <source src="/images/benefits/render3-3.webm" type="video/webm" />
+                      <source src="/images/benefits/render3-3.mp4" type="video/mp4" />
+                    </video>
                     <button
                       style="margin-top: -40px; margin-left: 138px"
                       class="absolute bg-black/5 flex items-center gap-1 px-1 pe-2 backdrop-blur-lg rounded-3xl text-sm tracking-tighter text-black/80"
@@ -1043,13 +1059,14 @@
             pointer-events: none;
             clip-path: inset(1% 0 0% 0);
           "
-          src="/images/cases/designathon_wireframes.mp4"
           muted
           loop
           autoplay
-          muted
           playsinline
-        ></video>
+        >
+          <source src="/images/cases/designathon_wireframes.webm" type="video/webm" />
+          <source src="/images/cases/designathon_wireframes.mp4" type="video/mp4" />
+        </video>
       </div>
 
       <div
@@ -1069,34 +1086,34 @@
         <div class="flex overflow-auto gap-4 whitespace-nowrap wr-container">
           <div class="wr-artifact ms-4">
             <p>Home Section</p>
-            <img style="width: 430px" src="/images/wr-artifacts/block1.png" />
+            <img style="width: 430px" src="/images/wr-artifacts/block1.webp" />
           </div>
           <div class="wr-artifact">
             <p>Product Card</p>
             <img
               style="width: 160px"
-              src="/images/wr-artifacts/productcard.png"
+              src="/images/wr-artifacts/productcard.webp"
             />
           </div>
           <div class="wr-artifact">
             <p>Preview Image</p>
-            <img style="width: 360px" src="/images/wr-artifacts/block3.png" />
+            <img style="width: 360px" src="/images/wr-artifacts/block3.webp" />
           </div>
           <div class="wr-artifact">
             <p>Review Card</p>
-            <img style="width: 160px" src="/images/wr-artifacts/block4.png" />
+            <img style="width: 160px" src="/images/wr-artifacts/block4.webp" />
           </div>
           <div class="wr-artifact">
             <p>Block</p>
-            <img style="width: 270px" src="/images/wr-artifacts/block5.png" />
+            <img style="width: 270px" src="/images/wr-artifacts/block5.webp" />
           </div>
           <div class="wr-artifact">
             <p>Product Card</p>
-            <img style="width: 160px" src="/images/wr-artifacts/block6.png" />
+            <img style="width: 160px" src="/images/wr-artifacts/block6.webp" />
           </div>
           <div class="wr-artifact">
             <p>Logo Scalability</p>
-            <img style="width: 360px" src="/images/wr-artifacts/block7.png" />
+            <img style="width: 360px" src="/images/wr-artifacts/block7.webp" />
           </div>
         </div>
       </div>
@@ -1156,19 +1173,23 @@
               </span>
             </button>
             <video
-              src="images/case2.mp4"
               muted
               loop
               class="rounded-3xl hover-play-video hidden md:block"
-            ></video>
+            >
+              <source src="images/case2.webm" type="video/webm" />
+              <source src="images/case2.mp4" type="video/mp4" />
+            </video>
             <video
-              src="images/case2.mp4"
               muted
               loop
               autoplay
               playsinline
               class="rounded-3xl md:hidden block"
-            ></video>
+            >
+              <source src="images/case2.webm" type="video/webm" />
+              <source src="images/case2.mp4" type="video/mp4" />
+            </video>
 
             <script>
               // Select the video and icon elements
@@ -1253,8 +1274,8 @@
               </div>
             </a>
             </div>
-            <img src="images/case5_1.png" />
-            <img src="images/case5_2.png" />
+            <img src="images/case5_1.webp" />
+            <img src="images/case5_2.webp" />
           </div>
 
           <div if="case6" class="gap-2 flex flex-col">
@@ -1290,7 +1311,7 @@
             </a>
 
             </div>
-            <img src="images/case6.png" />
+            <img src="images/case6.webp" />
           </div>
         </div>
 
@@ -1328,10 +1349,10 @@
                 </a>
               </a>
             </div>
-            <img src="images/case1_2.png" />
+            <img src="images/case1_2.webp" />
             <div class="flex gap-2 w-full pb-2 justify-center hidden">
-              <img src="images/case1_1.png" class="w-1/2 max-w-full" />
-              <img src="images/case1_3.png" class="w-1/2 max-w-full" />
+              <img src="images/case1_1.webp" class="w-1/2 max-w-full" />
+              <img src="images/case1_3.webp" class="w-1/2 max-w-full" />
             </div>
           </div>
 
@@ -1839,10 +1860,10 @@
                 Website <i>→</i>
               </a>
             </div>
-            <img src="images/logoolkre.jpeg" class="rounded-3xl mb-2" />
+            <img src="images/logoolkre.webp" class="rounded-3xl mb-2" />
             <div class="flex gap-2 w-full pb-2 justify-center hidden">
-              <img src="images/case1_1.png" class="w-1/2 max-w-full" />
-              <img src="images/case1_3.png" class="w-1/2 max-w-full" />
+              <img src="images/case1_1.webp" class="w-1/2 max-w-full" />
+              <img src="images/case1_3.webp" class="w-1/2 max-w-full" />
             </div>
           </div>
         </div>
