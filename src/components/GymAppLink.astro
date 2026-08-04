@@ -154,7 +154,7 @@ const DOT_LABELS = [
     </a>
 
     <div
-      class="order-3 flex w-full items-center justify-center gap-0.5 sm:order-2 sm:w-auto sm:justify-start"
+      class="order-3 flex w-full items-center justify-start gap-0.5 pl-[calc(54px+0.75rem)] sm:order-2 sm:w-auto sm:justify-start sm:pl-0"
     >
       <button
         type="button"
@@ -221,7 +221,7 @@ const DOT_LABELS = [
 
   <div class="gym-wrcards-wrap -my-2">
     <div
-      class="gym-wrcards flex gap-3 overflow-x-auto py-2"
+      class="gym-wrcards flex overflow-x-auto py-2"
       role="list"
       aria-label="Sasha's Gym App feature previews"
     >
@@ -489,45 +489,65 @@ const DOT_LABELS = [
 
   /* Break out of #content max-w-4xl so the row can scroll edge-to-edge. */
   .gym-wrcards-wrap {
-    --gym-edge-fade: 64px;
     --gym-gutter: 56rem;
-    --gym-content-pad: max(0.5rem, calc((100dvw - var(--gym-gutter)) / 2));
+    --gym-content-pad: 1rem;
     width: 100dvw;
     max-width: 100dvw;
     margin-left: calc(50% - 50dvw);
     box-sizing: border-box;
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0,
-      #000 var(--gym-edge-fade),
-      #000 calc(100% - var(--gym-edge-fade)),
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent 0,
-      #000 var(--gym-edge-fade),
-      #000 calc(100% - var(--gym-edge-fade)),
-      transparent 100%
-    );
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  @media (min-width: 640px) {
+    .gym-wrcards-wrap {
+      /* Fade only in the side bleed past the content column (header max width). */
+      --gym-content-pad: max(0.5rem, calc((100dvw - var(--gym-gutter)) / 2));
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        #000 var(--gym-content-pad),
+        #000 calc(100% - var(--gym-content-pad)),
+        transparent 100%
+      );
+      mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        #000 var(--gym-content-pad),
+        #000 calc(100% - var(--gym-content-pad)),
+        transparent 100%
+      );
+    }
   }
 
   @supports not (width: 100dvw) {
     .gym-wrcards-wrap {
-      --gym-content-pad: max(0.5rem, calc((100vw - var(--gym-gutter)) / 2));
       width: 100vw;
       max-width: 100vw;
       margin-left: calc(50% - 50vw);
+    }
+
+    @media (min-width: 640px) {
+      .gym-wrcards-wrap {
+        --gym-content-pad: max(0.5rem, calc((100vw - var(--gym-gutter)) / 2));
+      }
     }
   }
 
   .gym-wrcards {
     width: 100%;
+    gap: 0.5rem;
     padding-inline: var(--gym-content-pad);
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--gym-content-pad);
     scrollbar-width: none;
     -ms-overflow-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .gym-wrcards {
+      gap: 0.625rem;
+    }
   }
 
   .gym-wrcards [role="listitem"] {
