@@ -85,3 +85,38 @@ $(document).ready(function () {
     }
   );
 });
+
+// Bio-mark metal shimmer: finish even after pointer leaves; don't restart mid-sweep
+(() => {
+  const canHover = window.matchMedia(
+    "(hover: hover) and (pointer: fine)"
+  ).matches;
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+  if (!canHover || reduceMotion) return;
+
+  document.querySelectorAll(".bio-mark").forEach((mark) => {
+    let running = false;
+    let pending = 0;
+
+    mark.addEventListener("pointerenter", () => {
+      if (running) return;
+      running = true;
+      pending = mark.querySelectorAll(
+        ".bio-mark-media, .bio-mark-label"
+      ).length;
+      mark.classList.add("is-shimmering");
+    });
+
+    mark.addEventListener("animationend", (event) => {
+      if (!running) return;
+      const name = event.animationName || "";
+      if (!name.startsWith("bio-metal-shimmer")) return;
+      pending -= 1;
+      if (pending > 0) return;
+      mark.classList.remove("is-shimmering");
+      running = false;
+    });
+  });
+})();
