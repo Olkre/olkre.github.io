@@ -1,49 +1,107 @@
 ---
 import logo from "../assets/gym/logo.png";
+import screensPng from "../assets/gym/screens.png";
+import screensHoverPng from "../assets/gym/screens_hover.png";
+import GymBenefitWrCard from "./GymBenefitWrCard";
+import type { BenefitIcon } from "./BoltCard";
+import chinTransitionVideo from "../assets/gym/uidemos/chin_transition.mp4";
+import prDemoVideo from "../assets/gym/uidemos/PR_demo.mp4";
+import timerSettingsVideo from "../assets/gym/uidemos/timer_settings.mp4";
+import dynamicIslandCompact from "../assets/gym/dynamic_island/List.png";
+import dynamicIslandRestBreak from "../assets/gym/dynamic_island/List-1.png";
+import dynamicIslandSession from "../assets/gym/dynamic_island/List-2.png";
 
-const WRCARDS = [
+const BENEFIT_CARDS: {
+  title: string;
+  description: string;
+  variant: BenefitIcon;
+  alt: string;
+  width: number;
+}[] = [
   {
-    src: "/img/wrcards/frame-6.png",
-    alt: "Four screenshots of Sasha's Gym App on iPhone",
-    width: 1002,
-    height: 524,
-  },
-  {
-    src: "/img/wrcards/progressive-overload.png",
+    title: "Progressive overload",
+    description:
+      "Suggested values, beat your PR, and track progress on reps and weight.",
+    variant: "bolt",
     alt: "Progressive overload",
     width: 209,
-    height: 262,
   },
   {
-    src: "/img/wrcards/compete-friends.png",
+    title: "Compete with friends",
+    description:
+      "See what your friends are up to in the app and stay motivated together.",
+    variant: "friends",
     alt: "Compete with friends",
     width: 209,
-    height: 262,
   },
   {
-    src: "/img/wrcards/track-rest.png",
+    title: "Track your rest",
+    description:
+      "Use a customizable built-in timer to optimize recovery between sets.",
+    variant: "timer",
     alt: "Track your rest",
     width: 209,
-    height: 262,
+  },
+];
+
+const dynamicIslandSlides = [
+  {
+    src: dynamicIslandCompact,
+    alt: "iPhone home screen with a compact Dynamic Island rest timer",
   },
   {
-    src: "/img/wrcards/timer-demo.png",
+    src: dynamicIslandRestBreak,
+    alt: "iPhone home screen with an expanded Dynamic Island rest break controls",
+  },
+  {
+    src: dynamicIslandSession,
+    alt: "iPhone home screen with an expanded Dynamic Island active workout session",
+  },
+] as const;
+
+const VIDEO_CARDS = [
+  {
+    id: "timer",
+    src: timerSettingsVideo,
     alt: "Rest timer settings demo",
-    width: 694,
-    height: 524,
+    width: 347,
+    triggerClass: "gym-demo-timer",
+    videoClass: "gym-demo-video-timer",
+    bg: "bg-gradient-to-b from-[#003366] to-[#003266]",
   },
   {
-    src: "/img/wrcards/chin-demo.png",
+    id: "chin",
+    src: chinTransitionVideo,
     alt: "Chin transition demo",
-    width: 635,
-    height: 524,
+    width: 318,
+    triggerClass: "gym-demo-chin",
+    videoClass: "gym-demo-video-chin",
+    bg: "bg-black",
   },
   {
-    src: "/img/wrcards/pr-demo.png",
+    id: "pr",
+    src: prDemoVideo,
     alt: "Personal record demo",
-    width: 610,
-    height: 524,
+    width: 305,
+    triggerClass: "gym-demo-pr",
+    videoClass: "gym-demo-video-pr",
+    bg: "bg-white",
   },
+] as const;
+
+const SCREENS_HEIGHT = 262;
+const SCREENS_PAD = 16;
+const SCREENS_INNER_HEIGHT = SCREENS_HEIGHT - SCREENS_PAD * 2;
+const SCREENS_WIDTH =
+  Math.round((screensPng.width / screensPng.height) * SCREENS_INNER_HEIGHT) +
+  SCREENS_PAD * 2;
+const ISLAND_WIDTH = 501;
+
+const DOT_LABELS = [
+  "App screenshots",
+  "Dynamic Island previews",
+  ...BENEFIT_CARDS.map((c) => c.alt),
+  ...VIDEO_CARDS.map((c) => c.alt),
 ] as const;
 ---
 
@@ -104,12 +162,12 @@ const WRCARDS = [
         aria-label="Preview pagination"
       >
         {
-          WRCARDS.map((card, i) => (
+          DOT_LABELS.map((label, i) => (
             <button
               type="button"
               class:list={["gym-dot", i === 0 && "is-active"]}
               data-index={i}
-              aria-label={`Show ${card.alt}`}
+              aria-label={`Show ${label}`}
               aria-current={i === 0 ? "true" : undefined}
             />
           ))
@@ -124,25 +182,116 @@ const WRCARDS = [
       role="list"
       aria-label="Sasha's Gym App feature previews"
     >
+      {/* App screenshots strip */}
+      <a
+        href="https://sgym.space"
+        target="_blank"
+        rel="noopener noreferrer"
+        role="listitem"
+        class="gym-squircle gym-squircle--card gym-screens group relative block h-[262px] shrink-0 overflow-hidden bg-white p-4 [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
+        style={`width: ${SCREENS_WIDTH}px`}
+        aria-label="Four screenshots of Sasha's Gym App on iPhone — open sgym.space"
+      >
+        <span class="gym-screens-stack grid h-full w-full [&>*]:col-start-1 [&>*]:row-start-1">
+          <img
+            class="gym-screens-hover block h-full w-full object-contain object-left opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:opacity-0"
+            src={screensHoverPng.src}
+            width={screensHoverPng.width}
+            height={screensHoverPng.height}
+            alt=""
+            aria-hidden="true"
+            decoding="async"
+          />
+          <img
+            class="relative z-[1] block h-full w-full object-contain object-left drop-shadow-none transition-[filter] duration-300 ease-out group-hover:drop-shadow-[0_3px_4px_rgba(17,17,17,0.32)] motion-reduce:transition-none motion-reduce:group-hover:drop-shadow-none"
+            src={screensPng.src}
+            width={screensPng.width}
+            height={screensPng.height}
+            alt="Four screenshots of Sasha's Gym App on iPhone"
+            decoding="async"
+          />
+        </span>
+      </a>
+
+      {/* Dynamic Island */}
+      <a
+        href="https://sgym.space"
+        target="_blank"
+        rel="noopener noreferrer"
+        role="listitem"
+        class="gym-squircle gym-squircle--card gym-demo-island group relative block h-[262px] shrink-0 overflow-hidden bg-white px-4 [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
+        style={`width: ${ISLAND_WIDTH}px`}
+        aria-label="Dynamic Island workout states — open sgym.space"
+      >
+        <div
+          class="gym-demo-island-stack flex h-full items-start justify-center"
+          role="group"
+          aria-label="Dynamic Island workout states"
+        >
+          {
+            dynamicIslandSlides.map((slide, slideIndex) => (
+              <img
+                class="gym-demo-island-phone"
+                src={slide.src.src}
+                width={slide.src.width}
+                height={slide.src.height}
+                alt={slide.alt}
+                loading={slideIndex === 0 ? "eager" : "lazy"}
+                decoding="async"
+              />
+            ))
+          }
+        </div>
+      </a>
+
+      {/* Benefit cards with interactive BoltCard */}
       {
-        WRCARDS.map((card) => (
+        BENEFIT_CARDS.map((card) => (
           <a
             href="https://sgym.space"
             target="_blank"
             rel="noopener noreferrer"
             role="listitem"
             class="gym-squircle gym-squircle--card group relative block h-[262px] shrink-0 overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
-            style={`width: ${(card.width / card.height) * 262}px`}
+            style={`width: ${card.width}px`}
             aria-label={`${card.alt} — open sgym.space`}
           >
-            <img
+            <GymBenefitWrCard
+              client:load
+              title={card.title}
+              description={card.description}
+              variant={card.variant}
+            />
+          </a>
+        ))
+      }
+
+      {/* Video demos */}
+      {
+        VIDEO_CARDS.map((card) => (
+          <a
+            href="https://sgym.space"
+            target="_blank"
+            rel="noopener noreferrer"
+            role="listitem"
+            class:list={[
+              "gym-squircle gym-squircle--card group relative block h-[262px] shrink-0 overflow-hidden [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2",
+              card.triggerClass,
+              card.bg,
+            ]}
+            style={`width: ${card.width}px`}
+            aria-label={`${card.alt} — open sgym.space`}
+          >
+            <video
+              class:list={["gym-demo-video", card.videoClass, "block h-auto max-h-full w-auto max-w-full"]}
               src={card.src}
-              width={card.width}
-              height={card.height}
-              alt={card.alt}
-              class="block h-full w-full object-cover object-left"
-              decoding="async"
-              loading="lazy"
+              autoplay
+              loop
+              muted
+              playsinline
+              webkit-playsinline
+              preload="auto"
+              aria-hidden="true"
             />
           </a>
         ))
@@ -234,13 +383,29 @@ const WRCARDS = [
     background: rgba(0, 0, 0, 0.22);
     transform: translate(-50%, -50%);
     transition:
-      background-color 180ms ease-out,
-      transform 180ms ease-out;
+      background-color 160ms ease-out,
+      transform 160ms ease-out;
   }
 
   .gym-dot.is-active::before {
     background: #111;
     transform: translate(-50%, -50%) scale(1.35);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .gym-dot:hover:not(.is-active)::before {
+      background: rgba(0, 0, 0, 0.45);
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    .gym-dot.is-active:hover::before {
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+  }
+
+  .gym-dot:active:not(.is-active)::before {
+    background: rgba(0, 0, 0, 0.55);
+    transform: translate(-50%, -50%) scale(1.1);
   }
 
   .gym-dot:focus-visible {
@@ -298,6 +463,154 @@ const WRCARDS = [
 
   .gym-wrcards::-webkit-scrollbar {
     display: none;
+  }
+
+  /* —— UI demo interactions (from GymAppLanding) —— */
+  .gym-demo-island {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .gym-demo-island-stack {
+    --gym-island-ladder-start: 1.15rem;
+    --gym-island-ladder-mid: 3.6rem;
+    --gym-island-ladder-end: 7.1rem;
+    --gym-island-lift: 1.25rem;
+    perspective: 1200px;
+    perspective-origin: center top;
+    height: 100%;
+  }
+
+  .gym-demo-island-phone {
+    --gym-island-scale: 1.72;
+    --gym-island-ladder-y: 0px;
+    position: relative;
+    display: block;
+    height: 100%;
+    width: auto;
+    max-width: none;
+    flex: 0 0 auto;
+    object-fit: cover;
+    object-position: top center;
+    margin-left: -3.4rem;
+    transform: translate3d(0, var(--gym-island-ladder-y), 0)
+      scale(var(--gym-island-scale));
+    transform-origin: top center;
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  .gym-demo-island-phone:first-child {
+    --gym-island-ladder-y: var(--gym-island-ladder-start);
+    margin-left: 0;
+    z-index: 1;
+  }
+
+  .gym-demo-island-phone:nth-child(2) {
+    --gym-island-ladder-y: var(--gym-island-ladder-mid);
+    z-index: 2;
+  }
+
+  .gym-demo-island-phone:nth-child(3) {
+    --gym-island-ladder-y: var(--gym-island-ladder-end);
+    z-index: 3;
+  }
+
+  .gym-demo-timer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    perspective: 1200px;
+    perspective-origin: right top;
+  }
+
+  .gym-demo-video-timer {
+    transform: translate3d(0.75rem, -0.1rem, 0);
+    transform-origin: top right;
+    backface-visibility: hidden;
+    will-change: transform;
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .gym-demo-chin {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    perspective: 1200px;
+    perspective-origin: center top;
+  }
+
+  .gym-demo-video-chin {
+    transform: translate3d(0, -0.75rem, 0) scale(1.18);
+    transform-origin: top center;
+    backface-visibility: hidden;
+    will-change: transform;
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .gym-demo-pr {
+    --gym-pr-rest-y: -2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+    perspective-origin: center top;
+  }
+
+  .gym-demo-video-pr {
+    transform: translate3d(0, var(--gym-pr-rest-y), 0) scale(1.38);
+    transform-origin: top center;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform;
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .gym-demo-island-phone:hover {
+      transform: translate3d(
+          0,
+          calc(var(--gym-island-ladder-y) - var(--gym-island-lift)),
+          0
+        )
+        scale(var(--gym-island-scale));
+    }
+
+    .gym-demo-timer:hover .gym-demo-video-timer {
+      transform: translate3d(0, -0.1rem, 0);
+    }
+
+    .gym-demo-chin:hover .gym-demo-video-chin {
+      transform: translate3d(0, 0, 0) scale(1.18);
+    }
+
+    .gym-demo-pr:hover .gym-demo-video-pr {
+      transform: translate3d(0, var(--gym-pr-rest-y), 0) scale(1.38)
+        rotateX(15deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gym-demo-island-phone {
+      transition: none;
+    }
+
+    .gym-demo-video-timer,
+    .gym-demo-video-chin,
+    .gym-demo-video-pr {
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* Paper LiquidMetal canvas defaults to z-index:-1; keep it above card chrome. */
+  .gym-wrcards :global([data-paper-shader]) {
+    isolation: isolate;
+  }
+
+  .gym-wrcards :global([data-paper-shader] canvas) {
+    z-index: 0;
   }
 </style>
 
@@ -399,6 +712,56 @@ const WRCARDS = [
         icon.classList.add("is-shimmering");
       });
     }
+
+    // iOS autoplay priming for muted inline videos
+    const ua = navigator.userAgent;
+    const isIos =
+      /iPhone|iPad|iPod/i.test(ua) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    function prime(video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.setAttribute("muted", "");
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
+    }
+
+    function tryPlay(video) {
+      prime(video);
+      const playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(() => {
+          video.addEventListener(
+            "loadeddata",
+            function onReady() {
+              video.removeEventListener("loadeddata", onReady);
+              video.play().catch(() => {});
+            },
+            { once: true },
+          );
+        });
+      }
+    }
+
+    root.querySelectorAll(".gym-demo-video").forEach((video) => {
+      if (!(video instanceof HTMLVideoElement)) return;
+      if (isIos) prime(video);
+      tryPlay(video);
+
+      if (!("IntersectionObserver" in window)) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) tryPlay(video);
+            else video.pause();
+          });
+        },
+        { root: scroller, threshold: 0.2 },
+      );
+      observer.observe(video);
+    });
   }
 
   initGymWrcards();
