@@ -48,15 +48,15 @@ const WRCARDS = [
 ---
 
 <div class="gym-app mb-4 flex w-full flex-col gap-3">
-  <div class="flex w-full items-center justify-between gap-3 sm:gap-4">
+  <div class="flex w-full flex-wrap items-center gap-x-3 gap-y-2.5 sm:gap-x-4">
     <a
       href="https://sgym.space"
       target="_blank"
       rel="noopener noreferrer"
-      class="flex min-w-0 items-center gap-4"
+      class="flex min-w-0 flex-1 items-center gap-3 sm:gap-4"
       aria-label="Sasha's Gym App — open sgym.space"
     >
-      <span class="gym-squircle relative size-[54px] shrink-0 overflow-hidden bg-white">
+      <span class="gym-icon gym-squircle relative size-[54px] shrink-0 overflow-hidden bg-white">
         <img
           src={logo.src}
           width={logo.width}
@@ -80,7 +80,24 @@ const WRCARDS = [
       </span>
     </a>
 
-    <div class="flex shrink-0 items-center gap-2">
+    <a
+      href="https://sgym.space"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="order-2 flex shrink-0 items-center rounded-[40px] bg-white py-1 pl-3 pr-2 text-[12px] leading-none text-black transition-transform duration-200 ease-out hover:scale-[1.02] active:scale-[0.98] sm:order-3"
+    >
+      sgym.space
+      <span
+        class="ms-0.5 inline-flex size-[16px] items-center justify-center text-[#155dfc]"
+        aria-hidden="true"
+      >
+        <span class="inline-block -rotate-45">→</span>
+      </span>
+    </a>
+
+    <div
+      class="order-3 flex w-full items-center justify-center sm:order-2 sm:w-auto sm:justify-start"
+    >
       <div
         class="gym-dots flex items-center rounded-full bg-black/[0.06] px-1.5 py-0.5"
         role="tablist"
@@ -98,20 +115,6 @@ const WRCARDS = [
           ))
         }
       </div>
-      <a
-        href="https://sgym.space"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="flex items-center rounded-[40px] bg-white py-1 pl-3 pr-2 text-[12px] leading-none text-black transition-transform duration-200 ease-out hover:scale-[1.02] active:scale-[0.98]"
-      >
-        sgym.space
-        <span
-          class="ms-0.5 inline-flex size-[16px] items-center justify-center text-[#155dfc]"
-          aria-hidden="true"
-        >
-          <span class="inline-block -rotate-45">→</span>
-        </span>
-      </a>
     </div>
   </div>
 
@@ -163,6 +166,39 @@ const WRCARDS = [
   .gym-squircle--card {
     --gym-radius: 16px;
     --gym-radius-squircle: 22px;
+  }
+
+  .gym-icon::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background-image: linear-gradient(
+      110deg,
+      transparent 0%,
+      transparent 25%,
+      rgba(255, 255, 255, 0.2) 40%,
+      rgba(255, 255, 255, 0.95) 50%,
+      rgba(255, 255, 255, 0.2) 60%,
+      transparent 75%,
+      transparent 100%
+    );
+    background-size: 250% 100%;
+    background-repeat: no-repeat;
+    background-position: 150% 0;
+    mix-blend-mode: overlay;
+  }
+
+  .gym-icon.is-shimmering::after {
+    opacity: 1;
+    animation: bio-metal-shimmer 1.1s linear forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gym-icon::after {
+      display: none;
+    }
   }
 
   @supports (corner-shape: squircle) {
@@ -336,6 +372,33 @@ const WRCARDS = [
         scrollToIndex(Number(dot.dataset.index));
       });
     });
+
+    const icon = root.querySelector(".gym-icon");
+    const canHover = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    ).matches;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (icon && canHover && !reduceMotion) {
+      icon.addEventListener("pointerenter", () => {
+        if (icon.dataset.shimmerRunning === "1") return;
+        icon.dataset.shimmerRunning = "1";
+
+        const onEnd = (event) => {
+          if (!(event.animationName || "").startsWith("bio-metal-shimmer")) {
+            return;
+          }
+          icon.classList.remove("is-shimmering");
+          icon.dataset.shimmerRunning = "0";
+          icon.removeEventListener("animationend", onEnd);
+        };
+
+        icon.addEventListener("animationend", onEnd);
+        icon.classList.add("is-shimmering");
+      });
+    }
   }
 
   initGymWrcards();

@@ -235,6 +235,10 @@ export default function CopyEmail({ email = EMAIL }: { email?: string }) {
           <span className="contact-cluster">
             <span className="contact-cluster-sizer" aria-hidden="true">
               <span className="contact-content-row">
+                <span className="contact-icon-slot" />
+                <span>Reach out via email</span>
+              </span>
+              <span className="contact-content-row">
                 <span className="contact-email">{email}</span>
                 <span className="contact-icon-slot" />
               </span>
@@ -300,31 +304,27 @@ export default function CopyEmail({ email = EMAIL }: { email?: string }) {
                 <span className="contact-content-row">
                   <span className="contact-icon" aria-hidden="true">
                     <svg
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
                       xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="none"
+                      viewBox="0 0 16 16"
                     >
-                      <rect
-                        x="3"
-                        y="5"
-                        width="18"
-                        height="14"
-                        rx="2"
-                        stroke="currentColor"
-                        strokeWidth="1.75"
+                      <path
+                        fill="#96a9b2"
+                        d="M16 13.3q-.4 1-1.4 1H1.3q-.5 0-.9-.4l-.1-.2q-.2 0-.3-.4c0-.2 6.9-5.4 6.9-5.4.9-.7 1.3-.7 2.2 0 0 0 7 5.2 6.9 5.4"
                       />
                       <path
-                        d="M4 7l8 6 8-6"
-                        stroke="currentColor"
-                        strokeWidth="1.75"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                        fill="#b9c5c6"
+                        d="m8 7.3-8 6V4.7q.1-1.3 1.5-1.5h13q1.4.1 1.5 1.5v8.4z"
+                      />
+                      <path
+                        fill="#dce2e2"
+                        d="M.1 4.3q.4-1 1.4-1h13.1q.5 0 .9.4l.1.1.3.5L9 9.6c-.9.7-1.3.6-2.2 0z"
                       />
                     </svg>
                   </span>
-                  <span>Email</span>
+                  <span>Reach out via email</span>
                 </span>
               )}
             </span>
