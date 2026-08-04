@@ -31,7 +31,11 @@
       }
 
       #socials > a {
-        @apply text-gray-800 hover:text-gray-600 transition hover:rotate-[4deg];
+        @apply text-gray-800 hover:text-gray-600 transition hover:rotate-[4deg] active:scale-95;
+      }
+
+      #socials > a:first-child {
+        @apply font-semibold tracking-tight;
       }
 
       .case-link {
