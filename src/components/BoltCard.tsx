@@ -1,4 +1,5 @@
 import {
+  Suspense,
   useEffect,
   useRef,
   useState,
@@ -144,7 +145,7 @@ export default function BoltCard({
   colorTint,
 }: Props) {
   const tint = colorTint ?? ICON_TINT[variant];
-  const metalSrc = newBenefitMetalImages[variant];
+  const metalSrcRaw = newBenefitMetalImages[variant];
   const silhouetteSrc = newBenefitSilhouetteImages[variant];
   const width = cardWidth(variant);
   const liquidMetal = {
@@ -155,6 +156,8 @@ export default function BoltCard({
   const [releasing, setReleasing] = useState(false);
   const [liquidHidden, setLiquidHidden] = useState(false);
   const [hovered, setHovered] = useState(false);
+  /** Client-only absolute image URL + gate so WebGL mounts after hydration. */
+  const [metalSrc, setMetalSrc] = useState<string | null>(null);
   const parallaxZoneRef = useRef<HTMLDivElement>(null);
   const pressedRef = useRef(false);
   const liquidFadeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -162,6 +165,17 @@ export default function BoltCard({
     null,
   );
   const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    setMetalSrc(
+      metalSrcRaw.startsWith("/")
+        ? new URL(metalSrcRaw, window.location.origin).href
+        : metalSrcRaw,
+    );
+  }, [metalSrcRaw]);
+
+  // Keep mask styles using the raw module URL (works in CSS mask-image as-is).
+  const metalSrcForMask = metalSrcRaw;
 
   const mouseNormX = useMotionValue(0);
   const mouseNormY = useMotionValue(0);
@@ -319,22 +333,27 @@ export default function BoltCard({
           <div
             aria-hidden
             className="metal-plain absolute inset-0 m-auto h-full w-full"
-            style={metalTintMaskStyle(metalSrc, tint)}
+            style={metalTintMaskStyle(metalSrcForMask, tint)}
           />
           <div
             className="relative z-10 block h-full w-full bg-transparent transition-opacity duration-150 ease-out"
             style={{ opacity: liquidHidden ? 0 : 1 }}
           >
-            <LiquidMetal
-              {...liquidMetal}
-              image={metalSrc}
-              frame={650683.6850000786}
-              colorBack="#00000000"
-              colorTint={tint}
-              width={width}
-              height={CARD_HEIGHT}
-              className="block size-full select-none bg-transparent"
-            />
+            {metalSrc ? (
+              <Suspense fallback={null}>
+                <LiquidMetal
+                  {...liquidMetal}
+                  image={metalSrc}
+                  frame={650683.6850000786}
+                  colorBack="#00000000"
+                  colorTint={tint}
+                  width={width}
+                  height={CARD_HEIGHT}
+                  suspendWhenProcessingImage
+                  className="block size-full select-none bg-transparent"
+                />
+              </Suspense>
+            ) : null}
           </div>
         </motion.div>
       </div>
