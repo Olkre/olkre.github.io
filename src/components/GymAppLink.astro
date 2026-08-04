@@ -154,8 +154,30 @@ const DOT_LABELS = [
     </a>
 
     <div
-      class="order-3 flex w-full items-center justify-center sm:order-2 sm:w-auto sm:justify-start"
+      class="order-3 flex w-full items-center justify-center gap-0 sm:order-2 sm:w-auto sm:justify-start"
     >
+      <button
+        type="button"
+        class="gym-chevron gym-chevron-prev"
+        aria-label="Previous preview"
+        disabled
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M10 3.5 5.5 8 10 12.5"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </button>
       <div
         class="gym-dots flex items-center rounded-full bg-black/[0.06] px-1.5 py-0.5"
         role="tablist"
@@ -173,6 +195,27 @@ const DOT_LABELS = [
           ))
         }
       </div>
+      <button
+        type="button"
+        class="gym-chevron gym-chevron-next"
+        aria-label="Next preview"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M6 3.5 10.5 8 6 12.5"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </button>
     </div>
   </div>
 
@@ -359,6 +402,45 @@ const DOT_LABELS = [
 
   .gym-dots {
     gap: 0;
+  }
+
+  .gym-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 22px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    transition: color 160ms ease-out;
+  }
+
+  .gym-chevron-prev {
+    margin-right: -2px;
+  }
+
+  .gym-chevron-next {
+    margin-left: -2px;
+  }
+
+  .gym-chevron:disabled {
+    color: rgba(0, 0, 0, 0.18);
+    cursor: default;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .gym-chevron:hover:not(:disabled) {
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  .gym-chevron:focus-visible {
+    outline: 2px solid #155dfc;
+    outline-offset: 1px;
   }
 
   .gym-dot {
@@ -617,25 +699,46 @@ const DOT_LABELS = [
 <script>
   function initGymWrcards() {
     const root = document.querySelector(".gym-app");
-    if (!root || root.dataset.dotsReady === "1") return;
-    root.dataset.dotsReady = "1";
+    if (!root) return;
+
+    if (typeof root._gymCleanup === "function") root._gymCleanup();
 
     const scroller = root.querySelector(".gym-wrcards");
-    const dots = [...root.querySelectorAll(".gym-dot")];
     const cards = [...root.querySelectorAll(".gym-wrcards [role='listitem']")];
-    if (!scroller || !dots.length || !cards.length) return;
+    if (!scroller || !cards.length) return;
 
-    let active = 0;
+    const ac = new AbortController();
+    const { signal } = ac;
+    root._gymCleanup = () => ac.abort();
+
+    function getDots() {
+      return [...root.querySelectorAll(".gym-dot")];
+    }
+
+    function getActive() {
+      const dots = getDots();
+      const i = dots.findIndex((d) => d.classList.contains("is-active"));
+      return i >= 0 ? i : 0;
+    }
+
+    function syncChevrons(index) {
+      const prevBtn = root.querySelector(".gym-chevron-prev");
+      const nextBtn = root.querySelector(".gym-chevron-next");
+      if (prevBtn instanceof HTMLButtonElement) prevBtn.disabled = index <= 0;
+      if (nextBtn instanceof HTMLButtonElement) {
+        nextBtn.disabled = index >= cards.length - 1;
+      }
+    }
 
     function setActive(index) {
-      if (index === active) return;
-      active = index;
+      const dots = getDots();
       dots.forEach((dot, i) => {
         const on = i === index;
         dot.classList.toggle("is-active", on);
         if (on) dot.setAttribute("aria-current", "true");
         else dot.removeAttribute("aria-current");
       });
+      syncChevrons(index);
     }
 
     function nearestIndex() {
@@ -660,16 +763,17 @@ const DOT_LABELS = [
     }
 
     function scrollToIndex(index) {
-      const card = cards[index];
+      const clamped = Math.max(0, Math.min(cards.length - 1, index));
+      const card = cards[clamped];
       if (!card) return;
       const pad = parseFloat(getComputedStyle(scroller).paddingLeft) || 0;
       const maxScroll = scroller.scrollWidth - scroller.clientWidth;
       const left =
-        index === cards.length - 1
+        clamped === cards.length - 1
           ? maxScroll
           : Math.min(maxScroll, Math.max(0, card.offsetLeft - pad));
       scroller.scrollTo({ left, behavior: "smooth" });
-      setActive(index);
+      setActive(clamped);
     }
 
     scroller.addEventListener(
@@ -677,14 +781,38 @@ const DOT_LABELS = [
       () => {
         setActive(nearestIndex());
       },
-      { passive: true },
+      { passive: true, signal },
     );
 
-    dots.forEach((dot) => {
-      dot.addEventListener("click", () => {
-        scrollToIndex(Number(dot.dataset.index));
-      });
-    });
+    root.addEventListener(
+      "click",
+      (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+
+        const prev = target.closest(".gym-chevron-prev");
+        if (prev instanceof HTMLButtonElement && !prev.disabled) {
+          event.preventDefault();
+          scrollToIndex(getActive() - 1);
+          return;
+        }
+
+        const next = target.closest(".gym-chevron-next");
+        if (next instanceof HTMLButtonElement && !next.disabled) {
+          event.preventDefault();
+          scrollToIndex(getActive() + 1);
+          return;
+        }
+
+        const dot = target.closest(".gym-dot");
+        if (dot instanceof HTMLButtonElement && dot.dataset.index != null) {
+          scrollToIndex(Number(dot.dataset.index));
+        }
+      },
+      { signal },
+    );
+
+    setActive(getActive());
 
     const icon = root.querySelector(".gym-icon");
     const canHover = window.matchMedia(
@@ -695,22 +823,26 @@ const DOT_LABELS = [
     ).matches;
 
     if (icon && canHover && !reduceMotion) {
-      icon.addEventListener("pointerenter", () => {
-        if (icon.dataset.shimmerRunning === "1") return;
-        icon.dataset.shimmerRunning = "1";
+      icon.addEventListener(
+        "pointerenter",
+        () => {
+          if (icon.dataset.shimmerRunning === "1") return;
+          icon.dataset.shimmerRunning = "1";
 
-        const onEnd = (event) => {
-          if (!(event.animationName || "").startsWith("bio-metal-shimmer")) {
-            return;
-          }
-          icon.classList.remove("is-shimmering");
-          icon.dataset.shimmerRunning = "0";
-          icon.removeEventListener("animationend", onEnd);
-        };
+          const onEnd = (event) => {
+            if (!(event.animationName || "").startsWith("bio-metal-shimmer")) {
+              return;
+            }
+            icon.classList.remove("is-shimmering");
+            icon.dataset.shimmerRunning = "0";
+            icon.removeEventListener("animationend", onEnd);
+          };
 
-        icon.addEventListener("animationend", onEnd);
-        icon.classList.add("is-shimmering");
-      });
+          icon.addEventListener("animationend", onEnd);
+          icon.classList.add("is-shimmering");
+        },
+        { signal },
+      );
     }
 
     // iOS autoplay priming for muted inline videos
@@ -761,6 +893,7 @@ const DOT_LABELS = [
         { root: scroller, threshold: 0.2 },
       );
       observer.observe(video);
+      signal.addEventListener("abort", () => observer.disconnect());
     });
   }
 
