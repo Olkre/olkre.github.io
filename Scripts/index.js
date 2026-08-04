@@ -86,37 +86,45 @@ $(document).ready(function () {
   );
 });
 
-// Bio-mark metal shimmer: finish even after pointer leaves; don't restart mid-sweep
+// Bio-mark metal shimmer: play on load + hover; finish even after pointer leaves
 (() => {
-  const canHover = window.matchMedia(
-    "(hover: hover) and (pointer: fine)"
-  ).matches;
   const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
-  if (!canHover || reduceMotion) return;
+  if (reduceMotion) return;
 
-  document.querySelectorAll(".bio-mark").forEach((mark) => {
-    let running = false;
-    let pending = 0;
+  const canHover = window.matchMedia(
+    "(hover: hover) and (pointer: fine)"
+  ).matches;
 
-    mark.addEventListener("pointerenter", () => {
-      if (running) return;
-      running = true;
-      pending = mark.querySelectorAll(
-        ".bio-mark-media, .bio-mark-label"
-      ).length;
-      mark.classList.add("is-shimmering");
-    });
+  function playShimmer(mark) {
+    if (!mark || mark.dataset.shimmerRunning === "1") return;
+    mark.dataset.shimmerRunning = "1";
+    let pending = mark.querySelectorAll(
+      ".bio-mark-media, .bio-mark-label"
+    ).length;
 
-    mark.addEventListener("animationend", (event) => {
-      if (!running) return;
+    const onEnd = (event) => {
       const name = event.animationName || "";
       if (!name.startsWith("bio-metal-shimmer")) return;
       pending -= 1;
       if (pending > 0) return;
       mark.classList.remove("is-shimmering");
-      running = false;
-    });
+      mark.dataset.shimmerRunning = "0";
+      mark.removeEventListener("animationend", onEnd);
+    };
+
+    mark.addEventListener("animationend", onEnd);
+    mark.classList.add("is-shimmering");
+  }
+
+  document.querySelectorAll(".bio-mark").forEach((mark) => {
+    if (!canHover) return;
+    mark.addEventListener("pointerenter", () => playShimmer(mark));
   });
+
+  // Soon after load, during the name entrance
+  window.setTimeout(() => {
+    playShimmer(document.querySelector(".bio-mark--name"));
+  }, 180);
 })();
