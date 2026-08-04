@@ -1,14 +1,18 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CopyEmail from "../components/CopyEmail";
+import GymAppLink from "../components/GymAppLink.astro";
 import headHtml from "../legacy/index.head.html?raw";
 import bodyHtml from "../legacy/index.body.html?raw";
 
-const [bodyBefore, bodyAfter = ""] = bodyHtml.split("<!--COPY_EMAIL-->");
+const [beforeEmail, afterEmail = ""] = bodyHtml.split("<!--COPY_EMAIL-->");
+const [bodyBeforeLink, bodyAfterLink = ""] = afterEmail.split("<!--GYM_APP_LINK-->");
 ---
 
-<BaseLayout title="OlKre Portfolio" bodyClass="bg-[#eee]" headHtml={headHtml}>
-  <Fragment set:html={bodyBefore} />
+<BaseLayout title="OlKre Portfolio" bodyClass="bg-[#eee] overflow-x-clip" headHtml={headHtml}>
+  <Fragment set:html={beforeEmail} />
   <CopyEmail client:load />
-  <Fragment set:html={bodyAfter} />
+  <Fragment set:html={bodyBeforeLink} />
+  <GymAppLink />
+  <Fragment set:html={bodyAfterLink} />
 </BaseLayout>

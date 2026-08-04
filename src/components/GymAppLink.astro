@@ -1,0 +1,343 @@
+---
+import logo from "../assets/gym/logo.png";
+
+const WRCARDS = [
+  {
+    src: "/img/wrcards/frame-6.png",
+    alt: "Four screenshots of Sasha's Gym App on iPhone",
+    width: 1002,
+    height: 524,
+  },
+  {
+    src: "/img/wrcards/progressive-overload.png",
+    alt: "Progressive overload",
+    width: 209,
+    height: 262,
+  },
+  {
+    src: "/img/wrcards/compete-friends.png",
+    alt: "Compete with friends",
+    width: 209,
+    height: 262,
+  },
+  {
+    src: "/img/wrcards/track-rest.png",
+    alt: "Track your rest",
+    width: 209,
+    height: 262,
+  },
+  {
+    src: "/img/wrcards/timer-demo.png",
+    alt: "Rest timer settings demo",
+    width: 694,
+    height: 524,
+  },
+  {
+    src: "/img/wrcards/chin-demo.png",
+    alt: "Chin transition demo",
+    width: 635,
+    height: 524,
+  },
+  {
+    src: "/img/wrcards/pr-demo.png",
+    alt: "Personal record demo",
+    width: 610,
+    height: 524,
+  },
+] as const;
+---
+
+<div class="gym-app mb-4 flex w-full flex-col gap-3">
+  <div class="flex w-full items-center justify-between gap-3 sm:gap-4">
+    <a
+      href="https://sgym.space"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex min-w-0 items-center gap-4"
+      aria-label="Sasha's Gym App — open sgym.space"
+    >
+      <span class="gym-squircle relative size-[54px] shrink-0 overflow-hidden bg-white">
+        <img
+          src={logo.src}
+          width={logo.width}
+          height={logo.height}
+          alt=""
+          class="absolute inset-0 size-full object-cover"
+          decoding="async"
+        />
+      </span>
+      <span class="flex min-w-0 flex-col justify-center gap-1.5">
+        <span
+          class="truncate text-[20px] font-semibold leading-none tracking-[-0.4px] text-black"
+        >
+          Sasha's Gym App
+        </span>
+        <span
+          class="truncate text-[12px] font-normal leading-none text-black opacity-60"
+        >
+          Fitness tracking iOS and Android application
+        </span>
+      </span>
+    </a>
+
+    <div class="flex shrink-0 items-center gap-2">
+      <div
+        class="gym-dots flex items-center rounded-full bg-black/[0.06] px-1.5 py-0.5"
+        role="tablist"
+        aria-label="Preview pagination"
+      >
+        {
+          WRCARDS.map((card, i) => (
+            <button
+              type="button"
+              class:list={["gym-dot", i === 0 && "is-active"]}
+              data-index={i}
+              aria-label={`Show ${card.alt}`}
+              aria-current={i === 0 ? "true" : undefined}
+            />
+          ))
+        }
+      </div>
+      <a
+        href="https://sgym.space"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center rounded-[40px] bg-white py-1 pl-3 pr-2 text-[12px] leading-none text-black transition-transform duration-200 ease-out hover:scale-[1.02] active:scale-[0.98]"
+      >
+        sgym.space
+        <span
+          class="ms-0.5 inline-flex size-[16px] items-center justify-center text-[#155dfc]"
+          aria-hidden="true"
+        >
+          <span class="inline-block -rotate-45">→</span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <div class="gym-wrcards-wrap -my-2">
+    <div
+      class="gym-wrcards flex gap-3 overflow-x-auto py-2"
+      role="list"
+      aria-label="Sasha's Gym App feature previews"
+    >
+      {
+        WRCARDS.map((card) => (
+          <a
+            href="https://sgym.space"
+            target="_blank"
+            rel="noopener noreferrer"
+            role="listitem"
+            class="gym-squircle gym-squircle--card group relative block h-[262px] shrink-0 overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
+            style={`width: ${(card.width / card.height) * 262}px`}
+            aria-label={`${card.alt} — open sgym.space`}
+          >
+            <img
+              src={card.src}
+              width={card.width}
+              height={card.height}
+              alt={card.alt}
+              class="block h-full w-full object-cover object-left"
+              decoding="async"
+              loading="lazy"
+            />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  :global(html) {
+    overflow-x: clip;
+  }
+
+  /* Squircle reads tighter than the same radius on a round rect — bump when supported. */
+  .gym-squircle {
+    --gym-radius: 18px;
+    --gym-radius-squircle: 26px;
+    border-radius: var(--gym-radius);
+  }
+
+  .gym-squircle--card {
+    --gym-radius: 16px;
+    --gym-radius-squircle: 22px;
+  }
+
+  @supports (corner-shape: squircle) {
+    .gym-squircle {
+      corner-shape: squircle;
+      border-radius: var(--gym-radius-squircle);
+    }
+  }
+
+  .gym-dots {
+    gap: 0;
+  }
+
+  .gym-dot {
+    position: relative;
+    width: 10px;
+    height: 18px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .gym-dot::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.22);
+    transform: translate(-50%, -50%);
+    transition:
+      background-color 180ms ease-out,
+      transform 180ms ease-out;
+  }
+
+  .gym-dot.is-active::before {
+    background: #111;
+    transform: translate(-50%, -50%) scale(1.35);
+  }
+
+  .gym-dot:focus-visible {
+    outline: 2px solid #155dfc;
+    outline-offset: 1px;
+  }
+
+  /* Break out of #content max-w-4xl so the row can scroll edge-to-edge. */
+  .gym-wrcards-wrap {
+    --gym-edge-fade: 64px;
+    --gym-gutter: 56rem;
+    --gym-content-pad: max(0.5rem, calc((100dvw - var(--gym-gutter)) / 2));
+    width: 100dvw;
+    max-width: 100dvw;
+    margin-left: calc(50% - 50dvw);
+    box-sizing: border-box;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--gym-edge-fade),
+      #000 calc(100% - var(--gym-edge-fade)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 var(--gym-edge-fade),
+      #000 calc(100% - var(--gym-edge-fade)),
+      transparent 100%
+    );
+  }
+
+  @supports not (width: 100dvw) {
+    .gym-wrcards-wrap {
+      --gym-content-pad: max(0.5rem, calc((100vw - var(--gym-gutter)) / 2));
+      width: 100vw;
+      max-width: 100vw;
+      margin-left: calc(50% - 50vw);
+    }
+  }
+
+  .gym-wrcards {
+    width: 100%;
+    padding-inline: var(--gym-content-pad);
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gym-content-pad);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .gym-wrcards [role="listitem"] {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .gym-wrcards::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<script>
+  function initGymWrcards() {
+    const root = document.querySelector(".gym-app");
+    if (!root || root.dataset.dotsReady === "1") return;
+    root.dataset.dotsReady = "1";
+
+    const scroller = root.querySelector(".gym-wrcards");
+    const dots = [...root.querySelectorAll(".gym-dot")];
+    const cards = [...root.querySelectorAll(".gym-wrcards [role='listitem']")];
+    if (!scroller || !dots.length || !cards.length) return;
+
+    let active = 0;
+
+    function setActive(index) {
+      if (index === active) return;
+      active = index;
+      dots.forEach((dot, i) => {
+        const on = i === index;
+        dot.classList.toggle("is-active", on);
+        if (on) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+    }
+
+    function nearestIndex() {
+      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+      if (maxScroll > 0 && scroller.scrollLeft >= maxScroll - 2) {
+        return cards.length - 1;
+      }
+      if (scroller.scrollLeft <= 2) return 0;
+
+      const pad = parseFloat(getComputedStyle(scroller).paddingLeft) || 0;
+      const target = scroller.scrollLeft + pad;
+      let best = 0;
+      let bestDist = Infinity;
+      cards.forEach((card, i) => {
+        const dist = Math.abs(card.offsetLeft - target);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = i;
+        }
+      });
+      return best;
+    }
+
+    function scrollToIndex(index) {
+      const card = cards[index];
+      if (!card) return;
+      const pad = parseFloat(getComputedStyle(scroller).paddingLeft) || 0;
+      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+      const left =
+        index === cards.length - 1
+          ? maxScroll
+          : Math.min(maxScroll, Math.max(0, card.offsetLeft - pad));
+      scroller.scrollTo({ left, behavior: "smooth" });
+      setActive(index);
+    }
+
+    scroller.addEventListener(
+      "scroll",
+      () => {
+        setActive(nearestIndex());
+      },
+      { passive: true },
+    );
+
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        scrollToIndex(Number(dot.dataset.index));
+      });
+    });
+  }
+
+  initGymWrcards();
+  document.addEventListener("astro:page-load", initGymWrcards);
+</script>
