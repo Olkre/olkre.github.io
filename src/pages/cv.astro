@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import headHtml from "../legacy/cv.head.html?raw";
+import bodyHtml from "../legacy/cv.body.html?raw";
+---
+
+<BaseLayout title="Oleksandr Kreshchuk - Resume" bodyClass="bg-white text-gray-900 font-sans" headHtml={headHtml}>
+  <Fragment set:html={bodyHtml} />
+</BaseLayout>

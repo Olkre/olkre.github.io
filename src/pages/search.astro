@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import headHtml from "../legacy/search.head.html?raw";
+import bodyHtml from "../legacy/search.body.html?raw";
+---
+
+<BaseLayout title="Tailwind Menu Sample" bodyClass="bg-gray-50 text-gray-900" headHtml={headHtml}>
+  <Fragment set:html={bodyHtml} />
+</BaseLayout>

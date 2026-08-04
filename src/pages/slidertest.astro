@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import headHtml from "../legacy/slidertest.head.html?raw";
+import bodyHtml from "../legacy/slidertest.body.html?raw";
+---
+
+<BaseLayout title="Embla Slider with Mouse Wheel Support" bodyClass="" headHtml={headHtml}>
+  <Fragment set:html={bodyHtml} />
+</BaseLayout>

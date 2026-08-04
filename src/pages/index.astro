@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import headHtml from "../legacy/index.head.html?raw";
+import bodyHtml from "../legacy/index.body.html?raw";
+---
+
+<BaseLayout title="OlKre Portfolio" bodyClass="bg-[#eee]" headHtml={headHtml}>
+  <Fragment set:html={bodyHtml} />
+</BaseLayout>

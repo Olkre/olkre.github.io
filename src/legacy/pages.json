@@ -1,0 +1,50 @@
+[
+  {
+    "file": "index.html",
+    "out": "index",
+    "title": "OlKre Portfolio",
+    "bodyClass": "bg-[#eee]"
+  },
+  {
+    "file": "archive.html",
+    "out": "archive",
+    "title": "Archive",
+    "bodyClass": ""
+  },
+  {
+    "file": "search.html",
+    "out": "search",
+    "title": "Search",
+    "bodyClass": "bg-gray-50 text-gray-900"
+  },
+  {
+    "file": "cv.html",
+    "out": "cv",
+    "title": "Oleksandr Kreshchuk - Resume",
+    "bodyClass": "bg-white text-gray-900 font-sans"
+  },
+  {
+    "file": "catalyst-ux.html",
+    "out": "catalyst-ux",
+    "title": "Catalyst UX",
+    "bodyClass": ""
+  },
+  {
+    "file": "catalyst-ux-case.html",
+    "out": "catalyst-ux-case",
+    "title": "Catalyst UX Case",
+    "bodyClass": ""
+  },
+  {
+    "file": "sampleblock.html",
+    "out": "sampleblock",
+    "title": "Sample Block",
+    "bodyClass": ""
+  },
+  {
+    "file": "slidertest.html",
+    "out": "slidertest",
+    "title": "Slider Test",
+    "bodyClass": ""
+  }
+]

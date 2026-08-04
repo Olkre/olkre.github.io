@@ -1,0 +1,24 @@
+---
+interface Props {
+  title: string;
+  bodyClass?: string;
+  headHtml?: string;
+}
+
+const { title, bodyClass = "", headHtml = "" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="icon" href="/images/favicon_olkre.webp" type="image/webp" />
+    <link rel="icon" href="/images/favicon_olkre.png" type="image/png" />
+    <Fragment set:html={headHtml} />
+  </head>
+  <body class={bodyClass}>
+    <slot />
+  </body>
+</html>

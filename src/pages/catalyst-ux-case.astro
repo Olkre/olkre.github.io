@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import headHtml from "../legacy/catalyst-ux-case.head.html?raw";
+import bodyHtml from "../legacy/catalyst-ux-case.body.html?raw";
+---
+
+<BaseLayout title="Catalyst UX Case" bodyClass="" headHtml={headHtml}>
+  <Fragment set:html={bodyHtml} />
+</BaseLayout>

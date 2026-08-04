@@ -1,0 +1,140 @@
+<script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/embla-carousel@8.0.0-rc22/embla.css"
+    />
+    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
+
+    <style>
+      .scrollButtonParent {
+        margin-top: -60px;
+      }
+      .scrollButton {
+        transform: translateY(60px);
+      }
+
+      body {
+        user-select: none;
+      }
+      .carousel-container {
+        margin: 20px auto;
+        max-width: 600px;
+      }
+
+      .embla {
+        overflow: hidden;
+      }
+
+      .embla__container {
+        display: flex;
+      }
+
+      .embla__slide {
+        flex: 0 0 100%;
+        min-width: 0;
+        text-align: center;
+        padding: 20px;
+        background-color: #f0f0f0;
+        margin-right: 10px;
+        height: 560px;
+        max-width: 340px;
+        border-radius: 20px;
+        border: black 2px solid;
+      }
+
+      .embla__dots {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+      }
+
+      .embla__dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #ccc;
+        margin: 0 5px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .embla__dot--active {
+        background-color: #333;
+      }
+    </style>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const screens = document.querySelectorAll(".screen");
+        const links = document.querySelectorAll("a");
+
+        links.forEach((link) => {
+          link.addEventListener("click", function (event) {
+            event.preventDefault();
+            const target = this.getAttribute("href").replace("#", "");
+            screens.forEach((screen) => {
+              if (screen.id === target) {
+                screen.classList.remove("hidden");
+              } else {
+                screen.classList.add("hidden");
+              }
+            });
+          });
+        });
+      });
+
+      function toggleTravelerLocal(button) {
+        // Get both buttons (the clicked one and its sibling)
+        const buttons = button.parentElement.querySelectorAll("button");
+
+        // Remove active state from all buttons
+        buttons.forEach((btn) => {
+          btn.classList.remove("bg-black", "text-white");
+        });
+
+        // Add active state to clicked button
+        button.classList.add("bg-black", "text-white");
+      }
+
+      function previewImage(input) {
+        const preview = document.getElementById("preview-image");
+        const defaultIcon = document.getElementById("default-icon");
+
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.classList.remove("hidden");
+            defaultIcon.classList.add("hidden");
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+    </script>
+    <style>
+      /* Hide default cursor */
+      * {
+        cursor: none;
+      }
+
+      /* Custom cursor */
+      .custom-cursor {
+        width: 20px;
+        height: 20px;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease;
+      }
+
+      /* Scale effect on clickable elements */
+      a:hover ~ .custom-cursor,
+      button:hover ~ .custom-cursor,
+      input:hover ~ .custom-cursor,
+      label:hover ~ .custom-cursor {
+        transform: scale(1.5);
+      }
+    </style>

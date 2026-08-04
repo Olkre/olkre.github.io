@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import headHtml from "../legacy/sampleblock.head.html?raw";
+import bodyHtml from "../legacy/sampleblock.body.html?raw";
+---
+
+<BaseLayout title="Heatmap Example" bodyClass="" headHtml={headHtml}>
+  <Fragment set:html={bodyHtml} />
+</BaseLayout>

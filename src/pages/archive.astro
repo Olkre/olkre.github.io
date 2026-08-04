@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import headHtml from "../legacy/archive.head.html?raw";
+import bodyHtml from "../legacy/archive.body.html?raw";
+---
+
+<BaseLayout title="Archive" bodyClass="" headHtml={headHtml}>
+  <Fragment set:html={bodyHtml} />
+</BaseLayout>
