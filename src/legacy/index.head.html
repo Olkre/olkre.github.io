@@ -34,8 +34,66 @@
         @apply text-gray-800 hover:text-gray-600 transition hover:rotate-[4deg] active:scale-95;
       }
 
-      #socials > a:first-child {
-        @apply font-semibold tracking-tight;
+      #socials > a[data-tooltip] {
+        position: relative;
+      }
+
+      #socials > a[data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        left: 50%;
+        top: calc(100% + 8px);
+        transform: translateX(-50%) translateY(-2px);
+        padding: 0.3rem 0.55rem;
+        border-radius: 0.5rem;
+        background: #1a1a1a;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        transition:
+          opacity 140ms cubic-bezier(0.23, 1, 0.32, 1),
+          transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      #socials > a[data-tooltip]::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: calc(100% + 4px);
+        transform: translateX(-50%) translateY(-2px);
+        border: 5px solid transparent;
+        border-bottom-color: #1a1a1a;
+        pointer-events: none;
+        opacity: 0;
+        transition:
+          opacity 140ms cubic-bezier(0.23, 1, 0.32, 1),
+          transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      @media (hover: hover) and (pointer: fine) {
+        #socials > a[data-tooltip]:hover::after,
+        #socials > a[data-tooltip]:focus-visible::after {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+
+        #socials > a[data-tooltip]:hover::before,
+        #socials > a[data-tooltip]:focus-visible::before {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #socials > a[data-tooltip]::after,
+        #socials > a[data-tooltip]::before {
+          transition: none;
+        }
       }
 
       .case-link {
