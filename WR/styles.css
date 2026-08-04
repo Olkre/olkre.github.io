@@ -1,0 +1,42 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 1.75rem;
+    color: #000;
+}
+
+img {
+    border-radius: 10px;
+}
+
+.step-cont {
+    padding-top: 15px;
+}
+
+.steps {
+    padding-bottom: 25px;
+}
+
+.s-title {
+    padding-top: 10px;
+    margin-bottom: -2px;
+}
+
+.btn-primary {
+    background-color: rgb(165, 116, 52);
+    color: #fff;
+    outline: none;
+    stroke: none;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #000;
+    color: #fff;
+    outline: none;
+    stroke: none;
+    border: none;
+}

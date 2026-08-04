@@ -1,0 +1,107 @@
+
+
+
+  @font-face {
+	font-family: "Uncut Sans";
+	font-style: normal;
+	font-weight: 100;
+	src: url("https://cdn.jsdelivr.net/gh/kaspernordkvist/uncut_sans/Webfonts/Uncut-Sans-Regular.woff2") format("woff2"),
+	     url("https://cdn.jsdelivr.net/gh/kaspernordkvist/uncut_sans/Webfonts/Uncut-Sans-Regular.woff") format("woff");
+	font-display: swap;
+}
+
+h2 {
+    font-family: "Uncut Sans", sans-serif;
+
+}
+
+p {
+    font-family: "Uncut Sans", sans-serif;
+}
+
+.row .col-3 {
+    padding: 8px;
+}
+
+@media only screen and (max-width: 1500px) {
+    .custom-container {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+}
+
+@media only screen and (min-width: 768px) {
+    .cards4 {
+        margin-top: -15px!important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .cards4 {
+        margin-top: 4px!important;
+    }
+
+    
+    
+}
+
+a:active { text-decoration: none!important; }
+
+a { text-decoration: none!important; }
+
+.links {
+    margin-left: 20px;
+    margin-top: -10px;
+    padding-bottom: 20px!important;
+}
+
+.links  a p {
+    margin-top: -12px!important;
+    color: green;
+    text-decoration: none!important;
+}
+
+.big-img {
+    border-radius: 20px!important;
+    padding: 4px!important;
+    
+}
+
+
+@media only screen and (max-width: 768px) {
+    .small-img {
+        padding-top: 20px!important;
+    }
+}
+
+.firstBlock {
+    padding-top: 30px!important;
+    padding-bottom: 30px!important;
+}
+
+.small-img {
+    padding: 4px!important;
+}
+
+.container {
+    padding: 0px 20px;
+}
+
+.custom-container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+
+
+  hr {
+    padding-bottom: 20px;
+  }
+
+.text-cards {
+    margin-bottom: -1px!important;
+}
+
+.cardIt {
+    padding-bottom: 50px;
+}
