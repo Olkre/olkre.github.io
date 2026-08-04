@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 const EMAIL = "oleksandr.kre@gmail.com";
 const TEXT_SWAP_MS = 150;
 
-const PRESS_SCALE = 0.97;
+const PRESS_SCALE = 0.99;
 const SPRING = { stiffness: 720, damping: 28, mass: 0.55 };
 const REST_EPS = 0.0004;
 const VELOCITY_EPS = 0.02;
@@ -298,32 +298,6 @@ export default function CopyEmail({ email = EMAIL }: { email?: string }) {
                 </span>
               ) : (
                 <span className="contact-content-row">
-                  <span className="contact-icon" aria-hidden="true">
-                    <svg
-                      width="15"
-                      height="15"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <rect
-                        x="3"
-                        y="5"
-                        width="18"
-                        height="14"
-                        rx="2"
-                        stroke="currentColor"
-                        strokeWidth="1.75"
-                      />
-                      <path
-                        d="M4 7l8 6 8-6"
-                        stroke="currentColor"
-                        strokeWidth="1.75"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
                   <span>Email</span>
                 </span>
               )}

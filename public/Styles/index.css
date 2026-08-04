@@ -2,10 +2,69 @@ body {
   font-family: "Uncut Sans", sans-serif;
 }
 
+.bio-mark {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  color: inherit;
+  text-decoration: none;
+  transform-origin: center bottom;
+  transition: transform 180ms var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bio-mark-logo {
+  transition:
+    transform 180ms var(--ease-out),
+    filter 180ms var(--ease-out);
+  will-change: transform;
+}
+
+.bio-mark-label {
+  transition: color 180ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bio-mark:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+
+  .bio-mark:hover .bio-mark-logo {
+    transform: scale(1.06);
+    filter: brightness(1.08) saturate(1.08);
+  }
+
+  .bio-mark--jwu:hover .bio-mark-label {
+    color: #063c7d;
+  }
+}
+
+.bio-mark:active {
+  transform: translateY(0);
+}
+
+.bio-mark:active .bio-mark-logo {
+  transform: scale(0.98);
+}
+
+.bio-mark:focus-visible {
+  outline: 2px solid #393939;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bio-mark,
+  .bio-mark-logo,
+  .bio-mark-label {
+    transition: none !important;
+  }
+}
+
 .contact-link {
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   display: inline-flex;
   overflow: visible;
+  margin-left: -0.25rem;
   padding: 0.25rem;
   border-radius: 9999px;
   border: none;
