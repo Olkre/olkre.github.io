@@ -3,43 +3,76 @@ body {
 }
 
 .bio-mark {
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
   color: inherit;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
 }
 
-.bio-mark::after {
-  content: "";
-  position: absolute;
-  top: -25%;
-  bottom: -25%;
-  left: 0;
-  width: 55%;
-  background: linear-gradient(
-    100deg,
-    transparent 0%,
-    transparent 35%,
-    rgba(255, 255, 255, 0.2) 45%,
-    rgba(255, 255, 255, 0.95) 50%,
-    rgba(255, 255, 255, 0.2) 55%,
-    transparent 65%,
-    transparent 100%
-  );
-  transform: translateX(-100%) skewX(-18deg);
-  pointer-events: none;
-  z-index: 1;
-  mix-blend-mode: overlay;
-  opacity: 0;
+.bio-mark--textron {
+  --bio-mask: url("/img/textron.svg");
 }
 
-.bio-mark-logo,
+.bio-mark--jwu {
+  --bio-mask: url("/img/jwu.svg");
+}
+
+.bio-mark-media {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+
+.bio-mark-media::after,
+.bio-mark-label::after {
+  pointer-events: none;
+  opacity: 0;
+  background-image: linear-gradient(
+    100deg,
+    transparent 0%,
+    transparent 25%,
+    rgba(255, 255, 255, 0.2) 40%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0.2) 60%,
+    transparent 75%,
+    transparent 100%
+  );
+  background-size: 250% 100%;
+  background-repeat: no-repeat;
+  background-position: 150% 0;
+}
+
+.bio-mark-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: overlay;
+  -webkit-mask-image: var(--bio-mask);
+  mask-image: var(--bio-mask);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+.bio-mark-logo {
+  position: relative;
+}
+
 .bio-mark-label {
   position: relative;
-  z-index: 0;
+  display: inline-block;
+}
+
+.bio-mark-label::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -47,9 +80,10 @@ body {
     opacity: 1;
   }
 
-  .bio-mark:hover::after {
+  .bio-mark:hover .bio-mark-media::after,
+  .bio-mark:hover .bio-mark-label::after {
     opacity: 1;
-    animation: bio-metal-shimmer 1.6s linear;
+    animation: bio-metal-shimmer 1.1s linear;
   }
 }
 
@@ -61,15 +95,16 @@ body {
 
 @keyframes bio-metal-shimmer {
   from {
-    transform: translateX(-100%) skewX(-18deg);
+    background-position: 150% 0;
   }
   to {
-    transform: translateX(220%) skewX(-18deg);
+    background-position: -50% 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bio-mark::after {
+  .bio-mark-media::after,
+  .bio-mark-label::after {
     display: none;
   }
 }
