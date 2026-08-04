@@ -1,9 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import CopyEmail from "../components/CopyEmail";
 import headHtml from "../legacy/index.head.html?raw";
 import bodyHtml from "../legacy/index.body.html?raw";
+
+const [bodyBefore, bodyAfter = ""] = bodyHtml.split("<!--COPY_EMAIL-->");
 ---
 
 <BaseLayout title="OlKre Portfolio" bodyClass="bg-[#eee]" headHtml={headHtml}>
-  <Fragment set:html={bodyHtml} />
+  <Fragment set:html={bodyBefore} />
+  <CopyEmail client:load />
+  <Fragment set:html={bodyAfter} />
 </BaseLayout>

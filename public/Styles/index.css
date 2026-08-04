@@ -3,11 +3,19 @@ body {
 }
 
 .contact-link {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   display: inline-flex;
   overflow: visible;
   padding: 0.25rem;
   border-radius: 9999px;
-  transition: all 0.3s;
+  border: none;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  transform-origin: center;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .contact-inner {
@@ -16,7 +24,10 @@ body {
   background-color: white;
   border-radius: 9999px;
   padding: 0.25rem;
-  transition: all 0.2s;
+  box-shadow: 0 0 0 transparent;
+  transition:
+    background-color 160ms var(--ease-out),
+    box-shadow 160ms var(--ease-out);
 }
 
 .contact-button {
@@ -28,21 +39,191 @@ body {
   color: #101010;
   padding: 0.5rem 1rem;
   border-radius: 9999px;
-  transition: all 0.3s;
+  background: transparent;
+  transition: background 160ms var(--ease-out);
 }
 
-.contact-link:hover {
-  transform: translateY(0px);
+.contact-cluster {
+  position: relative;
+  display: inline-grid;
+  justify-items: center;
 }
 
-.contact-link:hover .contact-inner {
-  background: linear-gradient(to top, #ececec, #fff);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.07), 0 0 1px rgba(0, 0, 0, 0.05),
-    0 3px 3px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.12);
+.contact-cluster-sizer {
+  grid-area: 1 / 1;
+  visibility: hidden;
+  pointer-events: none;
 }
 
-.contact-link:hover .contact-button {
-  background: linear-gradient(#f4f4f4, #fefefe);
+.contact-cluster-content {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-content-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.contact-email {
+  font-size: 0.875rem;
+}
+
+.contact-icon-slot {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  color: #393939;
+}
+
+.contact-icon.is-success {
+  color: #059669;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-link:hover .contact-inner {
+    background: linear-gradient(to top, #ececec, #fff);
+    box-shadow:
+      0 0 1px rgba(0, 0, 0, 0.07),
+      0 0 1px rgba(0, 0, 0, 0.05),
+      0 3px 3px rgba(0, 0, 0, 0.25),
+      0 1px 3px rgba(0, 0, 0, 0.12);
+  }
+
+  .contact-link:hover .contact-button {
+    background: linear-gradient(#f4f4f4, #fefefe);
+  }
+}
+
+/* Physical press: compress elevation into the surface */
+.contact-link.is-pressed .contact-inner,
+.contact-link:hover.is-pressed .contact-inner {
+  background: linear-gradient(to top, #e4e4e4, #f5f5f5);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.04),
+    0 1px 1px rgba(0, 0, 0, 0.08),
+    inset 0 1px 2px rgba(0, 0, 0, 0.12);
+  transition:
+    background-color 90ms var(--ease-out),
+    box-shadow 90ms var(--ease-out);
+}
+
+.contact-link.is-pressed .contact-button,
+.contact-link:hover.is-pressed .contact-button {
+  background: linear-gradient(#ececec, #f7f7f7);
+  transition: background 90ms var(--ease-out);
+}
+
+.contact-link:focus-visible {
+  outline: 2px solid #393939;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-inner,
+  .contact-button,
+  .contact-link.is-pressed .contact-inner,
+  .contact-link.is-pressed .contact-button {
+    transition: none !important;
+  }
+}
+
+/* Transitions.dev — Text states swap */
+:root {
+  --text-swap-dur: 150ms;
+  --text-swap-translate-y: 4px;
+  --text-swap-blur: 2px;
+  --text-swap-ease: ease-in-out;
+}
+
+.t-text-swap {
+  display: inline-flex;
+  transform: translateY(0);
+  filter: blur(0);
+  opacity: 1;
+  transition:
+    transform var(--text-swap-dur) var(--text-swap-ease),
+    filter var(--text-swap-dur) var(--text-swap-ease),
+    opacity var(--text-swap-dur) var(--text-swap-ease);
+  will-change: transform, filter, opacity;
+}
+
+.t-text-swap.is-exit {
+  transform: translateY(calc(var(--text-swap-translate-y) * -1));
+  filter: blur(var(--text-swap-blur));
+  opacity: 0;
+}
+
+.t-text-swap.is-enter-start {
+  transform: translateY(var(--text-swap-translate-y));
+  filter: blur(var(--text-swap-blur));
+  opacity: 0;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-text-swap {
+    transition: none !important;
+  }
+}
+
+/* Transitions.dev — Icon swap */
+:root {
+  --icon-swap-dur: 250ms;
+  --icon-swap-blur: 2px;
+  --icon-swap-start-scale: 0.25;
+  --icon-swap-ease: ease-in-out;
+}
+
+.t-icon-swap {
+  position: relative;
+  display: inline-grid;
+}
+
+.t-icon-swap .t-icon {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    opacity var(--icon-swap-dur) var(--icon-swap-ease),
+    filter var(--icon-swap-dur) var(--icon-swap-ease),
+    transform var(--icon-swap-dur) var(--icon-swap-ease);
+  will-change: opacity, filter, transform;
+}
+
+.t-icon-swap[data-state="a"] .t-icon[data-icon="a"],
+.t-icon-swap[data-state="b"] .t-icon[data-icon="b"] {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+}
+
+.t-icon-swap[data-state="a"] .t-icon[data-icon="b"],
+.t-icon-swap[data-state="b"] .t-icon[data-icon="a"] {
+  opacity: 0;
+  filter: blur(var(--icon-swap-blur));
+  transform: scale(var(--icon-swap-start-scale));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-icon-swap .t-icon {
+    transition: none !important;
+  }
 }
 
 .case-link:hover i {
