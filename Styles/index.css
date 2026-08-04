@@ -4,46 +4,53 @@ body {
 
 .bio-mark {
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   color: inherit;
   text-decoration: none;
-  transform-origin: center bottom;
-  transition: transform 180ms var(--ease-out);
   -webkit-tap-highlight-color: transparent;
 }
 
-.bio-mark-logo {
-  transition:
-    transform 180ms var(--ease-out),
-    filter 180ms var(--ease-out);
-  will-change: transform;
+.bio-mark::after {
+  content: "";
+  position: absolute;
+  top: -25%;
+  bottom: -25%;
+  left: 0;
+  width: 55%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    transparent 35%,
+    rgba(255, 255, 255, 0.2) 45%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 255, 255, 0.2) 55%,
+    transparent 65%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(-18deg);
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+  opacity: 0;
 }
 
+.bio-mark-logo,
 .bio-mark-label {
-  transition: color 180ms var(--ease-out);
+  position: relative;
+  z-index: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .bio-mark:hover {
     opacity: 1;
-    transform: translateY(-1px);
   }
 
-  .bio-mark:hover .bio-mark-logo {
-    transform: scale(1.06);
-    filter: brightness(1.08) saturate(1.08);
+  .bio-mark:hover::after {
+    opacity: 1;
+    animation: bio-metal-shimmer 1.6s linear;
   }
-
-  .bio-mark--jwu:hover .bio-mark-label {
-    color: #063c7d;
-  }
-}
-
-.bio-mark:active {
-  transform: translateY(0);
-}
-
-.bio-mark:active .bio-mark-logo {
-  transform: scale(0.98);
 }
 
 .bio-mark:focus-visible {
@@ -52,11 +59,18 @@ body {
   border-radius: 2px;
 }
 
+@keyframes bio-metal-shimmer {
+  from {
+    transform: translateX(-100%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-18deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .bio-mark,
-  .bio-mark-logo,
-  .bio-mark-label {
-    transition: none !important;
+  .bio-mark::after {
+    display: none;
   }
 }
 
