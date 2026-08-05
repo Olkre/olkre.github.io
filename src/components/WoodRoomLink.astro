@@ -1,0 +1,656 @@
+---
+import logo from "../assets/wr/logo.png";
+import logoPoster from "../assets/wr/logo-poster.png";
+import logoAnimMp4 from "../assets/wr/logo-anim.mp4";
+import logoAnimWebm from "../assets/wr/logo-anim.webm";
+import screenHome from "../assets/wr/screen-home.webp";
+import screenProduct from "../assets/wr/screen-product.webp";
+import screenPreview from "../assets/wr/screen-preview.webp";
+import screenReview from "../assets/wr/screen-review.webp";
+import screenBlock from "../assets/wr/screen-block.webp";
+import benefitsPng from "../assets/wr/benefits.png";
+import WrScalingCard from "./WrScalingCard";
+
+const CARD_H = 262;
+
+function cardWidthFromAsset(asset: { width: number; height: number }) {
+  return Math.round((asset.width / asset.height) * CARD_H);
+}
+
+const HOME_WIDTH = cardWidthFromAsset(screenHome);
+const PREVIEW_WIDTH = cardWidthFromAsset(screenPreview);
+const PRODUCT_WIDTH = Math.max(160, cardWidthFromAsset(screenProduct));
+const REVIEW_WIDTH = Math.max(160, cardWidthFromAsset(screenReview));
+const BLOCK_WIDTH = cardWidthFromAsset(screenBlock);
+const BENEFITS_WIDTH = Math.min(520, cardWidthFromAsset(benefitsPng));
+const LOGO_ANIM_WIDTH = 320;
+const SCALING_WIDTH = 300;
+
+const SCREEN_CARDS = [
+  {
+    id: "home",
+    src: screenHome,
+    alt: "Wood&Room home section",
+    label: "Home section",
+    width: HOME_WIDTH,
+  },
+  {
+    id: "product",
+    src: screenProduct,
+    alt: "Wood&Room product card",
+    label: "Product card",
+    width: PRODUCT_WIDTH,
+  },
+  {
+    id: "preview",
+    src: screenPreview,
+    alt: "Wood&Room preview image",
+    label: "Preview image",
+    width: PREVIEW_WIDTH,
+  },
+  {
+    id: "review",
+    src: screenReview,
+    alt: "Wood&Room review card",
+    label: "Review card",
+    width: REVIEW_WIDTH,
+  },
+  {
+    id: "block",
+    src: screenBlock,
+    alt: "Wood&Room website block",
+    label: "Block",
+    width: BLOCK_WIDTH,
+  },
+] as const;
+
+const DOT_LABELS = [
+  ...SCREEN_CARDS.map((c) => c.label),
+  "Logo animation",
+  "Logo scalability",
+  "Benefit cards",
+] as const;
+---
+
+<div class="wr-app mb-4 flex w-full flex-col gap-5">
+  <div class="flex w-full flex-wrap items-center gap-x-3 gap-y-2.5 sm:gap-x-4">
+    <div class="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
+      <span
+        class="wr-icon wr-squircle relative size-[54px] shrink-0 overflow-hidden bg-white"
+      >
+        <img
+          src={logo.src}
+          width={logo.width}
+          height={logo.height}
+          alt=""
+          class="absolute inset-0 size-full object-cover transition-[filter,transform] duration-300 ease-out"
+          decoding="async"
+        />
+      </span>
+      <span class="flex min-w-0 flex-col justify-center gap-1.5">
+        <span
+          class="truncate text-[20px] font-semibold leading-none tracking-[-0.4px] text-black"
+        >
+          Wood&Room
+        </span>
+        <span
+          class="truncate text-[12px] font-normal leading-none text-black opacity-60"
+        >
+          Brand, web &amp; 3D design for kids furniture
+        </span>
+      </span>
+    </div>
+
+    <div
+      class="order-3 flex w-full items-center justify-start gap-0.5 pl-[calc(54px+0.75rem)] sm:order-2 sm:w-auto sm:justify-start sm:pl-0"
+    >
+      <button
+        type="button"
+        class="wr-chevron wr-chevron-prev"
+        aria-label="Previous preview"
+        disabled
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M10 3.5 5.5 8 10 12.5"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+      <div
+        class="wr-dots flex items-center rounded-full bg-black/[0.06] px-1.5 py-0.5"
+        role="tablist"
+        aria-label="Preview pagination"
+      >
+        {
+          DOT_LABELS.map((label, i) => (
+            <button
+              type="button"
+              class:list={["wr-dot", i === 0 && "is-active"]}
+              data-index={i}
+              aria-label={`Show ${label}`}
+              aria-current={i === 0 ? "true" : undefined}
+            />
+          ))
+        }
+      </div>
+      <button
+        type="button"
+        class="wr-chevron wr-chevron-next"
+        aria-label="Next preview"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M6 3.5 10.5 8 6 12.5"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="wr-wrcards-wrap -mt-2 -mb-1">
+    <div
+      class="wr-wrcards flex overflow-x-auto pt-2 pb-1"
+      role="list"
+      aria-label="Wood&Room feature previews"
+    >
+      {
+        SCREEN_CARDS.map((card) => (
+          <div
+            role="listitem"
+            class="flex shrink-0 flex-col gap-2"
+            style={`width: ${card.width}px`}
+          >
+            <div class="wr-squircle wr-squircle--card relative h-[262px] overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5">
+              <img
+                class="block size-full object-cover"
+                src={card.src.src}
+                width={card.src.width}
+                height={card.src.height}
+                alt={card.alt}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <span class="px-0.5 text-[11px] font-medium leading-none tracking-tight text-black/45">
+              {card.label}
+            </span>
+          </div>
+        ))
+      }
+
+      {/* Logo hover → play / freeze moss animation */}
+      <div
+        role="listitem"
+        class="flex shrink-0 flex-col gap-2"
+        style={`width: ${LOGO_ANIM_WIDTH}px`}
+      >
+        <div
+          class="wr-squircle wr-squircle--card wr-logo-card group relative flex h-[262px] flex-col overflow-hidden bg-white p-3 [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5"
+        >
+          <div class="flex justify-end">
+            <span
+              class="wr-hover-hint inline-flex items-center gap-1 rounded-full bg-black/[0.05] px-2 py-1 text-[11px] leading-none tracking-tight text-black/65"
+            >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm0 2.667a1.333 1.333 0 1 0 0 2.666 1.333 1.333 0 0 0 0-2.666Z"
+                  fill="currentColor"
+                  fill-opacity="0.7"></path>
+              </svg>
+              Hover to play
+            </span>
+          </div>
+          <div
+            class="relative mt-1 flex min-h-0 flex-1 items-center justify-center overflow-hidden"
+          >
+            <video
+              class="wr-logo-video block h-full w-auto max-w-full object-contain"
+              muted
+              loop
+              playsinline
+              webkit-playsinline
+              preload="auto"
+              poster={logoPoster.src}
+              aria-label="Wood&Room logo animation"
+            >
+              <source src={logoAnimWebm} type="video/webm" />
+              <source src={logoAnimMp4} type="video/mp4" />
+            </video>
+          </div>
+        </div>
+        <span class="px-0.5 text-[11px] font-medium leading-none tracking-tight text-black/45">
+          Logo
+        </span>
+      </div>
+
+      {/* Interactive logo scaling */}
+      <div
+        role="listitem"
+        class="flex shrink-0 flex-col gap-2"
+        style={`width: ${SCALING_WIDTH}px`}
+      >
+        <div
+          class="wr-squircle wr-squircle--card relative h-[262px] overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5"
+        >
+          <WrScalingCard client:visible />
+        </div>
+        <span class="px-0.5 text-[11px] font-medium leading-none tracking-tight text-black/45">
+          Logo scalability
+        </span>
+      </div>
+
+      {/* Benefit cards screenshot */}
+      <div
+        role="listitem"
+        class="flex shrink-0 flex-col gap-2"
+        style={`width: ${BENEFITS_WIDTH}px`}
+      >
+        <div class="wr-squircle wr-squircle--card relative h-[262px] overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5">
+          <img
+            class="block size-full object-cover object-top"
+            src={benefitsPng.src}
+            width={benefitsPng.width}
+            height={benefitsPng.height}
+            alt="Wood&Room eco-friendly furniture benefit cards"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <span class="px-0.5 text-[11px] font-medium leading-none tracking-tight text-black/45">
+          Benefit cards
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  :global(html) {
+    overflow-x: clip;
+  }
+
+  .wr-squircle {
+    --wr-radius: 18px;
+    --wr-radius-squircle: 26px;
+    border-radius: var(--wr-radius);
+  }
+
+  .wr-squircle--card {
+    --wr-radius: 16px;
+    --wr-radius-squircle: 22px;
+  }
+
+  @supports (corner-shape: squircle) {
+    .wr-squircle {
+      corner-shape: squircle;
+      border-radius: var(--wr-radius-squircle);
+    }
+  }
+
+  .wr-icon {
+    transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .wr-icon:hover {
+      transform: scale(1.06);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wr-icon {
+      transition: none;
+    }
+
+    .wr-icon:hover {
+      transform: none;
+    }
+  }
+
+  .wr-dots {
+    gap: 0;
+  }
+
+  .wr-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 22px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    transition: color 160ms ease-out;
+  }
+
+  .wr-chevron:disabled {
+    color: rgba(0, 0, 0, 0.18);
+    cursor: default;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .wr-chevron:hover:not(:disabled) {
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  .wr-chevron:focus-visible {
+    outline: 2px solid #6b4a2e;
+    outline-offset: 1px;
+  }
+
+  .wr-dot {
+    position: relative;
+    width: 10px;
+    height: 18px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .wr-dot::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.22);
+    transform: translate(-50%, -50%);
+    transition:
+      background-color 160ms ease-out,
+      transform 160ms ease-out;
+  }
+
+  .wr-dot.is-active::before {
+    background: #111;
+    transform: translate(-50%, -50%) scale(1.35);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .wr-dot:hover:not(.is-active)::before {
+      background: rgba(0, 0, 0, 0.45);
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    .wr-dot.is-active:hover::before {
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+  }
+
+  .wr-dot:focus-visible {
+    outline: 2px solid #6b4a2e;
+    outline-offset: 1px;
+  }
+
+  .wr-wrcards-wrap {
+    --wr-gutter: 56rem;
+    --wr-content-pad: max(1rem, calc((100dvw - var(--wr-gutter)) / 2));
+    width: 100dvw;
+    max-width: 100dvw;
+    margin-left: calc(50% - 50dvw);
+    box-sizing: border-box;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  @media (min-width: 640px) {
+    .wr-wrcards-wrap {
+      -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        #000 var(--wr-content-pad),
+        #000 calc(100% - var(--wr-content-pad)),
+        transparent 100%
+      );
+      mask-image: linear-gradient(
+        to right,
+        transparent 0,
+        #000 var(--wr-content-pad),
+        #000 calc(100% - var(--wr-content-pad)),
+        transparent 100%
+      );
+    }
+  }
+
+  @supports not (width: 100dvw) {
+    .wr-wrcards-wrap {
+      --wr-content-pad: max(1rem, calc((100vw - var(--wr-gutter)) / 2));
+      width: 100vw;
+      max-width: 100vw;
+      margin-left: calc(50% - 50vw);
+    }
+  }
+
+  .wr-wrcards {
+    width: 100%;
+    gap: 0.5rem;
+    padding-inline: var(--wr-content-pad);
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--wr-content-pad);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  @media (min-width: 640px) {
+    .wr-wrcards {
+      gap: 0.625rem;
+    }
+  }
+
+  .wr-wrcards [role="listitem"] {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .wr-wrcards::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .wr-logo-card:hover .wr-hover-hint {
+      color: rgba(107, 74, 46, 0.95);
+      background: rgba(132, 87, 67, 0.16);
+    }
+  }
+</style>
+
+<script>
+  function initWrWrcards() {
+    const root = document.querySelector(".wr-app");
+    if (!root) return;
+
+    if (typeof root._wrCleanup === "function") root._wrCleanup();
+
+    const scroller = root.querySelector(".wr-wrcards");
+    const cards = [...root.querySelectorAll(".wr-wrcards [role='listitem']")];
+    if (!scroller || !cards.length) return;
+
+    const ac = new AbortController();
+    const { signal } = ac;
+    root._wrCleanup = () => ac.abort();
+
+    function getDots() {
+      return [...root.querySelectorAll(".wr-dot")];
+    }
+
+    function getActive() {
+      const dots = getDots();
+      const i = dots.findIndex((d) => d.classList.contains("is-active"));
+      return i >= 0 ? i : 0;
+    }
+
+    function syncChevrons(index) {
+      const prevBtn = root.querySelector(".wr-chevron-prev");
+      const nextBtn = root.querySelector(".wr-chevron-next");
+      if (prevBtn instanceof HTMLButtonElement) prevBtn.disabled = index <= 0;
+      if (nextBtn instanceof HTMLButtonElement) {
+        nextBtn.disabled = index >= cards.length - 1;
+      }
+    }
+
+    function setActive(index) {
+      const dots = getDots();
+      dots.forEach((dot, i) => {
+        const on = i === index;
+        dot.classList.toggle("is-active", on);
+        if (on) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+      syncChevrons(index);
+    }
+
+    function nearestIndex() {
+      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+      if (maxScroll > 0 && scroller.scrollLeft >= maxScroll - 2) {
+        return cards.length - 1;
+      }
+      if (scroller.scrollLeft <= 2) return 0;
+
+      const pad = parseFloat(getComputedStyle(scroller).paddingLeft) || 0;
+      const target = scroller.scrollLeft + pad;
+      let best = 0;
+      let bestDist = Infinity;
+      cards.forEach((card, i) => {
+        const dist = Math.abs(card.offsetLeft - target);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = i;
+        }
+      });
+      return best;
+    }
+
+    function scrollToIndex(index) {
+      const clamped = Math.max(0, Math.min(cards.length - 1, index));
+      const card = cards[clamped];
+      if (!card) return;
+      const pad = parseFloat(getComputedStyle(scroller).paddingLeft) || 0;
+      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+      const left =
+        clamped === cards.length - 1
+          ? maxScroll
+          : Math.min(maxScroll, Math.max(0, card.offsetLeft - pad));
+      scroller.scrollTo({ left, behavior: "smooth" });
+      setActive(clamped);
+    }
+
+    scroller.addEventListener(
+      "scroll",
+      () => {
+        setActive(nearestIndex());
+      },
+      { passive: true, signal },
+    );
+
+    root.addEventListener(
+      "click",
+      (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+
+        const prev = target.closest(".wr-chevron-prev");
+        if (prev instanceof HTMLButtonElement && !prev.disabled) {
+          event.preventDefault();
+          scrollToIndex(getActive() - 1);
+          return;
+        }
+
+        const next = target.closest(".wr-chevron-next");
+        if (next instanceof HTMLButtonElement && !next.disabled) {
+          event.preventDefault();
+          scrollToIndex(getActive() + 1);
+          return;
+        }
+
+        const dot = target.closest(".wr-dot");
+        if (dot instanceof HTMLButtonElement && dot.dataset.index != null) {
+          scrollToIndex(Number(dot.dataset.index));
+        }
+      },
+      { signal },
+    );
+
+    setActive(getActive());
+
+    // Logo card: first frame by default; play on hover, freeze on leave
+    const logoCard = root.querySelector(".wr-logo-card");
+    const logoVideo = root.querySelector(".wr-logo-video");
+    const canHover = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    ).matches;
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (logoVideo instanceof HTMLVideoElement) {
+      logoVideo.muted = true;
+      logoVideo.defaultMuted = true;
+      logoVideo.playsInline = true;
+
+      const showFirstFrame = () => {
+        try {
+          logoVideo.pause();
+          logoVideo.currentTime = 0;
+        } catch {
+          /* ignore seek before ready */
+        }
+      };
+
+      const onReady = () => showFirstFrame();
+      if (logoVideo.readyState >= 1) onReady();
+      else logoVideo.addEventListener("loadedmetadata", onReady, { once: true, signal });
+
+      if (canHover && !reduceMotion) {
+        logoCard?.addEventListener(
+          "pointerenter",
+          () => {
+            logoVideo.play().catch(() => {});
+          },
+          { signal },
+        );
+
+        logoCard?.addEventListener(
+          "pointerleave",
+          () => {
+            logoVideo.pause();
+          },
+          { signal },
+        );
+      }
+    }
+  }
+
+  initWrWrcards();
+  document.addEventListener("astro:page-load", initWrWrcards);
+</script>
