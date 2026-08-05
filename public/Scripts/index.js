@@ -72,86 +72,19 @@ updateDots2();
 $(document).ready(function () {
   $(".video-hover-trigger").hover(
     function () {
+      console.log("video trigger activated");
       // on mouse enter
       var video = $(this).find("video")[0];
-      if (!video) return;
-      video.muted = true;
-      video.playsInline = true;
-      video.play().catch(function () {});
+      var text = $(this).find(".hover-play-text")[0];
+      video.play(); // Start playing the video
     },
     function () {
       // on mouse leave
       var video = $(this).find("video")[0];
-      if (!video) return;
-      video.pause();
+      video.pause(); // Pause the video
     }
   );
 });
-
-// iOS Safari requires muted + playsinline and often ignores the HTML autoplay
-// attribute alone — especially for carousel/offscreen videos. Force play.
-(() => {
-  const reduceMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-  if (reduceMotion) return;
-
-  function prepare(video) {
-    video.muted = true;
-    video.defaultMuted = true;
-    video.setAttribute("muted", "");
-    video.playsInline = true;
-    video.setAttribute("playsinline", "");
-    video.setAttribute("webkit-playsinline", "");
-  }
-
-  function tryPlay(video) {
-    if (!video) return;
-    prepare(video);
-    const promise = video.play();
-    if (promise && typeof promise.catch === "function") {
-      promise.catch(() => {});
-    }
-  }
-
-  function autoplayVideos() {
-    return Array.from(document.querySelectorAll("video[autoplay]"));
-  }
-
-  function kickAll() {
-    autoplayVideos().forEach(tryPlay);
-  }
-
-  kickAll();
-
-  document.addEventListener("DOMContentLoaded", kickAll);
-  window.addEventListener("load", kickAll);
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) kickAll();
-  });
-
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) tryPlay(entry.target);
-        });
-      },
-      { threshold: 0.15 }
-    );
-    autoplayVideos().forEach((video) => {
-      observer.observe(video);
-      video.addEventListener("loadeddata", () => tryPlay(video));
-      video.addEventListener("canplay", () => tryPlay(video));
-    });
-  }
-
-  // Low Power Mode / strict autoplay: unlock on the first gesture.
-  const unlock = () => kickAll();
-  ["touchstart", "pointerdown", "click"].forEach((type) => {
-    window.addEventListener(type, unlock, { once: true, passive: true });
-  });
-})();
 
 // Bio-mark metal shimmer: play on load + hover; finish even after pointer leaves
 (() => {
