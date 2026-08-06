@@ -1,4 +1,4 @@
-import { useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import {
   useEffect,
   useRef,
@@ -6,42 +6,56 @@ import {
   type CSSProperties,
   type PointerEvent,
 } from "react";
-import xsSvg from "../assets/wr/scaling/xs.svg?url";
-import sSvg from "../assets/wr/scaling/s.svg?url";
-import mdSvg from "../assets/wr/scaling/md.svg?url";
-import lSvg from "../assets/wr/scaling/l.svg?url";
+import xsRaw from "../assets/wr/scaling/xs.svg?raw";
+import sRaw from "../assets/wr/scaling/s.svg?raw";
+import mdRaw from "../assets/wr/scaling/md.svg?raw";
+import lRaw from "../assets/wr/scaling/l.svg?raw";
+import {
+  createMorph,
+  fitTransform,
+  parseSvgShape,
+  ringsFromPoints,
+  ringsFromShape,
+  ringsToPathD,
+  type Morph,
+  type Ring,
+} from "../lib/svgMorph";
 
 const MIN = 28;
 const MAX = 150;
-const TICKS = 44;
+/** Odd count so S, M and L land on exact quarter ticks. */
+const TICKS = 45;
 const LAST = TICKS - 1;
-/** Mirror S and L so margins from each end match. */
 const LABELS: Record<number, string> = {
-  [Math.round(LAST / 4)]: "S",
-  [Math.round(LAST / 2)]: "M",
-  [Math.round((3 * LAST) / 4)]: "L",
+  [LAST / 4]: "S",
+  [LAST / 2]: "M",
+  [(3 * LAST) / 4]: "L",
 };
-const MORPH_MS = 150;
+const MORPH_MS = 340;
+const MORPH_BLUR = 1.6;
+/** Matches the ruler's horizontal padding so ticks map to pointer position. */
+const RULER_PAD = 12;
 
 const LEVELS = [
-  { src: xsSvg, label: "XS detail" },
-  { src: sSvg, label: "S detail" },
-  { src: mdSvg, label: "M detail" },
-  { src: lSvg, label: "L detail" },
+  { shape: parseSvgShape(xsRaw), label: "XS detail" },
+  { shape: parseSvgShape(sRaw), label: "S detail" },
+  { shape: parseSvgShape(mdRaw), label: "M detail" },
+  { shape: parseSvgShape(lRaw), label: "L detail" },
 ] as const;
+
+const INITIAL_SIZE = 88;
 
 type Palette = {
   id: string;
   fg: string;
   bg: string;
-  swatch: string;
   label: string;
 };
 
 const PALETTES: Palette[] = [
-  { id: "ink", fg: "#fff", bg: "#282828", swatch: "#111", label: "Ink" },
-  { id: "wood", fg: "#fff", bg: "#845743", swatch: "#845743", label: "Wood" },
-  { id: "paper", fg: "#282828", bg: "#F4F1EA", swatch: "#F4F1EA", label: "Paper" },
+  { id: "ink", fg: "#fff", bg: "#282828", label: "Ink" },
+  { id: "wood", fg: "#fff", bg: "#845743", label: "Wood" },
+  { id: "paper", fg: "#282828", bg: "#F4F1EA", label: "Paper" },
 ];
 
 function levelForSize(size: number) {
@@ -49,131 +63,148 @@ function levelForSize(size: number) {
   return Math.min(LEVELS.length - 1, Math.max(0, Math.floor(t * LEVELS.length)));
 }
 
-function preloadMask(src: string) {
-  const img = new Image();
-  img.decoding = "async";
-  img.src = src;
-  return img.decode().catch(() => undefined);
+const INITIAL_LEVEL = levelForSize(INITIAL_SIZE);
+const INITIAL_SHAPE = LEVELS[INITIAL_LEVEL]!.shape;
+
+const ringsCache = new Map<number, Ring[]>();
+const morphCache = new Map<string, Morph>();
+
+function ringsForLevel(index: number) {
+  let rings = ringsCache.get(index);
+  if (!rings) {
+    rings = ringsFromShape(LEVELS[index]!.shape);
+    ringsCache.set(index, rings);
+  }
+  return rings;
+}
+
+function easeInOut(t: number) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
 export default function WrScalingCard() {
   const reduceMotion = useReducedMotion();
-  const [size, setSize] = useState(88);
-  const [activeTick, setActiveTick] = useState<number | null>(null);
+  const [size, setSize] = useState(INITIAL_SIZE);
   const [paletteId, setPaletteId] = useState<string>("ink");
   const [swapped, setSwapped] = useState(false);
-  const [masksReady, setMasksReady] = useState(false);
+  const [label, setLabel] = useState(LEVELS[INITIAL_LEVEL]!.label);
 
-  const palette = PALETTES.find((p) => p.id === paletteId) ?? {
-    id: "ink",
-    fg: "#fff",
-    bg: "#282828",
-    swatch: "#111",
-    label: "Ink",
-  };
+  const pathRef = useRef<SVGPathElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  /** Interpolated subpaths of an in-flight morph, so retargets start from them. */
+  const liveRings = useRef<Float64Array[] | null>(null);
+  const renderedLevel = useRef(INITIAL_LEVEL);
+  const frame = useRef<number | null>(null);
+
+  const palette = PALETTES.find((p) => p.id === paletteId) ?? PALETTES[0]!;
   const fg = swapped ? palette.bg : palette.fg;
   const bg = swapped ? palette.fg : palette.bg;
   const level = levelForSize(size);
-  const mark = LEVELS[level] ?? LEVELS[0]!;
-
-  const [renderSrc, setRenderSrc] = useState(mark.src);
-  const [renderLabel, setRenderLabel] = useState(mark.label);
-  const [morphing, setMorphing] = useState(false);
-  const morphGen = useRef(0);
+  const currentTick = Math.min(
+    LAST,
+    Math.max(0, Math.round(((size - MIN) / (MAX - MIN)) * LAST)),
+  );
 
   useEffect(() => {
-    let cancelled = false;
-    Promise.all(LEVELS.map((l) => preloadMask(l.src))).then(() => {
-      if (!cancelled) setMasksReady(true);
-    });
-    return () => {
-      cancelled = true;
+    if (renderedLevel.current === level) return;
+
+    const path = pathRef.current;
+    const svg = svgRef.current;
+    if (!path) return;
+
+    const settle = (index: number) => {
+      const shape = LEVELS[index]!.shape;
+      path.setAttribute("d", shape.d);
+      const transform = fitTransform(shape.fit);
+      if (transform) path.setAttribute("transform", transform);
+      else path.removeAttribute("transform");
+      if (svg) svg.style.filter = "";
+      liveRings.current = null;
+      renderedLevel.current = index;
+      setLabel(LEVELS[index]!.label);
     };
-  }, []);
-
-  useEffect(() => {
-    if (mark.src === renderSrc) return;
 
     if (reduceMotion) {
-      void preloadMask(mark.src).then(() => {
-        setRenderSrc(mark.src);
-        setRenderLabel(mark.label);
-        setMorphing(false);
-      });
+      settle(level);
       return;
     }
 
-    const gen = ++morphGen.current;
-    setMorphing(true);
+    const from = liveRings.current
+      ? ringsFromPoints(liveRings.current.map((pts) => pts.slice()))
+      : ringsForLevel(renderedLevel.current);
 
-    const timer = window.setTimeout(() => {
-      void preloadMask(mark.src).then(() => {
-        if (gen !== morphGen.current) return;
-        setRenderSrc(mark.src);
-        setRenderLabel(mark.label);
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            if (gen === morphGen.current) setMorphing(false);
-          });
-        });
-      });
-    }, MORPH_MS);
+    let morph: Morph;
+    if (liveRings.current) {
+      morph = createMorph(from, ringsForLevel(level));
+    } else {
+      const key = `${renderedLevel.current}->${level}`;
+      const cached = morphCache.get(key);
+      morph = cached ?? createMorph(from, ringsForLevel(level));
+      if (!cached) morphCache.set(key, morph);
+    }
+
+    // Morphed points live in the shared 128 box, so the per-shape fit is dropped.
+    path.removeAttribute("transform");
+
+    const target = level;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / MORPH_MS);
+      const rings = morph(easeInOut(t));
+      path.setAttribute("d", ringsToPathD(rings));
+      liveRings.current = rings;
+      if (svg) {
+        svg.style.filter = `blur(${(Math.sin(Math.PI * t) * MORPH_BLUR).toFixed(2)}px)`;
+      }
+
+      if (t < 1) {
+        frame.current = requestAnimationFrame(tick);
+      } else {
+        frame.current = null;
+        settle(target);
+      }
+    };
+
+    frame.current = requestAnimationFrame(tick);
 
     return () => {
-      window.clearTimeout(timer);
+      if (frame.current != null) {
+        cancelAnimationFrame(frame.current);
+        frame.current = null;
+      }
     };
-  }, [mark.label, mark.src, reduceMotion, renderSrc]);
+  }, [level, reduceMotion]);
+
+  useEffect(() => {
+    const warm = () => LEVELS.forEach((_, index) => ringsForLevel(index));
+    const idle = window.requestIdleCallback;
+    if (typeof idle === "function") {
+      const handle = idle(warm);
+      return () => window.cancelIdleCallback?.(handle);
+    }
+    const timer = window.setTimeout(warm, 400);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const markStyle: CSSProperties = {
     width: size,
     height: size,
-    backgroundColor: fg,
-    WebkitMaskImage: masksReady ? `url("${renderSrc}")` : "none",
-    maskImage: masksReady ? `url("${renderSrc}")` : "none",
-    WebkitMaskSize: "contain",
-    maskSize: "contain",
-    WebkitMaskRepeat: "no-repeat",
-    maskRepeat: "no-repeat",
-    WebkitMaskPosition: "center",
-    maskPosition: "center",
-    // Solid square while masks decode so the card never looks empty.
-    opacity: masksReady ? 1 : 0.22,
     transition: reduceMotion
       ? undefined
-      : "width 160ms ease-out, height 160ms ease-out, background-color 200ms ease-out, opacity 180ms ease-out",
-  };
-
-  const morphWrapStyle: CSSProperties = {
-    filter: morphing ? "blur(7px)" : "blur(0px)",
-    opacity: morphing ? 0.55 : 1,
-    transform: morphing ? "scale(0.94)" : "scale(1)",
-    transition: reduceMotion
-      ? undefined
-      : [
-          `filter ${MORPH_MS}ms ease-in-out`,
-          `opacity ${MORPH_MS}ms ease-in-out`,
-          `transform ${MORPH_MS}ms ease-in-out`,
-        ].join(", "),
+      : "width 160ms ease-out, height 160ms ease-out",
   };
 
   function sizeForTick(index: number) {
     return MIN + ((MAX - MIN) * index) / LAST;
   }
 
-  function onTickEnter(index: number) {
-    setActiveTick(index);
-    setSize(sizeForTick(index));
-  }
-
-  function onTickLeave() {
-    setActiveTick(null);
-  }
-
-  function onPress(event: PointerEvent<HTMLDivElement>) {
+  /** Whole strip is the hit area: the tick column under the pointer wins. */
+  function onScrub(event: PointerEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
-    const x = Math.min(Math.max(event.clientX - rect.left, 0), rect.width);
-    const index = Math.round((x / rect.width) * LAST);
-    setActiveTick(index);
+    const usable = Math.max(1, rect.width - RULER_PAD * 2);
+    const x = Math.min(Math.max(event.clientX - rect.left - RULER_PAD, 0), usable);
+    const index = Math.min(LAST, Math.max(0, Math.floor((x / usable) * TICKS)));
     setSize(sizeForTick(index));
   }
 
@@ -182,16 +213,14 @@ export default function WrScalingCard() {
       className="flex h-full w-full flex-col items-stretch gap-1 px-3 pb-2.5 pt-2.5 transition-colors duration-200 ease-out"
       style={{ backgroundColor: bg, color: fg }}
     >
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-[11px] font-medium leading-none tracking-tight opacity-55">
-          {renderLabel}
-        </span>
+      <div className="flex items-center justify-end">
         <div
-          className="flex items-center gap-1 rounded-full border border-black/10 p-0.5"
+          className="flex items-center gap-2 rounded-full p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_8px_24px_rgba(0,0,0,0.12)]"
           style={{
-            backgroundColor: "color-mix(in srgb, #fff 18%, transparent)",
+            background:
+              "linear-gradient(135deg, color-mix(in srgb, currentColor 15%, transparent), color-mix(in srgb, currentColor 6%, transparent))",
           }}
-          role="group"
+          role="radiogroup"
           aria-label="Logo color"
         >
           {PALETTES.map((p) => {
@@ -200,32 +229,60 @@ export default function WrScalingCard() {
               <button
                 key={p.id}
                 type="button"
+                role="radio"
                 aria-label={p.label}
-                aria-pressed={on}
+                aria-checked={on}
                 title={p.label}
-                className="size-5 rounded-full border border-black/15 transition-transform duration-150 ease-out hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#155dfc]"
-                style={{
-                  backgroundColor: p.swatch,
-                  boxShadow: on ? `0 0 0 1.5px ${fg}` : undefined,
-                  transform: on ? "scale(1.08)" : undefined,
-                }}
+                className="relative flex size-6 items-center justify-center rounded-full transition-transform duration-150 ease-out hover:scale-110 active:scale-[0.96] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
                 onClick={() => {
                   setPaletteId(p.id);
-                  setSwapped(false);
+                  setSwapped((v) => !v);
                 }}
-              />
+              >
+                {on ? (
+                  <motion.span
+                    layoutId={reduceMotion ? undefined : "wr-palette-ring"}
+                    className="pointer-events-none absolute -inset-[3px] rounded-full"
+                    style={{
+                      boxShadow:
+                        "0 0 0 1.5px currentColor, 0 0 0 4px color-mix(in srgb, currentColor 12%, transparent), 0 4px 12px color-mix(in srgb, currentColor 20%, transparent)",
+                    }}
+                    transition={{ type: "spring", stiffness: 500, damping: 38 }}
+                  />
+                ) : null}
+                {/* Each swatch previews the pair; rotating swaps the halves. */}
+                <span
+                  className="size-full rounded-full transition-transform duration-300 ease-out"
+                  style={{
+                    backgroundImage: `radial-gradient(circle at 28% 22%, color-mix(in srgb, ${p.fg} 28%, transparent), transparent 42%), linear-gradient(135deg, ${p.bg} 0 50%, ${p.fg} 50% 100%)`,
+                    boxShadow:
+                      "inset 0 0 0 1px color-mix(in srgb, currentColor 35%, transparent), inset 0 -1px 2px color-mix(in srgb, #000 20%, transparent)",
+                    backgroundBlendMode: "screen, normal",
+                    transform: on && swapped ? "rotate(180deg)" : undefined,
+                  }}
+                />
+              </button>
             );
           })}
+          <span
+            aria-hidden="true"
+            className="h-3.5 w-px"
+            style={{
+              backgroundColor:
+                "color-mix(in srgb, currentColor 22%, transparent)",
+            }}
+          />
           <button
             type="button"
             aria-label="Swap foreground and background"
+            aria-pressed={swapped}
             title="Swap colors"
-            className="ms-0.5 inline-flex size-5 items-center justify-center rounded-full border border-black/10 bg-white text-black transition-transform duration-150 ease-out hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#155dfc]"
+            className="inline-flex size-6 items-center justify-center rounded-full opacity-70 transition-[opacity,transform] duration-150 ease-out hover:scale-110 active:scale-[0.96] hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
             onClick={() => setSwapped((v) => !v)}
           >
             <svg
-              width="12"
-              height="12"
+              width="13"
+              height="13"
               viewBox="0 0 24 24"
               fill="none"
               aria-hidden="true"
@@ -233,7 +290,7 @@ export default function WrScalingCard() {
                 transform: swapped ? "rotate(180deg)" : undefined,
                 transition: reduceMotion
                   ? undefined
-                  : "transform 200ms ease-out",
+                  : "transform 300ms cubic-bezier(0.34, 1.4, 0.64, 1)",
               }}
             >
               <path
@@ -251,31 +308,42 @@ export default function WrScalingCard() {
       </div>
 
       <div className="relative flex min-h-0 flex-1 items-center justify-center">
-        <div
-          className="will-change-[filter,opacity,transform]"
-          style={morphWrapStyle}
+        <svg
+          ref={svgRef}
+          viewBox="0 0 128 128"
+          role="img"
+          aria-label={`Wood&Room mark at ${Math.round(size)}px, ${label}`}
+          className="shrink-0 overflow-visible will-change-[filter]"
+          style={markStyle}
         >
-          <div
-            role="img"
-            aria-label={`Wood&Room mark at ${Math.round(size)}px, ${renderLabel}`}
-            className="shrink-0"
-            style={markStyle}
+          <path
+            ref={pathRef}
+            d={INITIAL_SHAPE.d}
+            transform={fitTransform(INITIAL_SHAPE.fit)}
+            fillRule="evenodd"
+            fill={fg}
+            style={
+              reduceMotion
+                ? undefined
+                : { transition: "fill 200ms ease-out" }
+            }
           />
-        </div>
+        </svg>
       </div>
 
       <div
-        className="relative h-14 w-full cursor-ew-resize touch-none px-0.5"
+        className="relative -mx-3 -mb-2.5 cursor-ew-resize touch-none select-none px-3 pb-2.5 pt-3"
         role="slider"
         aria-label="Logo size"
         aria-valuemin={MIN}
         aria-valuemax={MAX}
         aria-valuenow={Math.round(size)}
         tabIndex={0}
-        onPointerDown={onPress}
-        onPointerMove={(e) => {
-          if (e.buttons === 1) onPress(e);
+        onPointerDown={(e) => {
+          e.currentTarget.setPointerCapture(e.pointerId);
+          onScrub(e);
         }}
+        onPointerMove={onScrub}
         onKeyDown={(e) => {
           if (e.key === "ArrowRight" || e.key === "ArrowUp") {
             e.preventDefault();
@@ -286,51 +354,51 @@ export default function WrScalingCard() {
           }
         }}
       >
-        {/* Tall tick columns — full height is the hover/press hit target */}
-        <div className="absolute inset-x-0.5 inset-y-0 flex items-end justify-between gap-px pb-4">
+        <div
+          className="pointer-events-none flex h-6 items-end justify-between gap-px"
+          aria-hidden="true"
+        >
           {Array.from({ length: TICKS }, (_, i) => {
-            const isActive = activeTick === i;
-            const isNear = activeTick != null && Math.abs(activeTick - i) === 1;
+            const isCurrent = i === currentTick;
+            const isNear = Math.abs(currentTick - i) === 1;
+            const isPassed = i < currentTick;
+
             let height = 7;
-            if (isActive) height = 18;
+            if (isCurrent) height = 18;
             else if (isNear) height = 12;
+            else if (isPassed) height = 9;
+
+            let opacity = 0.22;
+            if (isCurrent) opacity = 1;
+            else if (isNear) opacity = 0.7;
+            else if (isPassed) opacity = 0.5;
 
             return (
-              <button
+              <span
                 key={i}
-                type="button"
-                tabIndex={-1}
-                aria-label={`Size ${Math.round(sizeForTick(i))}px`}
-                className="relative flex h-full flex-1 flex-col items-center justify-end border-0 bg-transparent p-0"
-                onPointerEnter={() => onTickEnter(i)}
-                onPointerLeave={onTickLeave}
+                className="flex flex-1 justify-center"
+                style={{ height: 18, alignItems: "flex-end" }}
               >
                 <span
                   className="w-0.5 rounded-full transition-[height,opacity] duration-150 ease-out"
-                  style={{
-                    height,
-                    backgroundColor: fg,
-                    opacity: isActive ? 1 : isNear ? 0.7 : 0.28,
-                  }}
+                  style={{ height, backgroundColor: fg, opacity }}
                 />
-              </button>
+              </span>
             );
           })}
         </div>
-        <div
-          className="pointer-events-none absolute inset-x-0.5 bottom-0 h-3"
-          aria-hidden="true"
-        >
-          {Object.entries(LABELS).map(([index, label]) => {
+        <div className="pointer-events-none relative mt-2 h-4 pt-1" aria-hidden="true">
+          {Object.entries(LABELS).map(([index, tickLabel]) => {
             const i = Number(index);
-            const left = `${(i / LAST) * 100}%`;
+            const left = `${((i + 0.5) / TICKS) * 100}%`;
+            const isCurrent = i === currentTick;
             return (
               <span
-                key={label}
-                className="absolute top-0 -translate-x-1/2 text-[9px] font-medium leading-none opacity-40"
-                style={{ left, color: fg }}
+                key={tickLabel}
+                className="absolute top-0 -translate-x-1/2 text-[9px] font-medium leading-none tracking-[0.16em] transition-opacity duration-150 ease-out"
+                style={{ left, color: fg, opacity: isCurrent ? 0.85 : 0.4 }}
               >
-                {label}
+                {tickLabel}
               </span>
             );
           })}
