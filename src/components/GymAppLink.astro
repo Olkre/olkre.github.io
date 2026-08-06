@@ -226,46 +226,45 @@ const DOT_LABELS = [
       aria-label="Sasha's Gym App feature previews"
     >
       {/* App screenshots strip */}
-      <a
-        href="https://sgym.space"
-        target="_blank"
-        rel="noopener noreferrer"
-        role="listitem"
-        class="gym-squircle gym-squircle--card gym-screens group relative block h-[262px] shrink-0 overflow-hidden bg-white p-4 [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
-        style={`width: ${SCREENS_WIDTH}px`}
-        aria-label="Four screenshots of Sasha's Gym App on iPhone — open sgym.space"
-      >
-        <span class="gym-screens-stack grid h-full w-full [&>*]:col-start-1 [&>*]:row-start-1">
-          <img
-            class="gym-screens-hover block h-full w-full object-contain object-left opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:opacity-0"
-            src={screensHoverPng.src}
-            width={screensHoverPng.width}
-            height={screensHoverPng.height}
-            alt=""
-            aria-hidden="true"
-            decoding="async"
-          />
-          <img
-            class="relative z-[1] block h-full w-full object-contain object-left drop-shadow-none transition-[filter] duration-300 ease-out group-hover:drop-shadow-[0_3px_4px_rgba(17,17,17,0.32)] motion-reduce:transition-none motion-reduce:group-hover:drop-shadow-none"
-            src={screensPng.src}
-            width={screensPng.width}
-            height={screensPng.height}
-            alt="Four screenshots of Sasha's Gym App on iPhone"
-            decoding="async"
-          />
-        </span>
-      </a>
+      <div role="listitem" class="gym-card-hit-area" style={`width: ${SCREENS_WIDTH}px`}>
+        <a
+          href="https://sgym.space"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="gym-squircle gym-squircle--card gym-screens group relative block h-full w-full overflow-hidden bg-white p-4 [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
+          aria-label="Four screenshots of Sasha's Gym App on iPhone — open sgym.space"
+        >
+          <span class="gym-screens-stack grid h-full w-full [&>*]:col-start-1 [&>*]:row-start-1">
+            <img
+              class="gym-screens-hover block h-full w-full object-contain object-left opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 motion-reduce:opacity-0"
+              src={screensHoverPng.src}
+              width={screensHoverPng.width}
+              height={screensHoverPng.height}
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+            />
+            <img
+              class="relative z-[1] block h-full w-full object-contain object-left drop-shadow-none transition-[filter] duration-300 ease-out group-hover:drop-shadow-[0_3px_4px_rgba(17,17,17,0.32)] motion-reduce:transition-none motion-reduce:group-hover:drop-shadow-none"
+              src={screensPng.src}
+              width={screensPng.width}
+              height={screensPng.height}
+              alt="Four screenshots of Sasha's Gym App on iPhone"
+              decoding="async"
+            />
+          </span>
+        </a>
+      </div>
 
       {/* Dynamic Island */}
-      <a
-        href="https://sgym.space"
-        target="_blank"
-        rel="noopener noreferrer"
-        role="listitem"
-        class="gym-squircle gym-squircle--card gym-demo-island group relative block h-[262px] shrink-0 overflow-hidden bg-white px-4 [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
-        style={`width: ${ISLAND_WIDTH}px`}
-        aria-label="Dynamic Island workout states — open sgym.space"
-      >
+      <div role="listitem" class="gym-card-hit-area" style={`width: ${ISLAND_WIDTH}px`}>
+        <a
+          href="https://sgym.space"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="gym-squircle gym-squircle--card gym-demo-island group relative block h-full w-full overflow-hidden bg-white px-4 [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
+          aria-label="Dynamic Island workout states — open sgym.space"
+        >
         <div
           class="gym-demo-island-stack flex h-full items-start justify-center"
           role="group"
@@ -285,58 +284,59 @@ const DOT_LABELS = [
             ))
           }
         </div>
-      </a>
+        </a>
+      </div>
 
       {/* Benefit cards with interactive BoltCard */}
       {
         BENEFIT_CARDS.map((card) => (
-          <a
-            href="https://sgym.space"
-            target="_blank"
-            rel="noopener noreferrer"
-            role="listitem"
-            class="gym-squircle gym-squircle--card group relative block h-[262px] shrink-0 overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
-            style={`width: ${card.width}px`}
-            aria-label={`${card.alt} — open sgym.space`}
-          >
-            <GymBenefitWrCard
-              client:load
-              title={card.title}
-              description={card.description}
-              variant={card.variant}
-            />
-          </a>
+          <div role="listitem" class="gym-card-hit-area" style={`width: ${card.width}px`}>
+            <a
+              href="https://sgym.space"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="gym-squircle gym-squircle--card group relative block h-full w-full overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
+              aria-label={`${card.alt} — open sgym.space`}
+            >
+              <GymBenefitWrCard
+                client:load
+                title={card.title}
+                description={card.description}
+                variant={card.variant}
+              />
+            </a>
+          </div>
         ))
       }
 
       {/* Video demos */}
       {
         VIDEO_CARDS.map((card) => (
-          <a
-            href="https://sgym.space"
-            target="_blank"
-            rel="noopener noreferrer"
-            role="listitem"
-            class:list={[
-              "gym-squircle gym-squircle--card group relative block h-[262px] shrink-0 overflow-hidden [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2",
-              card.triggerClass,
-              card.bg,
-            ]}
-            style={`width: ${card.width}px`}
-            aria-label={`${card.alt} — open sgym.space`}
-          >
-            <video
-              class:list={["gym-demo-video", card.videoClass, "block h-auto max-h-full w-auto max-w-full"]}
-              src={card.src}
-              autoplay
-              loop
-              muted
-              playsinline
-              webkit-playsinline
-              preload="auto"
-              aria-hidden="true"
-            />
-          </a>
+          <div role="listitem" class="gym-card-hit-area" style={`width: ${card.width}px`}>
+            <a
+              href="https://sgym.space"
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={[
+                "gym-squircle gym-squircle--card group relative block h-full w-full overflow-hidden [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2",
+                card.triggerClass,
+                card.bg,
+              ]}
+              aria-label={`${card.alt} — open sgym.space`}
+            >
+              <video
+                class:list={["gym-demo-video", card.videoClass, "block h-auto max-h-full w-auto max-w-full"]}
+                src={card.src}
+                autoplay
+                loop
+                muted
+                playsinline
+                webkit-playsinline
+                preload="auto"
+                aria-hidden="true"
+              />
+            </a>
+          </div>
         ))
       }
     </div>
@@ -531,6 +531,7 @@ const DOT_LABELS = [
 
   .gym-wrcards {
     width: 100%;
+    overflow-y: hidden;
     gap: 0.5rem;
     padding-inline: var(--gym-content-pad);
     scroll-snap-type: x mandatory;
@@ -548,6 +549,31 @@ const DOT_LABELS = [
   .gym-wrcards [role="listitem"] {
     scroll-snap-align: start;
     scroll-snap-stop: always;
+  }
+
+  .gym-card-hit-area {
+    position: relative;
+    height: 262px;
+    flex: 0 0 auto;
+  }
+
+  /* Keep the hover target stable while the card lifts on pointer enter. */
+  @media (hover: hover) and (pointer: fine) {
+    .gym-card-hit-area::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset: -0.5rem;
+    }
+
+    .gym-card-hit-area > .gym-squircle--card {
+      position: relative;
+      z-index: 1;
+    }
+
+    .gym-card-hit-area:hover > .gym-squircle--card {
+      transform: translate3d(0, -0.375rem, 0);
+    }
   }
 
   .gym-wrcards::-webkit-scrollbar {
