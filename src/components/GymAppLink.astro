@@ -356,6 +356,37 @@ const DOT_LABELS = [
         ))
       }
     </div>
+    <button
+      type="button"
+      class="gym-reset-control"
+      aria-label="Return to first preview"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+      hidden
+    >
+      <span class="gym-reset-ring" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none">
+          <circle class="gym-reset-track" cx="16" cy="16" r="14"></circle>
+          <circle class="gym-reset-progress" cx="16" cy="16" r="14"></circle>
+          <path
+            class="gym-reset-arrow"
+            d="M21.5 11.5A7.25 7.25 0 1 0 23 18"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+          ></path>
+          <path
+            class="gym-reset-arrow"
+            d="M21.5 7.5v4h-4"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </span>
+    </button>
   </div>
 </div>
 
@@ -511,6 +542,7 @@ const DOT_LABELS = [
     width: 100dvw;
     max-width: 100dvw;
     margin-left: calc(50% - 50dvw);
+    position: relative;
     box-sizing: border-box;
     -webkit-mask-image: none;
     mask-image: none;
@@ -550,6 +582,12 @@ const DOT_LABELS = [
     overflow-y: hidden;
     gap: 0.5rem;
     padding-inline: var(--gym-content-pad);
+    /* Keep horizontal edge gestures inside this carousel instead of handing
+       them to browser back/forward navigation. */
+    padding-right: calc(var(--gym-content-pad) + 3.5rem);
+    overscroll-behavior-x: contain;
+    overscroll-behavior-inline: contain;
+    touch-action: pan-x;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--gym-content-pad);
     scrollbar-width: none;
@@ -594,6 +632,85 @@ const DOT_LABELS = [
 
   .gym-wrcards::-webkit-scrollbar {
     display: none;
+  }
+
+  .gym-reset-control {
+    --gym-reset-progress: 0;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    right: var(--gym-content-pad);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    color: #111;
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.14);
+    transform: translate(0, -50%) scale(0.82);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 180ms ease-out,
+      transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .gym-reset-control.is-visible {
+    transform: translate(0, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .gym-reset-control[hidden] {
+    display: none;
+  }
+
+  .gym-reset-ring {
+    display: block;
+    width: 32px;
+    height: 32px;
+    padding: 2px;
+    border-radius: 50%;
+    background: conic-gradient(
+      #111 calc(var(--gym-reset-progress) * 1%),
+      rgba(0, 0, 0, 0.14) 0
+    );
+    transition: background 80ms linear;
+  }
+
+  .gym-reset-ring svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    overflow: visible;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.96);
+  }
+
+  .gym-reset-track,
+  .gym-reset-progress {
+    display: none;
+  }
+
+  .gym-reset-arrow {
+    fill: none;
+  }
+
+  .gym-reset-control:focus-visible {
+    outline: 2px solid #155dfc;
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gym-reset-control,
+    .gym-reset-ring {
+      transition: none;
+    }
   }
 
   /* —— UI demo interactions (from GymAppLanding) —— */
@@ -770,7 +887,18 @@ const DOT_LABELS = [
 
     const ac = new AbortController();
     const { signal } = ac;
-    root._gymCleanup = () => ac.abort();
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const PULL_THRESHOLD = 1200;
+    const resetControl = root.querySelector(".gym-reset-control");
+    let resetHideTimer = null;
+    let wheelResetTimer = null;
+    root._gymCleanup = () => {
+      ac.abort();
+      if (resetHideTimer != null) window.clearTimeout(resetHideTimer);
+      if (wheelResetTimer != null) window.clearTimeout(wheelResetTimer);
+    };
 
     function getDots() {
       return [...root.querySelectorAll(".gym-dot")];
@@ -833,9 +961,134 @@ const DOT_LABELS = [
         clamped === cards.length - 1
           ? maxScroll
           : Math.min(maxScroll, Math.max(0, card.offsetLeft - pad));
-      scroller.scrollTo({ left, behavior: "smooth" });
+      scroller.scrollTo({
+        left,
+        behavior: reduceMotion ? "auto" : "smooth",
+      });
       setActive(clamped);
     }
+
+    // Native scrolling clamps at the last snap point, so track the extra
+    // edge movement ourselves and wrap after a deliberate pull.
+    let lastPointerX = null;
+    let edgePull = 0;
+    let wheelEdgePull = 0;
+
+    function isAtEnd() {
+      return scroller.scrollLeft >= scroller.scrollWidth - scroller.clientWidth - 1;
+    }
+
+    function returnToStart() {
+      edgePull = 0;
+      wheelEdgePull = 0;
+      setResetProgress(0);
+      scrollToIndex(0);
+    }
+
+    function setResetProgress(value) {
+      if (!(resetControl instanceof HTMLButtonElement)) return;
+
+      const progress = Math.max(0, Math.min(1, value));
+      const percent = Math.round(progress * 100);
+      resetControl.style.setProperty("--gym-reset-progress", String(percent));
+      resetControl.setAttribute("aria-valuenow", String(percent));
+
+      if (progress > 0) {
+        if (resetHideTimer != null) window.clearTimeout(resetHideTimer);
+        resetControl.hidden = false;
+        resetControl.classList.add("is-visible");
+      } else if (!resetControl.hidden) {
+        resetControl.classList.remove("is-visible");
+        if (resetHideTimer != null) window.clearTimeout(resetHideTimer);
+        resetHideTimer = window.setTimeout(() => {
+          resetControl.hidden = true;
+          resetHideTimer = null;
+        }, reduceMotion ? 0 : 220);
+      }
+    }
+
+    scroller.addEventListener(
+      "pointerdown",
+      (event) => {
+        lastPointerX = event.clientX;
+        edgePull = 0;
+      },
+      { signal },
+    );
+
+    scroller.addEventListener(
+      "pointermove",
+      (event) => {
+        if (lastPointerX == null) return;
+
+        const movement = lastPointerX - event.clientX;
+        if (isAtEnd() && movement > 0) {
+          edgePull += movement;
+          setResetProgress(edgePull / PULL_THRESHOLD);
+        } else if (movement < 0) {
+          edgePull = 0;
+          setResetProgress(0);
+        }
+        lastPointerX = event.clientX;
+      },
+      { passive: true, signal },
+    );
+
+    scroller.addEventListener(
+      "pointerup",
+      () => {
+        if (edgePull >= PULL_THRESHOLD) returnToStart();
+        else setResetProgress(0);
+        lastPointerX = null;
+        edgePull = 0;
+      },
+      { signal },
+    );
+
+    scroller.addEventListener(
+      "pointercancel",
+      () => {
+        lastPointerX = null;
+        edgePull = 0;
+        setResetProgress(0);
+      },
+      { signal },
+    );
+
+    scroller.addEventListener(
+      "wheel",
+      (event) => {
+        const horizontalDelta =
+          Math.abs(event.deltaX) >= Math.abs(event.deltaY)
+            ? event.deltaX
+            : event.shiftKey
+              ? event.deltaY
+              : 0;
+
+        if (!isAtEnd() || horizontalDelta <= 0) {
+          wheelEdgePull = 0;
+          setResetProgress(0);
+          return;
+        }
+
+        wheelEdgePull += horizontalDelta;
+        setResetProgress(wheelEdgePull / PULL_THRESHOLD);
+        if (wheelResetTimer != null) window.clearTimeout(wheelResetTimer);
+        wheelResetTimer = window.setTimeout(() => {
+          wheelEdgePull = 0;
+          wheelResetTimer = null;
+        }, 180);
+
+        if (wheelEdgePull >= PULL_THRESHOLD) returnToStart();
+      },
+      { passive: true, signal },
+    );
+
+    resetControl?.addEventListener(
+      "click",
+      () => returnToStart(),
+      { signal },
+    );
 
     scroller.addEventListener(
       "scroll",
@@ -879,10 +1132,6 @@ const DOT_LABELS = [
     const canHover = window.matchMedia(
       "(hover: hover) and (pointer: fine)",
     ).matches;
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
     if (icon && canHover && !reduceMotion) {
       icon.addEventListener(
         "pointerenter",

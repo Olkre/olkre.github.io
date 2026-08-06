@@ -168,6 +168,25 @@
         @apply mt-[-1134px];
       }
 
+      /* Keep the Playbis screen layers inside the phone frame. The card and
+         slide heights are intentionally unchanged; only visual layers move. */
+      #case1 .case-card > .bezel {
+        z-index: 110;
+        pointer-events: none;
+      }
+
+      #case1 .slide-content video {
+        transform: translateY(calc(9% - 27px)) scale(0.9);
+      }
+
+      #case1 .case7-screen {
+        transform: translateY(43px);
+      }
+
+      #case1 .embla__slide {
+        height: 695px;
+      }
+
       .case-container {
         @apply transition-all starting:opacity-0 starting:translate-y-4 opacity-100 translate-y-0;
       }
