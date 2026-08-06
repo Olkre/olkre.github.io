@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import WrScalingCard from "../components/WrScalingCard";
+
+const headHtml = '<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>';
+---
+
+<BaseLayout title="Wood&Room Logo Scalability" bodyClass="scale-page" headHtml={headHtml}>
+  <main class="scale-page__main">
+    <div class="scale-page__frame">
+      <div class="scale-page__card">
+        <WrScalingCard client:load />
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .scale-page {
+    margin: 0;
+    min-width: 320px;
+    background: #eee;
+    color: #111;
+  }
+
+  .scale-page__main {
+    display: grid;
+    min-height: 100dvh;
+    place-items: center;
+    overflow: auto;
+    padding: 2rem;
+  }
+
+  .scale-page__frame {
+    width: 600px;
+    height: 524px;
+    flex: none;
+  }
+
+  .scale-page__card {
+    width: 300px;
+    height: 262px;
+    transform: scale(2);
+    transform-origin: center;
+  }
+
+  @media (max-width: 640px) {
+    .scale-page__main {
+      place-items: start center;
+      padding: 1rem;
+    }
+
+    .scale-page__frame {
+      margin-block: auto;
+    }
+  }
+
+</style>

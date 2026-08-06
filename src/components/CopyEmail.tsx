@@ -7,6 +7,16 @@ const PRESS_SCALE = 0.99;
 const SPRING = { stiffness: 720, damping: 28, mass: 0.55 };
 const REST_EPS = 0.0004;
 const VELOCITY_EPS = 0.02;
+const CONFETTI = [
+  { x: -11, y: -8, delay: 0, size: 0.9, rotate: -22 },
+  { x: -8, y: 8, delay: 24, size: 0.75, rotate: 28 },
+  { x: -3, y: -12, delay: 12, size: 0.8, rotate: 8 },
+  { x: 4, y: -10, delay: 32, size: 0.7, rotate: -34 },
+  { x: 10, y: -5, delay: 18, size: 0.9, rotate: 42 },
+  { x: 11, y: 6, delay: 38, size: 0.75, rotate: -12 },
+  { x: 5, y: 11, delay: 28, size: 0.8, rotate: 24 },
+  { x: -10, y: 2, delay: 44, size: 0.65, rotate: -48 },
+];
 
 function EmailText({ email, animate }: { email: string; animate?: boolean }) {
   return (
@@ -253,7 +263,6 @@ export default function CopyEmail({ email = EMAIL }: { email?: string }) {
           <span className="contact-cluster">
             <span className="contact-cluster-sizer" aria-hidden="true">
               <span className="contact-content-row">
-                <span className="contact-icon-slot" />
                 <span>Reach out via email</span>
               </span>
               <span className="contact-content-row">
@@ -262,10 +271,7 @@ export default function CopyEmail({ email = EMAIL }: { email?: string }) {
               </span>
             </span>
 
-            <span
-              ref={contentRef}
-              className="t-text-swap contact-cluster-content"
-            >
+            <span ref={contentRef} className="t-text-swap contact-cluster-content">
               {showReveal ? (
                 <span className="contact-content-row">
                   <EmailText email={email} animate={copied} />
@@ -276,26 +282,19 @@ export default function CopyEmail({ email = EMAIL }: { email?: string }) {
                   >
                     <span className="t-icon" data-icon="a">
                       <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
+                        width="11"
+                        height="11"
+                        viewBox="0 0 11 11"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <rect
-                          x="9"
-                          y="9"
-                          width="11"
-                          height="11"
-                          rx="2"
-                          stroke="currentColor"
-                          strokeWidth="1.75"
+                        <path
+                          d="M9.53857 2.55717C9.88503 2.90387 10.0797 3.3739 10.0799 3.86404V8.2317C10.0799 8.72187 9.88515 9.19196 9.53855 9.53855C9.19195 9.88515 8.72187 10.0799 8.2317 10.0799H3.86404C3.37387 10.0799 2.90378 9.88515 2.55719 9.53855C2.21059 9.19196 2.01587 8.72187 2.01587 8.2317V3.86404C2.01587 3.84623 2.01671 3.82909 2.01839 3.81263C2.03088 3.33157 2.23086 2.87444 2.57567 2.53876C2.92048 2.20309 3.38282 2.01544 3.86404 2.01587H8.2317C8.72209 2.01587 9.19182 2.21041 9.53857 2.55717Z"
+                          fill="black"
                         />
                         <path
-                          d="M7 15H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1"
-                          stroke="currentColor"
-                          strokeWidth="1.75"
-                          strokeLinecap="round"
+                          d="M7.7485 0.763056C7.78066 0.820903 7.80112 0.884519 7.8087 0.950272C7.81628 1.01602 7.81084 1.08263 7.79268 1.14628C7.77452 1.20992 7.744 1.26937 7.70287 1.32123C7.66173 1.37308 7.61079 1.41633 7.55294 1.4485C7.4951 1.48066 7.43148 1.50112 7.36573 1.5087C7.29997 1.51628 7.23337 1.51084 7.16972 1.49268C7.10607 1.47452 7.04662 1.444 6.99477 1.40287C6.94292 1.36174 6.89967 1.31079 6.8675 1.25294C6.75612 1.05235 6.69514 1.008 6.552 1.008H1.512C1.23581 1.008 1.008 1.23581 1.008 1.512V6.55099C1.008 6.73243 1.10578 6.89976 1.26353 6.98947C1.32104 7.02223 1.37154 7.066 1.41214 7.11828C1.45274 7.17056 1.48265 7.23032 1.50015 7.29416C1.51766 7.358 1.52241 7.42466 1.51416 7.49033C1.5059 7.55601 1.48479 7.61941 1.45202 7.67693C1.41926 7.73444 1.37549 7.78494 1.32321 7.82554C1.27093 7.86614 1.21117 7.89605 1.14733 7.91355C1.0835 7.93106 1.01684 7.93581 0.951165 7.92756C0.885489 7.9193 0.822084 7.89819 0.764568 7.86542C0.532532 7.73347 0.339565 7.54244 0.205275 7.31175C0.0709861 7.08106 0.000161724 6.81893 0 6.552V1.512C0 0.679392 0.679392 0 1.512 0H6.552C7.10338 0 7.47331 0.268632 7.7485 0.763056Z"
+                          fill="black"
                         />
                       </svg>
                     </span>
@@ -316,32 +315,29 @@ export default function CopyEmail({ email = EMAIL }: { email?: string }) {
                         />
                       </svg>
                     </span>
+                    <span
+                      className={`contact-confetti${copied ? " is-bursting" : ""}`}
+                      aria-hidden="true"
+                    >
+                      {CONFETTI.map((particle, index) => (
+                        <i
+                          key={index}
+                          style={
+                            {
+                              "--px": `${particle.x}px`,
+                              "--py": `${particle.y}px`,
+                              "--pdelay": `${particle.delay}ms`,
+                              "--psize": particle.size,
+                              "--protate": `${particle.rotate}deg`,
+                            } as CSSProperties
+                          }
+                        />
+                      ))}
+                    </span>
                   </span>
                 </span>
               ) : (
                 <span className="contact-content-row">
-                  <span className="contact-icon" aria-hidden="true">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="none"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fill="#96a9b2"
-                        d="M16 13.3q-.4 1-1.4 1H1.3q-.5 0-.9-.4l-.1-.2q-.2 0-.3-.4c0-.2 6.9-5.4 6.9-5.4.9-.7 1.3-.7 2.2 0 0 0 7 5.2 6.9 5.4"
-                      />
-                      <path
-                        fill="#b9c5c6"
-                        d="m8 7.3-8 6V4.7q.1-1.3 1.5-1.5h13q1.4.1 1.5 1.5v8.4z"
-                      />
-                      <path
-                        fill="#dce2e2"
-                        d="M.1 4.3q.4-1 1.4-1h13.1q.5 0 .9.4l.1.1.3.5L9 9.6c-.9.7-1.3.6-2.2 0z"
-                      />
-                    </svg>
-                  </span>
                   <span>Reach out via email</span>
                 </span>
               )}

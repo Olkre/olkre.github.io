@@ -34,7 +34,7 @@ const LABELS: Record<number, string> = {
 const MORPH_MS = 340;
 const MORPH_BLUR = 1.6;
 /** Matches the ruler's horizontal padding so ticks map to pointer position. */
-const RULER_PAD = 12;
+const RULER_PAD = 24;
 
 const LEVELS = [
   { shape: parseSvgShape(xsRaw), label: "XS detail" },
@@ -53,7 +53,7 @@ type Palette = {
 };
 
 const PALETTES: Palette[] = [
-  { id: "ink", fg: "#F4EDE2", bg: "#24201E", label: "Ink" },
+  { id: "ink", fg: "#000000", bg: "#FFFFFF", label: "Ink" },
   { id: "wood", fg: "#E5BB8F", bg: "#4C2D23", label: "Wood" },
   { id: "moss", fg: "#DCE8D7", bg: "#29483B", label: "Moss" },
 ];
@@ -61,6 +61,14 @@ const PALETTES: Palette[] = [
 function levelForSize(size: number) {
   const t = (size - MIN) / (MAX - MIN);
   return Math.min(LEVELS.length - 1, Math.max(0, Math.floor(t * LEVELS.length)));
+}
+
+function isLightColor(hex: string) {
+  const value = hex.replace("#", "");
+  const red = Number.parseInt(value.slice(0, 2), 16);
+  const green = Number.parseInt(value.slice(2, 4), 16);
+  const blue = Number.parseInt(value.slice(4, 6), 16);
+  return red * 0.299 + green * 0.587 + blue * 0.114 > 210;
 }
 
 const INITIAL_LEVEL = levelForSize(INITIAL_SIZE);
@@ -190,9 +198,10 @@ export default function WrScalingCard() {
   const markStyle: CSSProperties = {
     width: size,
     height: size,
+    transform: "translateY(10px)",
     transition: reduceMotion
       ? undefined
-      : "width 160ms ease-out, height 160ms ease-out",
+      : "width 160ms ease-out, height 160ms ease-out, transform 160ms ease-out",
   };
 
   function sizeForTick(index: number) {
@@ -213,7 +222,7 @@ export default function WrScalingCard() {
       className="flex h-full w-full flex-col items-stretch gap-1 px-3 pb-2.5 pt-2.5 transition-colors duration-200 ease-out"
       style={{ backgroundColor: bg, color: fg }}
     >
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-center">
         <div
           className="flex items-center gap-2 rounded-full bg-transparent p-1.5"
           role="radiogroup"
@@ -221,6 +230,8 @@ export default function WrScalingCard() {
         >
           {PALETTES.map((p) => {
             const on = p.id === paletteId;
+            const isSwapped = on && swapped;
+            const activeBackground = isSwapped ? p.fg : p.bg;
             return (
               <button
                 key={p.id}
@@ -229,6 +240,11 @@ export default function WrScalingCard() {
                 aria-label={p.label}
                 aria-checked={on}
                 title={p.label}
+                style={
+                  on && isLightColor(activeBackground)
+                    ? { border: "1px solid rgba(0, 0, 0, 0.2)" }
+                    : undefined
+                }
                 className="relative flex size-6 items-center justify-center rounded-full transition-transform duration-150 ease-out hover:scale-110 active:scale-[0.96] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
                 onClick={() => {
                   if (p.id === paletteId) {
@@ -242,35 +258,67 @@ export default function WrScalingCard() {
                 {on ? (
                   <motion.span
                     layoutId={reduceMotion ? undefined : "wr-palette-ring"}
-                    className="pointer-events-none absolute -inset-[3px] rounded-full"
-                    style={{
-                      border: "1.5px solid currentColor",
-                    }}
+                    className="wr-liquid-glass pointer-events-none absolute -inset-[3px] z-10 overflow-hidden rounded-full"
                     transition={{ type: "spring", stiffness: 500, damping: 38 }}
-                  />
+                  >
+                    <span className="wr-liquid-glass__window" aria-hidden="true">
+                      <span className="wr-liquid-glass__liquid wr-liquid-glass__liquid--one" />
+                      <span className="wr-liquid-glass__liquid wr-liquid-glass__liquid--two" />
+                    </span>
+                    <span className="wr-liquid-glass__shine" aria-hidden="true" />
+                    <svg className="wr-liquid-glass__filters" aria-hidden="true" focusable="false">
+                      <defs>
+                        <filter id="wr-liquid-refraction">
+                          <feTurbulence
+                            type="fractalNoise"
+                            baseFrequency="0.035"
+                            numOctaves="1"
+                            seed="8"
+                            result="noise"
+                          />
+                          <feDisplacementMap
+                            in="SourceGraphic"
+                            in2="noise"
+                            scale="5"
+                            xChannelSelector="R"
+                            yChannelSelector="G"
+                          />
+                        </filter>
+                      </defs>
+                    </svg>
+                  </motion.span>
                 ) : null}
-                {/* Each swatch previews the pair; rotating swaps the halves. */}
-                <span
-                  className={`relative size-full overflow-hidden rounded-full ${on ? "transition-transform duration-300 ease-out" : ""}`}
-                  style={{
-                    transform: on && swapped ? "rotate(180deg)" : undefined,
-                  }}
+                {/* Each swatch previews the pair as nested circles; swapping reverses their scale. */}
+                <motion.span
+                  className="relative flex size-full items-center justify-center rounded-full"
+                  animate={{ backgroundColor: isSwapped ? p.fg : p.bg }}
+                  whileHover={reduceMotion ? undefined : { scale: 1.04 }}
+                  transition={
+                    reduceMotion
+                      ? { duration: 0 }
+                      : { duration: 0.22, ease: "easeInOut" }
+                  }
                 >
-                  <span
-                    className="absolute inset-0"
-                    style={{
-                      backgroundColor: p.bg,
-                      clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                  <motion.span
+                    className="size-[52%] rounded-full"
+                    animate={{
+                      scale: isSwapped ? 1.22 : 1,
+                      backgroundColor: isSwapped ? p.bg : p.fg,
                     }}
+                    whileHover={reduceMotion ? undefined : { scale: isSwapped ? 1.34 : 1.2 }}
+                    whileTap={reduceMotion ? undefined : { scale: 0.94 }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : {
+                            type: "spring",
+                            stiffness: 430,
+                            damping: 24,
+                            backgroundColor: { duration: 0.22, ease: "easeInOut" },
+                          }
+                    }
                   />
-                  <span
-                    className="absolute inset-0"
-                    style={{
-                      backgroundColor: p.fg,
-                      clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
-                    }}
-                  />
-                </span>
+                </motion.span>
               </button>
             );
           })}
@@ -342,7 +390,7 @@ export default function WrScalingCard() {
       </div>
 
       <div
-        className="relative -mx-3 -mb-2.5 cursor-ew-resize touch-none select-none px-3 pb-2.5 pt-3"
+        className="relative -mx-3 -mb-2.5 cursor-ew-resize touch-none select-none px-6 pb-2.5 pt-3"
         role="slider"
         aria-label="Logo size"
         aria-valuemin={MIN}
@@ -406,7 +454,7 @@ export default function WrScalingCard() {
               <span
                 key={tickLabel}
                 className="absolute top-0 -translate-x-1/2 text-[9px] font-medium leading-none tracking-[0.16em] transition-opacity duration-150 ease-out"
-                style={{ left, color: fg, opacity: isCurrent ? 0.85 : 0.4 }}
+                style={{ left, color: fg, opacity: isCurrent ? 1 : 0.4 }}
               >
                 {tickLabel}
               </span>

@@ -106,7 +106,11 @@ $(document).ready(function () {
 
     const onEnd = (event) => {
       const name = event.animationName || "";
-      if (!name.startsWith("bio-metal-shimmer")) return;
+      if (
+        !name.startsWith("bio-metal-shimmer") &&
+        !name.startsWith("bio-jwu-shimmer")
+      )
+        return;
       pending -= 1;
       if (pending > 0) return;
       mark.classList.remove("is-shimmering");
