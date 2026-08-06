@@ -7,6 +7,9 @@ import type { BenefitIcon } from "./BoltCard";
 import chinTransitionVideo from "../assets/gym/uidemos/chin_transition.mp4";
 import prDemoVideo from "../assets/gym/uidemos/PR_demo.mp4";
 import timerSettingsVideo from "../assets/gym/uidemos/timer_settings.mp4";
+import chinTransitionIosGif from "../assets/gym/uidemos/ios/chin_transition.gif";
+import prDemoIosGif from "../assets/gym/uidemos/ios/PR_demo.gif";
+import timerSettingsIosGif from "../assets/gym/uidemos/ios/timer_settings.gif";
 import dynamicIslandCompact from "../assets/gym/dynamic_island/List.png";
 import dynamicIslandRestBreak from "../assets/gym/dynamic_island/List-1.png";
 import dynamicIslandSession from "../assets/gym/dynamic_island/List-2.png";
@@ -63,6 +66,7 @@ const VIDEO_CARDS = [
   {
     id: "timer",
     src: timerSettingsVideo,
+    iosGif: timerSettingsIosGif,
     alt: "Rest timer settings demo",
     width: 347,
     triggerClass: "gym-demo-timer",
@@ -72,6 +76,7 @@ const VIDEO_CARDS = [
   {
     id: "chin",
     src: chinTransitionVideo,
+    iosGif: chinTransitionIosGif,
     alt: "Chin transition demo",
     width: 318,
     triggerClass: "gym-demo-chin",
@@ -81,6 +86,7 @@ const VIDEO_CARDS = [
   {
     id: "pr",
     src: prDemoVideo,
+    iosGif: prDemoIosGif,
     alt: "Personal record demo",
     width: 305,
     triggerClass: "gym-demo-pr",
@@ -334,6 +340,16 @@ const DOT_LABELS = [
                 webkit-playsinline
                 preload="auto"
                 aria-hidden="true"
+              />
+              <img
+                class:list={["gym-demo-gif", card.videoClass, "block h-auto max-h-full w-auto max-w-full"]}
+                data-src={card.iosGif.src}
+                width={card.iosGif.width}
+                height={card.iosGif.height}
+                alt=""
+                aria-hidden="true"
+                decoding="async"
+                draggable="false"
               />
             </a>
           </div>
@@ -682,6 +698,19 @@ const DOT_LABELS = [
     transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  /* iOS Safari can leave muted inline MP4s on their poster frame. */
+  .gym-demo-gif {
+    display: none;
+  }
+
+  .gym-app.is-ios .gym-demo-video {
+    display: none;
+  }
+
+  .gym-app.is-ios .gym-demo-gif {
+    display: block;
+  }
+
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     .gym-demo-island-phone:hover {
       transform: translate3d(
@@ -883,6 +912,16 @@ const DOT_LABELS = [
     const isIos =
       /iPhone|iPad|iPod/i.test(ua) ||
       (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    root.classList.toggle("is-ios", isIos);
+
+    if (isIos) {
+      root.querySelectorAll(".gym-demo-gif").forEach((image) => {
+        if (!(image instanceof HTMLImageElement)) return;
+        const source = image.dataset.src;
+        if (source) image.src = source;
+      });
+    }
 
     function prime(video) {
       video.muted = true;
