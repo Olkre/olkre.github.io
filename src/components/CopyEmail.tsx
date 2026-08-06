@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 const EMAIL = "oleksandr.kre@gmail.com";
 const TEXT_SWAP_MS = 150;
@@ -7,6 +7,24 @@ const PRESS_SCALE = 0.99;
 const SPRING = { stiffness: 720, damping: 28, mass: 0.55 };
 const REST_EPS = 0.0004;
 const VELOCITY_EPS = 0.02;
+
+function EmailText({ email, animate }: { email: string; animate?: boolean }) {
+  return (
+    <span
+      className={`contact-email${animate ? " is-copying" : ""}`}
+      aria-hidden={animate ? true : undefined}
+    >
+      {Array.from(email).map((character, index) => (
+        <span
+          key={`${character}-${index}`}
+          style={{ "--letter-index": index } as CSSProperties}
+        >
+          {character}
+        </span>
+      ))}
+    </span>
+  );
+}
 
 function prefersReducedMotion() {
   return (
@@ -239,7 +257,7 @@ export default function CopyEmail({ email = EMAIL }: { email?: string }) {
                 <span>Reach out via email</span>
               </span>
               <span className="contact-content-row">
-                <span className="contact-email">{email}</span>
+                <EmailText email={email} />
                 <span className="contact-icon-slot" />
               </span>
             </span>
@@ -250,7 +268,7 @@ export default function CopyEmail({ email = EMAIL }: { email?: string }) {
             >
               {showReveal ? (
                 <span className="contact-content-row">
-                  <span className="contact-email">{email}</span>
+                  <EmailText email={email} animate={copied} />
                   <span
                     className={`t-icon-swap contact-icon${copied ? " is-success" : ""}`}
                     data-state={copied ? "b" : "a"}
