@@ -12,6 +12,12 @@ body {
   --bio-mask: url("/img/textron.svg");
 }
 
+/* The logo image is raised one pixel for inline alignment; keep its shimmer mask in sync. */
+.bio-mark--textron .bio-mark-media::after {
+  top: -1px;
+  bottom: 1px;
+}
+
 .bio-mark--jwu {
   --bio-mask: url("/img/jwu.svg");
 }
@@ -150,6 +156,11 @@ body {
 
 .contact-link {
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --copy-letter-stagger: 14ms;
+  --copy-letter-duration: 280ms;
+  --copy-check-delay: 440ms;
+  --copy-confetti-delay: calc(var(--copy-check-delay) - 160ms);
   display: inline-flex;
   overflow: visible;
   margin-left: -0.25rem;
@@ -157,6 +168,7 @@ body {
   border-radius: 9999px;
   border: none;
   background: transparent;
+  opacity: 1;
   font: inherit;
   cursor: pointer;
   transform-origin: center;
@@ -169,12 +181,18 @@ body {
   width: 100%;
   height: 100%;
   background-color: white;
+  opacity: 1;
+  isolation: isolate;
   border-radius: 9999px;
   padding: 0.15rem;
-  box-shadow: 0 0 0 transparent;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0),
+    0 0 1px rgba(0, 0, 0, 0),
+    0 1px 2px rgba(0, 0, 0, 0),
+    0 2px 4px rgba(0, 0, 0, 0);
   transition:
-    background-color 160ms var(--ease-out),
-    box-shadow 160ms var(--ease-out);
+    background-color 220ms var(--ease-smooth-out),
+    box-shadow 220ms var(--ease-smooth-out);
 }
 
 .contact-button {
@@ -182,12 +200,13 @@ body {
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  font-size: 0.9375rem;
+  font-size: 0.75rem;
   color: #101010;
-  padding: 0.4rem 1.35rem;
+  padding: 0.5rem 0.85rem;
   border-radius: 9999px;
-  background: white;
-  transition: background 160ms var(--ease-out);
+  background-color: white;
+  opacity: 1;
+  transition: background-color 200ms var(--ease-smooth-out);
 }
 
 .contact-cluster {
@@ -223,8 +242,37 @@ body {
 }
 
 .contact-email {
+  display: inline-flex;
   font-size: 0.75rem;
   letter-spacing: -0.02em;
+}
+
+.contact-email > span {
+  display: inline-block;
+}
+
+.contact-email.is-copying > span {
+  animation: contact-email-ripple var(--copy-letter-duration) var(--ease-smooth-out) both;
+  animation-delay: calc(var(--letter-index) * var(--copy-letter-stagger));
+  will-change: transform, color;
+}
+
+@keyframes contact-email-ripple {
+  0%,
+  100% {
+    color: inherit;
+    transform: translateY(0);
+  }
+
+  38% {
+    color: #059669;
+    transform: translateY(-5px);
+  }
+
+  64% {
+    color: #059669;
+    transform: translateY(-2px);
+  }
 }
 
 .contact-icon-slot {
@@ -235,6 +283,7 @@ body {
 }
 
 .contact-icon {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -245,20 +294,73 @@ body {
 }
 
 .contact-icon.is-success {
+  color: #393939;
+}
+
+.contact-icon.is-success .t-icon {
+  transition-delay: var(--copy-check-delay);
+}
+
+.contact-icon.is-success .t-icon[data-icon="b"] {
   color: #059669;
+}
+
+.contact-confetti {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  color: #059669;
+}
+
+.contact-confetti i {
+  position: absolute;
+  left: -1.25px;
+  top: -1.25px;
+  width: 2.5px;
+  height: 2.5px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0;
+}
+
+@keyframes contact-confetti-burst {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scale(0.4);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translate(calc(var(--px) * 0.25), calc(var(--py) * 0.25))
+      rotate(var(--protate)) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--px), var(--py)) rotate(var(--protate)) scale(0.6);
+  }
+}
+
+.contact-confetti.is-bursting i {
+  animation: contact-confetti-burst 460ms var(--ease-smooth-out)
+    calc(var(--copy-confetti-delay) + var(--pdelay, 0ms)) both;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .contact-link:hover .contact-inner {
-    background: linear-gradient(to top, #ececec, #fff);
+    background-color: white;
     box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.1),
       0 0 1px rgba(0, 0, 0, 0.04),
       0 1px 2px rgba(0, 0, 0, 0.08),
       0 2px 4px rgba(0, 0, 0, 0.06);
   }
 
   .contact-link:hover .contact-button {
-    background: linear-gradient(#f4f4f4, #fefefe);
+    background-color: white;
   }
 }
 
@@ -274,16 +376,29 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .contact-inner,
-  .contact-button {
+  .contact-button,
+  .contact-email.is-copying > span,
+  .contact-icon.is-success .t-icon {
     transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    color: inherit;
+  }
+
+  .contact-icon.is-success .t-icon[data-icon="b"] {
+    color: #059669;
+  }
+
+  .contact-confetti i {
+    animation: none !important;
   }
 }
 
 /* Transitions.dev — Text states swap */
 :root {
-  --text-swap-dur: 150ms;
-  --text-swap-translate-y: 4px;
-  --text-swap-blur: 2px;
+  --text-swap-dur: 130ms;
+  --text-swap-translate-y: 2px;
+  --text-swap-blur: 1px;
   --text-swap-ease: ease-in-out;
 }
 
