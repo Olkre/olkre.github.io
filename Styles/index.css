@@ -22,6 +22,11 @@ body {
   --bio-mask: url("/img/jwu.svg");
 }
 
+.bio-mark--jwu .bio-mark-media::after {
+  top: -1px;
+  bottom: 1px;
+}
+
 .bio-mark--name {
   --bio-mask: url("/img/oleksandr-kreshchuk-mask.svg");
   display: inline-block;
@@ -123,6 +128,22 @@ body {
   animation: bio-metal-shimmer-name 0.45s linear forwards;
 }
 
+/* Treat the shield and wordmark as one continuous shimmer surface. */
+.bio-mark--jwu .bio-mark-media::after,
+.bio-mark--jwu .bio-mark-label::after {
+  background-size: 128px 100%;
+}
+
+.bio-mark.is-shimmering.bio-mark--jwu .bio-mark-media::after {
+  animation-name: bio-jwu-shimmer-logo;
+  animation-delay: 0ms;
+}
+
+.bio-mark.is-shimmering.bio-mark--jwu .bio-mark-label::after {
+  animation-name: bio-jwu-shimmer-label;
+  animation-delay: 50ms;
+}
+
 .bio-mark:focus-visible {
   outline: 2px solid #393939;
   outline-offset: 3px;
@@ -144,6 +165,24 @@ body {
   }
   to {
     background-position: -30% 0;
+  }
+}
+
+@keyframes bio-jwu-shimmer-logo {
+  from {
+    background-position: -120px 0;
+  }
+  to {
+    background-position: 80px 0;
+  }
+}
+
+@keyframes bio-jwu-shimmer-label {
+  from {
+    background-position: -142px 0;
+  }
+  to {
+    background-position: 58px 0;
   }
 }
 
@@ -305,6 +344,11 @@ body {
   color: #059669;
 }
 
+.contact-icon .t-icon {
+  position: relative;
+  z-index: 1;
+}
+
 .contact-confetti {
   position: absolute;
   left: 50%;
@@ -312,6 +356,7 @@ body {
   width: 0;
   height: 0;
   pointer-events: none;
+  z-index: 0;
   color: #059669;
 }
 
@@ -546,4 +591,88 @@ body {
   animation: spin 2s linear infinite, pulse 1.5s ease-in-out infinite;
   transform-origin: center;
   will-change: transform;
+}
+
+.wr-liquid-glass {
+  isolation: isolate;
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: saturate(1.35);
+  backdrop-filter: saturate(1.35);
+}
+
+.wr-liquid-glass__window {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  filter: url(#wr-liquid-refraction) saturate(1.15);
+  opacity: 0.62;
+  mix-blend-mode: color-dodge;
+}
+
+.wr-liquid-glass__liquid {
+  position: absolute;
+  display: block;
+  width: 68%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.wr-liquid-glass__liquid--one {
+  top: -34%;
+  left: -12%;
+  animation: wr-liquid-drift-one 4.8s ease-in-out infinite alternate;
+}
+
+.wr-liquid-glass__liquid--two {
+  right: -18%;
+  bottom: -36%;
+  width: 58%;
+  background: rgba(255, 255, 255, 0.16);
+  animation: wr-liquid-drift-two 5.6s ease-in-out infinite alternate;
+}
+
+.wr-liquid-glass__shine {
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  border-left-color: rgba(255, 255, 255, 0.72);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+  opacity: 0.68;
+  pointer-events: none;
+}
+
+.wr-liquid-glass__filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+@keyframes wr-liquid-drift-one {
+  from {
+    transform: translate3d(-6%, 2%, 0) scale(0.92, 1.05);
+  }
+  to {
+    transform: translate3d(22%, 28%, 0) scale(1.12, 0.88);
+  }
+}
+
+@keyframes wr-liquid-drift-two {
+  from {
+    transform: translate3d(8%, -4%, 0) scale(1.05, 0.92);
+  }
+  to {
+    transform: translate3d(-20%, -24%, 0) scale(0.86, 1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wr-liquid-glass__liquid {
+    animation: none;
+  }
 }
