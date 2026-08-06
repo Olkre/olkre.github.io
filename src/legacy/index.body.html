@@ -397,7 +397,7 @@
           </div>
           <div
             id="case4"
-            class="gap-2 flex flex-col video-hover-trigger lg:h-[286px] h-[470px] md:h-[400px] overflow-hidden"
+            class="gap-2 flex flex-col video-hover-trigger lg:h-[286px] h-[470px] md:h-[400px] overflow-hidden !rounded-none !border-0 !bg-transparent !px-0 !pt-0 !pb-0"
           >
             <style>
               .video-container video {
@@ -439,6 +439,7 @@
               <a class="case-link hidden" href="##"> Hover to play </a>
             </div>
 
+            <div class="case-card flex min-h-0 flex-1 flex-col overflow-hidden rounded-4xl bg-white p-2">
             <div class="video-hover-trigger">
               <video
                 muted
@@ -461,6 +462,7 @@
               <source src="/images/cases/wr-anim.webm" type="video/webm" />
               <source src="/images/cases/wr-anim.mp4" type="video/mp4" />
             </video>
+            </div>
           </div>
         </div>
         <div
@@ -468,8 +470,7 @@
         >
           <section
             id="case2"
-            class="case-container duration-400 case-card bg-white rounded-4xl gap-2 flex flex-col transition p-2 bg-white rounded-4xl"
-            style="overflow: hidden"
+            class="case-container duration-400 gap-2 flex flex-col transition"
           >
             <div class="case-header w-full p-4 pb-1 flex justify-between">
               <h4>3D Benefit cards</h4>
@@ -518,6 +519,7 @@
                 </button>
               </div>
             </div>
+            <div class="case-card bg-white rounded-4xl p-2" style="overflow: hidden">
             <div class="custom-embla" id="myCustomCarousel">
               <div class="custom-embla__container">
                 <div class="custom-embla__slide">
@@ -800,6 +802,7 @@
             </div>
             <div class="custom-embla__dots"></div>
             <!-- <img src="/images/case2.png" /> -->
+            </div>
           </section>
 
           <!--FOLDER_ANIMATION-->
@@ -830,7 +833,7 @@
             <span class="block md:hidden"> Case <i>→</i> </span>
         </div>
         <div
-          class="case-card p-2 pt-1 bg-white rounded-4xl lg:h-[340px] xs:h-[200px] md:h-[260px]"
+          class="case-card p-2 pt-1 bg-white rounded-4xl lg:h-[310px] xs:h-[200px] md:h-[260px]"
         >
           <video
             class="lg:pt-0 pt-12 mt-[-40px] lg:mt-0 rounded-3xl"
@@ -1037,7 +1040,7 @@
             </script>
           </div>
 
-          <div if="case5" class="gap-2 flex flex-col">
+          <div if="case5" class="gap-2 flex flex-col !rounded-none !border-0 !bg-transparent !px-0 !pt-0 !pb-0">
             <div class="case-header w-full p-4 pb-1 flex justify-between">
               <h4>Workplace UI/UX</h4>
               
@@ -1065,26 +1068,14 @@
             </div>
           </div>
 
-          <div if="case6" class="gap-2 flex flex-col">
+          <div if="case6" class="gap-2 flex flex-col !rounded-none !border-0 !bg-transparent !px-0 !pt-0 !pb-0">
             <div class="case-header w-full p-4 pb-1 flex justify-between">
               <h4>AirPods Max App concept</h4>
               <a
-                class="case-link hidden"
+                target="_blank"
                 href="https://dribbble.com/shots/14781247-AirPods-Max-Control-App"
+                class="md:block hidden next-btn1 embla__button--next group w-fit transition-all duration-300 overflow-visible p-0 rounded-full"
               >
-                Dribbble <i>→</i>
-              </a>
-              <a
-            class="case-link"
-            href="/catalyst-ux-case.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <a
-              target="_blank"
-                href="https://dribbble.com/shots/14781247-AirPods-Max-Control-App"
-              class="md:block hidden next-btn1 embla__button--next group w-fit transition-all duration-300 overflow-visible p-0 rounded-full"
-            >
               <div
                 class="next-btn-container transition-all w-full h-full p-0.5 rounded-full duration-300 bg-white border border-gray-100"
               >
@@ -1096,7 +1087,6 @@
                 </div>
               </div>
             </a>
-
             </div>
             <div class="case-card overflow-hidden rounded-3xl bg-[#f8f8f8] p-2">
               <img src="/images/case6.webp" />
@@ -1107,7 +1097,7 @@
         <div
           class="cases-column mt-0 lg:mt-4 w-full lg:w-1/2 flex flex-col gap-5"
         >
-          <div id="case1" class="gap-2 pb-6 flex flex-col">
+          <div id="case1" class="gap-2 pb-6 flex flex-col !rounded-none !border-0 !bg-transparent !px-0 !pt-0">
             <div
               class="case-header w-full p-4 flex justify-between items-center"
             >
@@ -1138,7 +1128,7 @@
                 </a>
               </a>
             </div>
-            <div class="case-card overflow-hidden rounded-3xl bg-[#f8f8f8] p-2">
+            <div class="case-card overflow-hidden rounded-3xl bg-white p-2">
               <img src="/images/case1_2.webp" />
               <div class="flex gap-2 w-full pb-2 justify-center hidden">
                 <img src="/images/case1_1.webp" class="w-1/2 max-w-full" />
