@@ -10,6 +10,7 @@ import screenReview from "../assets/wr/screen-review.webp";
 import screenBlock from "../assets/wr/screen-block.webp";
 import benefitsPng from "../assets/wr/benefits.png";
 import WrScalingCard from "./WrScalingCard";
+import WrBenefitCards from "./WrBenefitCards";
 
 const CARD_H = 262;
 
@@ -23,8 +24,10 @@ const PRODUCT_WIDTH = Math.max(160, cardWidthFromAsset(screenProduct));
 const REVIEW_WIDTH = Math.max(160, cardWidthFromAsset(screenReview));
 const BLOCK_WIDTH = cardWidthFromAsset(screenBlock);
 const BENEFITS_WIDTH = Math.min(520, cardWidthFromAsset(benefitsPng));
+const BENEFIT_CARDS_WIDTH = 300;
 const LOGO_ANIM_WIDTH = 320;
 const SCALING_WIDTH = 300;
+const SHOW_BENEFIT_CARDS = false;
 
 const SCREEN_CARDS = [
   {
@@ -65,9 +68,10 @@ const SCREEN_CARDS = [
 ] as const;
 
 const DOT_LABELS = [
-  ...SCREEN_CARDS.map((c) => c.label),
-  "Logo animation",
   "Logo scalability",
+  "Logo animation",
+  SCREEN_CARDS[0].label,
+  ...SCREEN_CARDS.slice(1).map((c) => c.label),
   "Benefit cards",
 ] as const;
 ---
@@ -171,14 +175,35 @@ const DOT_LABELS = [
       role="list"
       aria-label="Wood&Room feature previews"
     >
+      {/* Keep the interactive benefit-card carousel ready for a later return. */}
+      {SHOW_BENEFIT_CARDS && (
+        <div
+          role="listitem"
+          class="flex shrink-0 flex-col gap-2"
+          style={`width: ${BENEFIT_CARDS_WIDTH}px`}
+        >
+          <div class="wr-squircle wr-squircle--card relative h-[262px] overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5">
+            <WrBenefitCards client:visible />
+          </div>
+          <span class="px-0.5 text-[11px] font-medium leading-none tracking-tight text-black/45">
+            3D Benefit cards
+          </span>
+        </div>
+      )}
+
       {
         SCREEN_CARDS.map((card) => (
           <div
             role="listitem"
             class="flex shrink-0 flex-col gap-2"
-            style={`width: ${card.width}px`}
+            style={`width: ${card.width}px; order: ${card.id === "home" ? 0 : 2}`}
           >
-            <div class="wr-squircle wr-squircle--card relative h-[262px] overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5">
+            <div
+              class:list={[
+                "wr-squircle wr-squircle--card relative h-[262px] overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform",
+                card.id === "block" && "p-2",
+              ]}
+            >
               <img
                 class="block size-full object-cover"
                 src={card.src.src}
@@ -199,29 +224,22 @@ const DOT_LABELS = [
       {/* Logo hover → play / freeze moss animation */}
       <div
         role="listitem"
-        class="flex shrink-0 flex-col gap-2"
+        class="wr-logo-item flex shrink-0 flex-col gap-2"
         style={`width: ${LOGO_ANIM_WIDTH}px`}
       >
         <div
-          class="wr-squircle wr-squircle--card wr-logo-card group relative flex h-[262px] flex-col overflow-hidden bg-white p-3 [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5"
+          class="wr-squircle wr-squircle--card wr-logo-card group relative flex h-[262px] flex-col overflow-hidden bg-white p-3 [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform"
         >
           <div class="flex justify-end">
             <span
-              class="wr-hover-hint inline-flex items-center gap-1 rounded-full bg-black/[0.05] px-2 py-1 text-[11px] leading-none tracking-tight text-black/65"
+              class="wr-live-badge inline-flex items-center gap-1 rounded-full bg-black/[0.05] px-2 py-1 text-[11px] leading-none tracking-tight text-black/65"
             >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 16 16"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M8 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm0 2.667a1.333 1.333 0 1 0 0 2.666 1.333 1.333 0 0 0 0-2.666Z"
-                  fill="currentColor"
-                  fill-opacity="0.7"></path>
+              <svg class="wr-live-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle class="wr-live-ring" cx="8" cy="8" r="5.6" stroke="currentColor" stroke-width="1.1" stroke-dasharray="1.2 2.2" />
+                <circle class="wr-live-ring wr-live-ring--inner" cx="8" cy="8" r="3.5" stroke="currentColor" stroke-width="1" stroke-dasharray="0.8 1.7" />
+                <circle cx="8" cy="8" r="1.55" fill="currentColor" />
               </svg>
-              Hover to play
+              <span>Hover to play</span>
             </span>
           </div>
           <div
@@ -247,29 +265,13 @@ const DOT_LABELS = [
         </span>
       </div>
 
-      {/* Interactive logo scaling */}
-      <div
-        role="listitem"
-        class="flex shrink-0 flex-col gap-2"
-        style={`width: ${SCALING_WIDTH}px`}
-      >
-        <div
-          class="wr-squircle wr-squircle--card relative h-[262px] overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5"
-        >
-          <WrScalingCard client:visible />
-        </div>
-        <span class="px-0.5 text-[11px] font-medium leading-none tracking-tight text-black/45">
-          Logo scalability
-        </span>
-      </div>
-
       {/* Benefit cards screenshot */}
       <div
         role="listitem"
         class="flex shrink-0 flex-col gap-2"
         style={`width: ${BENEFITS_WIDTH}px`}
       >
-        <div class="wr-squircle wr-squircle--card relative h-[262px] overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform hover:-translate-y-1.5">
+        <div class="wr-squircle wr-squircle--card relative h-[262px] overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform">
           <img
             class="block size-full object-cover object-top"
             src={benefitsPng.src}
@@ -282,6 +284,22 @@ const DOT_LABELS = [
         </div>
         <span class="px-0.5 text-[11px] font-medium leading-none tracking-tight text-black/45">
           Benefit cards
+        </span>
+      </div>
+
+      {/* Interactive logo scaling — kept away from the logo animation */}
+      <div
+        role="listitem"
+        class="wr-scaling-item flex shrink-0 flex-col gap-2"
+        style={`width: ${SCALING_WIDTH}px`}
+      >
+        <div
+          class="wr-squircle wr-squircle--card relative h-[262px] overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform"
+        >
+          <WrScalingCard client:visible />
+        </div>
+        <span class="px-0.5 text-[11px] font-medium leading-none tracking-tight text-black/45">
+          Logo scalability
         </span>
       </div>
     </div>
@@ -454,7 +472,8 @@ const DOT_LABELS = [
 
   .wr-wrcards {
     width: 100%;
-    gap: 0.5rem;
+    overflow-y: visible;
+    gap: 0.875rem;
     padding-inline: var(--wr-content-pad);
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--wr-content-pad);
@@ -462,15 +481,44 @@ const DOT_LABELS = [
     -ms-overflow-style: none;
   }
 
+  .wr-logo-item {
+    order: -1;
+  }
+
+  .wr-scaling-item {
+    order: 1;
+  }
+
   @media (min-width: 640px) {
     .wr-wrcards {
-      gap: 0.625rem;
+      gap: 1rem;
     }
   }
 
   .wr-wrcards [role="listitem"] {
+    position: relative;
     scroll-snap-align: start;
     scroll-snap-stop: always;
+  }
+
+  /* Keep the hover target stable while the card lifts on pointer enter. */
+  @media (hover: hover) and (pointer: fine) {
+    .wr-wrcards [role="listitem"]::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset-block: 0;
+      inset-inline: -0.5rem;
+    }
+
+    .wr-wrcards [role="listitem"] > .wr-squircle--card {
+      position: relative;
+      z-index: 1;
+    }
+
+    .wr-wrcards [role="listitem"]:hover > .wr-squircle--card {
+      transform: translate3d(0, -0.375rem, 0);
+    }
   }
 
   .wr-wrcards::-webkit-scrollbar {
@@ -478,9 +526,46 @@ const DOT_LABELS = [
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .wr-logo-card:hover .wr-hover-hint {
+    .wr-logo-card:hover .wr-live-badge {
       color: rgba(107, 74, 46, 0.95);
       background: rgba(132, 87, 67, 0.16);
+    }
+  }
+
+  :global(.wr-live-badge) {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.45) inset, 0 3px 12px rgba(0, 0, 0, 0.08);
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  :global(.wr-live-icon) {
+    flex: none;
+    overflow: visible;
+  }
+
+  :global(.wr-live-ring) {
+    transform-origin: 8px 8px;
+    animation: wr-live-pulse 1.8s ease-in-out infinite;
+  }
+
+  :global(.wr-live-ring--inner) {
+    animation-delay: -0.65s;
+  }
+
+  @keyframes wr-live-pulse {
+    0%,
+    100% {
+      opacity: 0.52;
+      transform: scale(0.88);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.08);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.wr-live-ring) {
+      animation: none;
     }
   }
 </style>
@@ -493,7 +578,10 @@ const DOT_LABELS = [
     if (typeof root._wrCleanup === "function") root._wrCleanup();
 
     const scroller = root.querySelector(".wr-wrcards");
-    const cards = [...root.querySelectorAll(".wr-wrcards [role='listitem']")];
+    // CSS order promotes the logo animation visually; keep controls in that same order.
+    const cards = [...root.querySelectorAll(".wr-wrcards [role='listitem']")].sort(
+      (a, b) => a.getBoundingClientRect().left - b.getBoundingClientRect().left,
+    );
     if (!scroller || !cards.length) return;
 
     const ac = new AbortController();
