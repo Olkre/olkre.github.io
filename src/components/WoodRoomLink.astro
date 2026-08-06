@@ -69,8 +69,8 @@ const SCREEN_CARDS = [
 
 const DOT_LABELS = [
   "Logo scalability",
-  "Logo animation",
   SCREEN_CARDS[0].label,
+  "Logo animation",
   ...SCREEN_CARDS.slice(1).map((c) => c.label),
   "Benefit cards",
 ] as const;
@@ -482,11 +482,11 @@ const DOT_LABELS = [
   }
 
   .wr-logo-item {
-    order: -1;
+    order: 1;
   }
 
   .wr-scaling-item {
-    order: 1;
+    order: -10;
   }
 
   @media (min-width: 640px) {
@@ -528,12 +528,12 @@ const DOT_LABELS = [
   @media (hover: hover) and (pointer: fine) {
     .wr-logo-card:hover .wr-live-badge {
       color: rgba(107, 74, 46, 0.95);
-      background: rgba(132, 87, 67, 0.16);
     }
   }
 
   :global(.wr-live-badge) {
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.45) inset, 0 3px 12px rgba(0, 0, 0, 0.08);
+    background-color: transparent !important;
+    box-shadow: none;
     transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
@@ -586,7 +586,11 @@ const DOT_LABELS = [
 
     const ac = new AbortController();
     const { signal } = ac;
-    root._wrCleanup = () => ac.abort();
+    let logoPauseTimer = null;
+    root._wrCleanup = () => {
+      ac.abort();
+      if (logoPauseTimer != null) window.clearTimeout(logoPauseTimer);
+    };
 
     function getDots() {
       return [...root.querySelectorAll(".wr-dot")];
@@ -691,7 +695,7 @@ const DOT_LABELS = [
 
     setActive(getActive());
 
-    // Logo card: first frame by default; play on hover, freeze on leave
+    // Logo card: first frame by default; play on hover, then coast briefly on leave.
     const logoCard = root.querySelector(".wr-logo-card");
     const logoVideo = root.querySelector(".wr-logo-video");
     const canHover = window.matchMedia(
@@ -723,6 +727,10 @@ const DOT_LABELS = [
         logoCard?.addEventListener(
           "pointerenter",
           () => {
+            if (logoPauseTimer != null) {
+              window.clearTimeout(logoPauseTimer);
+              logoPauseTimer = null;
+            }
             logoVideo.play().catch(() => {});
           },
           { signal },
@@ -731,7 +739,10 @@ const DOT_LABELS = [
         logoCard?.addEventListener(
           "pointerleave",
           () => {
-            logoVideo.pause();
+            logoPauseTimer = window.setTimeout(() => {
+              logoVideo.pause();
+              logoPauseTimer = null;
+            }, 650);
           },
           { signal },
         );

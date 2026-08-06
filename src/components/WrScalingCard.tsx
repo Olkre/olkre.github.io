@@ -53,9 +53,9 @@ type Palette = {
 };
 
 const PALETTES: Palette[] = [
-  { id: "ink", fg: "#fff", bg: "#282828", label: "Ink" },
-  { id: "wood", fg: "#fff", bg: "#845743", label: "Wood" },
-  { id: "paper", fg: "#282828", bg: "#F4F1EA", label: "Paper" },
+  { id: "ink", fg: "#F4EDE2", bg: "#24201E", label: "Ink" },
+  { id: "wood", fg: "#E5BB8F", bg: "#4C2D23", label: "Wood" },
+  { id: "moss", fg: "#DCE8D7", bg: "#29483B", label: "Moss" },
 ];
 
 function levelForSize(size: number) {
@@ -215,11 +215,7 @@ export default function WrScalingCard() {
     >
       <div className="flex items-center justify-end">
         <div
-          className="flex items-center gap-2 rounded-full p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_8px_24px_rgba(0,0,0,0.12)]"
-          style={{
-            background:
-              "linear-gradient(135deg, color-mix(in srgb, currentColor 15%, transparent), color-mix(in srgb, currentColor 6%, transparent))",
-          }}
+          className="flex items-center gap-2 rounded-full bg-transparent p-1.5"
           role="radiogroup"
           aria-label="Logo color"
         >
@@ -235,8 +231,12 @@ export default function WrScalingCard() {
                 title={p.label}
                 className="relative flex size-6 items-center justify-center rounded-full transition-transform duration-150 ease-out hover:scale-110 active:scale-[0.96] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
                 onClick={() => {
+                  if (p.id === paletteId) {
+                    setSwapped((v) => !v);
+                    return;
+                  }
                   setPaletteId(p.id);
-                  setSwapped((v) => !v);
+                  setSwapped(false);
                 }}
               >
                 {on ? (
@@ -244,23 +244,33 @@ export default function WrScalingCard() {
                     layoutId={reduceMotion ? undefined : "wr-palette-ring"}
                     className="pointer-events-none absolute -inset-[3px] rounded-full"
                     style={{
-                      boxShadow:
-                        "0 0 0 1.5px currentColor, 0 0 0 4px color-mix(in srgb, currentColor 12%, transparent), 0 4px 12px color-mix(in srgb, currentColor 20%, transparent)",
+                      border: "1.5px solid currentColor",
                     }}
                     transition={{ type: "spring", stiffness: 500, damping: 38 }}
                   />
                 ) : null}
                 {/* Each swatch previews the pair; rotating swaps the halves. */}
                 <span
-                  className="size-full rounded-full transition-transform duration-300 ease-out"
+                  className={`relative size-full overflow-hidden rounded-full ${on ? "transition-transform duration-300 ease-out" : ""}`}
                   style={{
-                    backgroundImage: `radial-gradient(circle at 28% 22%, color-mix(in srgb, ${p.fg} 28%, transparent), transparent 42%), linear-gradient(135deg, ${p.bg} 0 50%, ${p.fg} 50% 100%)`,
-                    boxShadow:
-                      "inset 0 0 0 1px color-mix(in srgb, currentColor 35%, transparent), inset 0 -1px 2px color-mix(in srgb, #000 20%, transparent)",
-                    backgroundBlendMode: "screen, normal",
                     transform: on && swapped ? "rotate(180deg)" : undefined,
                   }}
-                />
+                >
+                  <span
+                    className="absolute inset-0"
+                    style={{
+                      backgroundColor: p.bg,
+                      clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                    }}
+                  />
+                  <span
+                    className="absolute inset-0"
+                    style={{
+                      backgroundColor: p.fg,
+                      clipPath: "polygon(100% 0, 100% 100%, 0 100%)",
+                    }}
+                  />
+                </span>
               </button>
             );
           })}

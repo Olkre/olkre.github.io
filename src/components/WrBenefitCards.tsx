@@ -34,6 +34,7 @@ const BENEFITS: Benefit[] = [
 
 function BenefitVideo({ benefit, active }: { benefit: Benefit; active: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const pauseTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -44,13 +45,31 @@ function BenefitVideo({ benefit, active }: { benefit: Benefit; active: boolean }
     video.playsInline = true;
     video.pause();
     video.currentTime = 0;
+
+    return () => {
+      if (pauseTimer.current != null) {
+        window.clearTimeout(pauseTimer.current);
+        pauseTimer.current = null;
+      }
+    };
   }, [benefit.video]);
 
   const play = () => {
+    if (pauseTimer.current != null) {
+      window.clearTimeout(pauseTimer.current);
+      pauseTimer.current = null;
+    }
     if (active) videoRef.current?.play().catch(() => {});
   };
 
-  const pause = () => videoRef.current?.pause();
+  const pause = () => {
+    if (!active) return;
+    if (pauseTimer.current != null) window.clearTimeout(pauseTimer.current);
+    pauseTimer.current = window.setTimeout(() => {
+      videoRef.current?.pause();
+      pauseTimer.current = null;
+    }, 650);
+  };
 
   return (
     <div
