@@ -92,7 +92,45 @@
       }
 
       .case-link {
-        @apply transition bg-white text-blue-600 tracking-tight font-[500] px-2 rounded-3xl border border-blue-50 hover:border-gray-300/25 hover:bg-[#eeeeee] hover:text-black;
+        @apply inline-flex items-center justify-center px-2 py-1 rounded-3xl tracking-tight font-[500] transition-colors duration-200 ease-out;
+        background-color: #155dfc !important;
+        color: #fff !important;
+      }
+
+      .case-link:hover {
+        background-color: #0f4fd4 !important;
+        color: #fff !important;
+      }
+
+      .next-btn-container {
+        padding: 0 !important;
+        border: 0 !important;
+        background: transparent !important;
+      }
+
+      .case-link span,
+      .case-link i {
+        transition: transform 200ms ease-out;
+      }
+
+      .next-btn1:hover .case-link span,
+      .next-btn1:hover .case-link i {
+        transform: translate(2px, -2px);
+      }
+
+      .embla__button--prev:hover .case-link span,
+      .embla__button--prev:hover .case-link i,
+      .custom-embla__button--prev:hover .case-link span,
+      .custom-embla__button--prev:hover .case-link i {
+        transform: translate(-2px, -2px);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .case-link,
+        .case-link span,
+        .case-link i {
+          transition: none;
+        }
       }
 
       .cases-column > div {
