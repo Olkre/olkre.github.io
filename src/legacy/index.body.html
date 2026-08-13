@@ -243,8 +243,9 @@
         class="columns-container w-full flex-col flex lg:flex-row gap-4 content-center"
       >
         <div
-          class="cases-column w-full lg:w-1/2 mx-auto flex max-w-xl flex-col gap-4"
+          class="playbis-column cases-column w-full lg:w-1/2 mx-auto flex max-w-xl flex-col gap-4"
         >
+          <!--PLAYBIS_STORIES_START-->
           <div
             id="case1"
             class="case-container duration-700 gap-2 md:flex hidden flex-col max-w-4xl lg:w-full overflow-hidden !rounded-none !border-0 !bg-transparent !p-0"
@@ -284,7 +285,7 @@
                 </button>
               </div>
             </div>
-            <div class="case-card overflow-hidden rounded-4xl bg-white p-2">
+            <div class="case-card overflow-hidden rounded-4xl bg-white px-2">
             <div
               class="embla__dots w-xl lg:w-md pe-4 hidden md:flex"
               style="padding-right: 20px"
@@ -293,7 +294,7 @@
               class="bezel absolute hidden lg:block"
               src="/images/case7/bezel.webp"
               style="
-                margin-top: 26.5px;
+                margin-top: -13.5px;
                 margin-left: -8px;
                 transform: scale(0.92);
                 user-select: none;
@@ -397,9 +398,10 @@
             </div>
             </div>
           </div>
+          <!--PLAYBIS_STORIES_END-->
           <div
             id="case4"
-            class="gap-2 flex flex-col video-hover-trigger lg:h-[286px] h-[470px] md:h-[400px] overflow-hidden !rounded-none !border-0 !bg-transparent !px-0 !pt-0 !pb-0"
+            class="hidden gap-2 flex flex-col video-hover-trigger lg:h-[286px] h-[470px] md:h-[400px] overflow-hidden !rounded-none !border-0 !bg-transparent !px-0 !pt-0 !pb-0"
           >
             <style>
               .video-container video {
@@ -811,7 +813,7 @@
         </div>
       </div>
 
-      <div class="mt-4 max-w-xl lg:max-w-full mx-auto">
+      <div class="designathon-section mt-4 max-w-xl lg:max-w-full mx-auto">
         <div class="case-header w-full p-4 pb-1 flex justify-between">
           <h4>Designathon Entry</h4>
           
@@ -835,7 +837,7 @@
             <span class="block md:hidden"> Case <i>→</i> </span>
         </div>
         <div
-          class="case-card p-2 pt-1 bg-white rounded-4xl lg:h-[310px] xs:h-[200px] md:h-[260px]"
+          class="case-card overflow-hidden p-2 pt-1 bg-white rounded-4xl lg:h-[310px] xs:h-[200px] md:h-[260px]"
         >
           <video
             class="lg:pt-0 pt-12 mt-[-40px] lg:mt-0 rounded-3xl"
@@ -1042,7 +1044,7 @@
             </script>
           </div>
 
-          <div if="case5" class="gap-2 flex flex-col !rounded-none !border-0 !bg-transparent !px-0 !pt-0 !pb-0">
+          <div if="case5" class="workplace-section gap-2 flex flex-col !rounded-none !border-0 !bg-transparent !px-0 !pt-0 !pb-0">
             <div class="case-header w-full p-4 pb-1 flex justify-between">
               <h4>Workplace UI/UX</h4>
               
@@ -1065,12 +1067,11 @@
             </a>
             </div>
             <div class="case-card overflow-hidden rounded-3xl bg-[#f8f8f8] p-2">
-              <img src="/images/case5_1.webp" />
               <img src="/images/case5_2.webp" />
             </div>
           </div>
 
-          <div if="case6" class="gap-2 flex flex-col !rounded-none !border-0 !bg-transparent !px-0 !pt-0 !pb-0">
+          <div if="case6" class="airpods-section gap-2 flex flex-col !rounded-none !border-0 !bg-transparent !px-0 !pt-0 !pb-0">
             <div class="case-header w-full p-4 pb-1 flex justify-between">
               <h4>AirPods Max App concept</h4>
               <a
@@ -1090,53 +1091,60 @@
               </div>
             </a>
             </div>
-            <div class="case-card overflow-hidden rounded-3xl bg-[#f8f8f8] p-2">
-              <img src="/images/case6.webp" />
-            </div>
+            <a
+              href="https://dribbble.com/shots/14781247-AirPods-Max-Control-App"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="case-card-link block"
+              aria-label="Open AirPods Max App concept on Dribbble"
+            >
+              <div class="case-card overflow-hidden rounded-3xl bg-[#f8f8f8] p-2">
+                <img src="/images/case6.webp" />
+              </div>
+            </a>
           </div>
         </div>
 
         <div
           class="cases-column mt-0 lg:mt-4 w-full lg:w-1/2 flex flex-col gap-5"
         >
-          <div id="case1" class="gap-2 pb-6 flex flex-col !rounded-none !border-0 !bg-transparent !px-0 !pt-0">
+          <div id="case1" class="design-illustrations-section gap-2 pb-6 flex flex-col !rounded-none !border-0 !bg-transparent !px-0 !pt-0">
             <div
               class="case-header w-full p-4 flex justify-between items-center"
             >
               <h4>3D design illustrations</h4>
               <a
-                class="case-link hidden"
                 target="_blank"
                 href="https://readymag.website/u348340430/hustless3d/"
+                class="md:block hidden next-btn1 embla__button--next group w-fit transition-all duration-300 overflow-visible p-0 rounded-full"
               >
-                Website <i>→</i>
-              </a>
-              <a class="case-link">
-                <a
-                  target="_blank"
-                  href="https://readymag.website/u348340430/hustless3d/"
-                  class="md:block hidden next-btn1 embla__button--next group w-fit transition-all duration-300 overflow-visible p-0 rounded-full"
+                <div
+                  class="next-btn-container transition-all w-full h-full p-0.5 rounded-full duration-300 bg-white border border-gray-100"
                 >
                   <div
-                    class="next-btn-container transition-all w-full h-full p-0.5 rounded-full duration-300 bg-white border border-gray-100"
+                    class="case-link cl-level-3 transition-all next-btn-content border-0 w-full h-full text-sm justify-center text-[#101010] bg-white items-center font-medium inline-flex overflow-hidden px-2 py-0 rounded-full"
+                    style="border: 0 !important"
                   >
-                    <div
-                      class="case-link cl-level-3 transition-all next-btn-content border-0 w-full h-full text-sm justify-center text-[#101010] bg-white items-center font-medium inline-flex overflow-hidden px-2 py-0 rounded-full"
-                      style="border: 0 !important"
-                    >
-                      Website<span class="ms-1">→</span>
-                    </div>
+                    Website<span class="ms-1">→</span>
                   </div>
-                </a>
+                </div>
               </a>
             </div>
-            <div class="case-card overflow-hidden rounded-3xl bg-white p-2">
-              <img src="/images/case1_2.webp" />
-              <div class="flex gap-2 w-full pb-2 justify-center hidden">
-                <img src="/images/case1_1.webp" class="w-1/2 max-w-full" />
-                <img src="/images/case1_3.webp" class="w-1/2 max-w-full" />
+            <a
+              href="https://readymag.website/u348340430/hustless3d/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="case-card-link block"
+              aria-label="Open 3D design illustrations website"
+            >
+              <div class="design-illustrations-card case-card overflow-hidden rounded-3xl bg-white p-2">
+                <img src="/images/case1_2.webp" />
+                <div class="flex gap-2 w-full pb-2 justify-center hidden">
+                  <img src="/images/case1_1.webp" class="w-1/2 max-w-full" />
+                  <img src="/images/case1_3.webp" class="w-1/2 max-w-full" />
+                </div>
               </div>
-            </div>
+            </a>
           </div>
 
           <style>

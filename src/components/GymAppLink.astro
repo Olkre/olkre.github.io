@@ -393,6 +393,12 @@ const DOT_LABELS = [
 <style>
   :global(html) {
     overflow-x: clip;
+    overscroll-behavior-x: none;
+  }
+
+  :global(body) {
+    overflow-x: clip;
+    overscroll-behavior-x: none;
   }
 
   /* Squircle reads tighter than the same radius on a round rect — bump when supported. */
@@ -585,8 +591,7 @@ const DOT_LABELS = [
     /* Keep horizontal edge gestures inside this carousel instead of handing
        them to browser back/forward navigation. */
     padding-right: calc(var(--gym-content-pad) + 3.5rem);
-    overscroll-behavior-x: contain;
-    overscroll-behavior-inline: contain;
+    overscroll-behavior: none;
     touch-action: pan-x;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--gym-content-pad);
@@ -1160,13 +1165,17 @@ const DOT_LABELS = [
       /iPhone|iPad|iPod/i.test(ua) ||
       (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-    if (isIos) {
+    function showGifFallback() {
       root.classList.add("is-ios");
       root.querySelectorAll(".gym-demo-gif").forEach((image) => {
         if (!(image instanceof HTMLImageElement)) return;
         const source = image.dataset.src;
         if (source) image.src = source;
       });
+    }
+
+    if (isIos) {
+      showGifFallback();
       return;
     }
 
@@ -1183,14 +1192,7 @@ const DOT_LABELS = [
       const playPromise = video.play();
       if (playPromise && typeof playPromise.catch === "function") {
         playPromise.catch(() => {
-          video.addEventListener(
-            "loadeddata",
-            function onReady() {
-              video.removeEventListener("loadeddata", onReady);
-              video.play().catch(() => {});
-            },
-            { once: true },
-          );
+          showGifFallback();
         });
       }
     }

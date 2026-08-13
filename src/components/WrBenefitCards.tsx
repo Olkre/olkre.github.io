@@ -94,7 +94,7 @@ function BenefitVideo({ benefit, active }: { benefit: Benefit; active: boolean }
       >
         <source src={benefit.video} type="video/mp4" />
       </video>
-      <span className="wr-live-badge pointer-events-none absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 rounded-full bg-white/65 px-2 py-1 text-[9px] font-medium leading-none tracking-tight text-black/70 opacity-0 backdrop-blur-md transition-[opacity,transform,background-color] duration-300 group-hover:scale-105 group-hover:opacity-100">
+      <span className="hover-to-play-control wr-live-badge pointer-events-none absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 opacity-0 transition-[opacity,transform,background-color] duration-300 group-hover:scale-105 group-hover:opacity-100">
         <svg className="wr-live-icon" width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <circle className="wr-live-ring" cx="8" cy="8" r="5.6" stroke="currentColor" strokeWidth="1.1" strokeDasharray="1.2 2.2" />
           <circle className="wr-live-ring wr-live-ring--inner" cx="8" cy="8" r="3.5" stroke="currentColor" strokeWidth="1" strokeDasharray="0.8 1.7" />

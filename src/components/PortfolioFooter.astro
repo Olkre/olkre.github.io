@@ -1,0 +1,97 @@
+---
+import CopyEmail from "./CopyEmail";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="portfolio-footer">
+  <div class="portfolio-footer__inner">
+    <div>
+      <a
+        href="https://olkre.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="portfolio-footer__logo-link"
+        aria-label="OlKre home"
+      >
+        <img src="/images/logoolkre.webp" alt="OlKre" width="40" height="40" />
+      </a>
+      <div>
+        <p class="portfolio-footer__credit">Designed by Oleksandr Kreshchuk</p>
+        <p class="portfolio-footer__copyright">© {currentYear} Olkre</p>
+      </div>
+    </div>
+
+    <CopyEmail client:load />
+  </div>
+</footer>
+
+<style>
+  .portfolio-footer {
+    position: relative;
+    left: 50%;
+    width: 100vw;
+    margin-top: 8rem;
+    margin-bottom: -4rem;
+    transform: translateX(-50%);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    background: #fff;
+    padding: 3rem clamp(1.25rem, 5vw, 2rem);
+    color: rgba(0, 0, 0, 0.56);
+    font-size: 0.875rem;
+  }
+
+  .portfolio-footer__inner {
+    display: flex;
+    max-width: 56rem;
+    margin: 0 auto;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .portfolio-footer :global(.contact-inner),
+  .portfolio-footer :global(.contact-button) {
+    background-color: #ecedeb;
+  }
+
+  .portfolio-footer__logo-link {
+    display: inline-flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    justify-content: center;
+    color: #111;
+  }
+
+  .portfolio-footer__logo-link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .portfolio-footer__credit,
+  .portfolio-footer__copyright {
+    margin: 0;
+  }
+
+  .portfolio-footer__credit {
+    color: #111;
+    font-weight: 600;
+  }
+
+  .portfolio-footer__copyright {
+    margin-top: 0.25rem;
+  }
+
+  @media (max-width: 639px) {
+    .portfolio-footer__inner {
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+</style>

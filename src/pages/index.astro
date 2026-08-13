@@ -3,13 +3,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import CopyEmail from "../components/CopyEmail";
 import FolderAnimation from "../components/FolderAnimation.astro";
 import GymAppLink from "../components/GymAppLink.astro";
+import PlaybisStories from "../components/PlaybisStories";
+import PortfolioFooter from "../components/PortfolioFooter.astro";
 import WoodRoomLink from "../components/WoodRoomLink.astro";
 import headHtml from "../legacy/index.head.html?raw";
 import bodyHtml from "../legacy/index.body.html?raw";
 
 const [beforeEmail, afterEmail = ""] = bodyHtml.split("<!--COPY_EMAIL-->");
 const [bodyBeforeLink, bodyAfterLink = ""] = afterEmail.split("<!--GYM_APP_LINK-->");
-const [bodyBeforeFolder, bodyAfterFolder = ""] = bodyAfterLink.split("<!--FOLDER_ANIMATION-->");
+const [bodyBeforePlaybis, playbisAndAfter = ""] = bodyAfterLink.split("<!--PLAYBIS_STORIES_START-->");
+const [, bodyAfterPlaybis = ""] = playbisAndAfter.split("<!--PLAYBIS_STORIES_END-->");
+const [bodyBeforeFolder, bodyAfterFolder = ""] = bodyAfterPlaybis.split("<!--FOLDER_ANIMATION-->");
 ---
 
 <BaseLayout title="OlKre Portfolio" bodyClass="bg-[#eee] overflow-x-clip" headHtml={headHtml}>
@@ -18,7 +22,19 @@ const [bodyBeforeFolder, bodyAfterFolder = ""] = bodyAfterLink.split("<!--FOLDER
   <Fragment set:html={bodyBeforeLink} />
   <GymAppLink />
   <WoodRoomLink />
+  <Fragment set:html={bodyBeforePlaybis} />
+  <PlaybisStories client:load />
   <Fragment set:html={bodyBeforeFolder} />
   <FolderAnimation />
   <Fragment set:html={bodyAfterFolder} />
+  <PortfolioFooter />
 </BaseLayout>
+
+<script is:inline>
+  const playbisColumn = document.querySelector(".playbis-column");
+  const workplaceSection = document.querySelector(".workplace-section");
+
+  if (playbisColumn && workplaceSection) {
+    playbisColumn.append(workplaceSection);
+  }
+</script>

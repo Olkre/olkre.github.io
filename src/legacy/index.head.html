@@ -92,13 +92,17 @@
       }
 
       .case-link {
-        @apply inline-flex items-center justify-center px-2 py-1 rounded-3xl tracking-tight font-[500] transition-colors duration-200 ease-out;
+        @apply inline-flex items-center justify-center rounded-3xl tracking-tight transition-colors duration-200 ease-out;
+        padding: 4px 8px !important;
+        font-size: 12px !important;
+        font-weight: 400 !important;
+        line-height: 1 !important;
         background-color: #155dfc !important;
         color: #fff !important;
       }
 
       .case-link:hover {
-        background-color: #0f4fd4 !important;
+        background-color: #155dfc !important;
         color: #fff !important;
       }
 
@@ -108,21 +112,63 @@
         background: transparent !important;
       }
 
+      .next-btn1:hover .next-btn-container {
+        background: transparent !important;
+      }
+
+      .next-btn1:hover {
+        background: transparent !important;
+        transform: none !important;
+      }
+
+      .next-btn1:active {
+        transform: scale(0.98) !important;
+      }
+
+      .next-btn1:hover .next-btn-content,
+      .next-btn1:hover .cl-level-3 {
+        background: #0f4fd4 !important;
+        color: #fff !important;
+      }
+
+      .next-btn1.next-btn1:hover .next-btn-content,
+      .next-btn1.next-btn1:hover .cl-level-3,
+      .next-btn1.next-btn1:hover .next-btn-content * {
+        color: #fff !important;
+        -webkit-text-fill-color: #fff !important;
+      }
+
       .case-link span,
       .case-link i {
-        transition: transform 200ms ease-out;
+        font-style: normal;
+        transition: transform 180ms ease-out;
       }
 
       .next-btn1:hover .case-link span,
       .next-btn1:hover .case-link i {
-        transform: translate(2px, -2px);
+        transform: translateX(1px);
       }
 
       .embla__button--prev:hover .case-link span,
       .embla__button--prev:hover .case-link i,
       .custom-embla__button--prev:hover .case-link span,
       .custom-embla__button--prev:hover .case-link i {
-        transform: translate(-2px, -2px);
+        transform: translateX(-1px);
+      }
+
+      /* External action links use the same up-right arrow treatment as the
+         sgym.space button. Carousel navigation arrows remain horizontal. */
+      a[target="_blank"] .case-link span,
+      a[target="_blank"] .case-link i {
+        transform: rotate(-45deg);
+        transform-origin: center;
+      }
+
+      a[target="_blank"]:hover .case-link span,
+      a[target="_blank"]:hover .case-link i,
+      a[target="_blank"]:focus-visible .case-link span,
+      a[target="_blank"]:focus-visible .case-link i {
+        transform: translate(1px, -1px) rotate(-45deg);
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -137,12 +183,140 @@
         @apply transition-all p-2 bg-white hover:border-white hover:bg-white/75 border-white/0 border rounded-4xl starting:opacity-0 opacity-100 duration-500;
       }
 
+      .cases-column {
+        row-gap: 2rem;
+      }
+
+      .case-card-link {
+        color: inherit;
+        text-decoration: none;
+      }
+
       .case-link i {
         @apply not-italic transition;
       }
 
-      .case-link:hover i {
-        @apply italic;
+      .hover-to-play-control,
+      button:has(> .hover-icon) {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        padding: 0 !important;
+        color: rgba(70, 70, 70, 0.82) !important;
+        font-size: 1.35rem;
+        font-weight: 400;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+      }
+
+      .hover-to-play-icon,
+      .hover-to-play-control .wr-live-icon,
+      .hover-to-play-control .hover-icon,
+      button:has(> .hover-icon) > .hover-icon {
+        width: 2rem !important;
+        height: 2rem !important;
+        flex: none;
+        color: currentColor;
+      }
+
+      .hover-to-play-control .hover-to-play-icon,
+      .hover-to-play-control .wr-live-icon,
+      button:has(> .hover-icon) > .hover-icon {
+        animation: hover-to-play-pulse 1.8s ease-in-out infinite;
+      }
+
+      @keyframes hover-to-play-pulse {
+        0%,
+        100% { opacity: 0.55; }
+        50% { opacity: 1; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hover-to-play-control .hover-to-play-icon,
+        .hover-to-play-control .wr-live-icon,
+        button:has(> .hover-icon) > .hover-icon {
+          animation: none;
+        }
+      }
+
+      .case-header {
+        box-sizing: border-box;
+        height: 40px;
+        padding-block: 0 !important;
+        align-items: center;
+      }
+
+      .designathon-section .case-header {
+        height: 24px;
+      }
+
+      .designathon-section > .case-card {
+        margin-top: 16px;
+      }
+
+      @media (min-width: 1024px) {
+        .airpods-section .case-card img {
+          display: block;
+          width: 100%;
+          transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+          .airpods-section .case-card-link:hover .case-card img {
+            transform: scale(1.04);
+          }
+        }
+
+        /* Match the AirPods card's footprint in the shared row. */
+        .design-illustrations-card {
+          aspect-ratio: 1.014;
+        }
+
+        .design-illustrations-card > img:first-child {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transform: scale(1.08);
+          transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .design-illustrations-card:hover > img:first-child,
+        .design-illustrations-card:focus-within > img:first-child {
+          transform: scale(1);
+        }
+      }
+
+      /* Let the Workplace card use the remaining height in the left column
+         on larger screens while keeping its bottom aligned with the folder card. */
+      @media (min-width: 1024px) {
+        .playbis-column > .workplace-section {
+          flex: 0 0 auto;
+        }
+
+        .playbis-column > .workplace-section > .case-card {
+          flex: 0 0 auto;
+          aspect-ratio: 1.85;
+        }
+
+        .playbis-column > .workplace-section > .case-card img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+          .playbis-column > .workplace-section > .case-card:hover img {
+            transform: scale(1.08);
+          }
+        }
       }
 
       .topIcon path {
@@ -214,11 +388,11 @@
       }
 
       #case1 .slide-content video {
-        transform: translateY(calc(9% - 27px)) scale(0.9);
+        transform: translateY(calc(9% - 69px)) scale(0.9);
       }
 
       #case1 .case7-screen {
-        transform: translateY(43px);
+        transform: translateY(1px);
       }
 
       #case1 .embla__slide {

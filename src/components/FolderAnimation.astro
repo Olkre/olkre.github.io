@@ -1,4 +1,4 @@
-<div class="gym-app mb-12 flex w-full flex-col gap-2 !rounded-none !border-0 !bg-transparent !p-0">
+<div class="gym-app flex w-full flex-col gap-2 !rounded-none !border-0 !bg-transparent !p-0">
   <div class="case-header flex w-full justify-between p-4 pb-1">
     <h4>3D folder animation</h4>
     <a
@@ -7,7 +7,7 @@
       class="md:block hidden next-btn1 group w-fit rounded-full p-0 transition-all duration-300"
     >
       <div class="next-btn-container h-full w-full rounded-full border border-gray-100 bg-white p-0.5">
-        <div class="case-link next-btn-content inline-flex h-full w-full items-center justify-center rounded-full px-2 py-0 text-sm font-medium">
+        <div class="case-link next-btn-content inline-flex h-full w-full items-center justify-center rounded-full">
           Tweet <span class="ms-1">→</span>
         </div>
       </div>
@@ -18,9 +18,13 @@
     <div class="relative overflow-hidden rounded-3xl bg-white">
       <button
         type="button"
-        class="folder-play absolute left-3 top-4 z-10 flex items-center gap-1 rounded-3xl bg-black/5 px-1 pe-2 text-sm tracking-tighter text-gray-500"
+        class="hover-to-play-control folder-play absolute left-3 top-4 z-10"
       >
-        <span aria-hidden="true">◉</span>
+        <svg class="hover-to-play-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="5.6" stroke="currentColor" stroke-width="1.1" stroke-dasharray="1.2 2.2" />
+          <circle cx="8" cy="8" r="3.5" stroke="currentColor" stroke-width="1" stroke-dasharray="0.8 1.7" />
+          <circle cx="8" cy="8" r="1.55" fill="currentColor" />
+        </svg>
         <span>Hover to Play</span>
       </button>
       <video
@@ -55,3 +59,23 @@
     });
   });
 </script>
+
+<style>
+  .folder-video {
+    transform: scale(1);
+    transform-origin: center;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .video-hover-trigger:hover .folder-video {
+      transform: scale(1.04);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .folder-video {
+      transition: none;
+    }
+  }
+</style>

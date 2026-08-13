@@ -1,0 +1,49 @@
+.playbis-stories__track {
+  transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.playbis-stories__track[data-dragging="true"] {
+  transition: none;
+}
+
+.playbis-gif {
+  display: none;
+}
+
+.case-container.is-ios .playbis-video {
+  display: none;
+}
+
+.case-container.is-ios .playbis-gif {
+  display: block;
+}
+
+.playbis-stories__track > .embla__slide {
+  height: 625px !important;
+  min-width: 100%;
+}
+
+.playbis-stories__viewport {
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.playbis-stories__viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.playbis-stories__dots {
+  margin-top: 92px;
+}
+
+.playbis-stories__previous:hover .case-link span {
+  transform: translateX(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playbis-stories__track {
+    transition: none;
+  }
+}
