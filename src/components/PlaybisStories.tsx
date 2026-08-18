@@ -95,12 +95,12 @@ export default function PlaybisStories() {
   return (
     <section
       id="case1"
-      className={`case-container duration-700 gap-2 md:flex hidden flex-col max-w-4xl lg:w-full overflow-hidden !rounded-none !border-0 !bg-transparent !p-0${isIos ? " is-ios" : ""}`}
+      className={`case-container duration-700 gap-2 flex flex-col max-w-4xl lg:w-full overflow-hidden !rounded-none !border-0 !bg-transparent !p-0${isIos ? " is-ios" : ""}`}
       aria-labelledby="playbis-stories-title"
     >
       <div className="case-header w-full pb-1 flex justify-between items-center p-3">
-        <h4 id="playbis-stories-title">Playbis 3D stories</h4>
-        <div className="flex inline-flex">
+        <h4 id="playbis-stories-title">Playbis 3D stories<span className="opacity-40">, 2024</span></h4>
+        <div className="flex inline-flex gap-1">
           <button
             type="button"
             className="next-btn1 playbis-stories__previous group w-fit flex-none transition-all duration-300 overflow-visible p-0 rounded-full"

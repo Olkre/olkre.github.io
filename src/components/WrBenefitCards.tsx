@@ -117,7 +117,7 @@ export default function WrBenefitCards() {
     <div className="flex h-full w-full flex-col bg-white px-3 pb-2 pt-2.5 text-black">
       <div className="flex items-center justify-between gap-2">
         <span className="truncate text-[11px] font-medium leading-none tracking-tight text-black/55">
-          3D Benefit cards
+          3D Benefit cards<span className="opacity-40">, 2024</span>
         </span>
         <div className="flex shrink-0 items-center gap-0.5">
           <button
