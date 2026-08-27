@@ -153,22 +153,6 @@ export default function PlaybisStories() {
           ))}
         </div>
 
-        <img
-          className="bezel absolute hidden lg:block"
-          src="/images/case7/bezel.webp"
-          alt=""
-          aria-hidden="true"
-          draggable={false}
-          style={{
-            marginTop: -13.5,
-            marginLeft: -8,
-            transform: "scale(0.92)",
-            userSelect: "none",
-            pointerEvents: "none",
-            clipPath: "inset(0 0 22% 0)",
-          }}
-        />
-
         <div
           ref={viewportRef}
           className={`embla playbis-stories__viewport${isDragging ? " is-dragging" : ""}`}
@@ -192,25 +176,30 @@ export default function PlaybisStories() {
                 key={slide.screen}
                 aria-hidden={activeSlide !== index}
               >
-                <div className="slide-content" style={{ marginTop: -30 }}>
-                  <video className="playbis-video" autoPlay muted loop playsInline width="600" draggable={false}>
+                <div className="slide-content playbis-story">
+                  <video className="playbis-video playbis-story__scene" autoPlay muted loop playsInline draggable={false}>
                     <source src={`/images/case7/${slide.video}.webm`} type="video/webm" />
                     <source src={`/images/case7/${slide.video}.mp4`} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                   <img
-                    className="playbis-gif"
+                    className="playbis-gif playbis-story__scene"
                     src={`/images/case7/${slide.video}.gif`}
-                    width="600"
                     alt=""
                     aria-hidden="true"
                     draggable={false}
                   />
-                  <img className="bezel" src="/images/case7/bezel.webp" alt="" aria-hidden="true" draggable={false} />
                   <img
                     src={`/images/case7/${slide.screen}.webp`}
-                    className="case7-screen"
+                    className="case7-screen playbis-story__interface"
                     alt={`Playbis mobile story screen ${index + 1}`}
+                    draggable={false}
+                  />
+                  <img
+                    className="bezel playbis-story__frame"
+                    src="/images/case7/bezel.webp"
+                    alt=""
+                    aria-hidden="true"
                     draggable={false}
                   />
                 </div>

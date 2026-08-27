@@ -7,6 +7,7 @@ import type { BenefitIcon } from "./BoltCard";
 import chinTransitionVideo from "../assets/gym/uidemos/chin_transition-autoplay.mp4";
 import prDemoVideo from "../assets/gym/uidemos/PR_demo-autoplay.mp4";
 import timerSettingsVideo from "../assets/gym/uidemos/timer_settings-autoplay.mp4";
+import muscleUsageVideo from "../assets/gym/uidemos/muscle-usage-demo.mp4";
 import chinTransitionIosGif from "../assets/gym/uidemos/ios/chin_transition.gif";
 import prDemoIosGif from "../assets/gym/uidemos/ios/PR_demo.gif";
 import timerSettingsIosGif from "../assets/gym/uidemos/ios/timer_settings.gif";
@@ -102,9 +103,11 @@ const SCREENS_WIDTH =
   Math.round((screensPng.width / screensPng.height) * SCREENS_INNER_HEIGHT) +
   SCREENS_PAD * 2;
 const ISLAND_WIDTH = 501;
+const MUSCLE_USAGE_WIDTH = 254;
 
 const DOT_LABELS = [
   "App screenshots",
+  "Muscle usage demo",
   "Dynamic Island previews",
   ...BENEFIT_CARDS.map((c) => c.alt),
   ...VIDEO_CARDS.map((c) => c.alt),
@@ -259,6 +262,30 @@ const DOT_LABELS = [
               decoding="async"
             />
           </span>
+        </a>
+      </div>
+
+      {/* Muscle usage demo */}
+      <div role="listitem" class="gym-card-hit-area" style={`width: ${MUSCLE_USAGE_WIDTH}px`}>
+        <a
+          href="https://sgym.space/usage-demo"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="gym-squircle gym-squircle--card gym-demo-muscle group relative block h-full w-full overflow-hidden bg-white [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2"
+          aria-label="Muscle usage demo — open sgym.space"
+        >
+          <video
+            class="gym-demo-video gym-demo-video-muscle block h-full w-full object-contain"
+            src={muscleUsageVideo}
+            data-src={muscleUsageVideo}
+            autoplay
+            loop
+            muted
+            playsinline
+            webkit-playsinline
+            preload="auto"
+            aria-hidden="true"
+          />
         </a>
       </div>
 
@@ -820,12 +847,30 @@ const DOT_LABELS = [
     transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  .gym-demo-muscle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gym-demo-video-muscle {
+    transform: scale(1.04);
+    transform-origin: center;
+    backface-visibility: hidden;
+    will-change: transform;
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   .gym-demo-gif {
     display: none;
   }
 
   .gym-app.is-ios .gym-demo-video {
     display: none;
+  }
+
+  .gym-app.is-ios .gym-demo-video-muscle {
+    display: block;
   }
 
   .gym-app.is-ios .gym-demo-gif {
@@ -854,6 +899,10 @@ const DOT_LABELS = [
       transform: translate3d(0, var(--gym-pr-rest-y), 0) scale(1.38)
         rotateX(15deg);
     }
+
+    .gym-demo-muscle:hover .gym-demo-video-muscle {
+      transform: scale(1.08);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -863,7 +912,8 @@ const DOT_LABELS = [
 
     .gym-demo-video-timer,
     .gym-demo-video-chin,
-    .gym-demo-video-pr {
+    .gym-demo-video-pr,
+    .gym-demo-video-muscle {
       transform: none;
       transition: none;
     }

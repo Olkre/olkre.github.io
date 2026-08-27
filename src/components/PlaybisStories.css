@@ -8,15 +8,59 @@
 }
 
 .playbis-gif {
-  display: none;
+  display: none !important;
 }
 
 .case-container.is-ios .playbis-video {
-  display: none;
+  display: none !important;
 }
 
 .case-container.is-ios .playbis-gif {
-  display: block;
+  display: block !important;
+}
+
+.playbis-story {
+  aspect-ratio: 986 / 2015;
+  margin-top: 10px;
+  position: relative;
+  width: 100%;
+}
+
+.playbis-story__scene,
+.playbis-story__interface {
+  border-radius: 11% / 5.5% !important;
+  height: 94.94%;
+  left: 5.17%;
+  margin: 0 !important;
+  object-fit: cover;
+  position: absolute !important;
+  scale: none !important;
+  top: 2.23%;
+  transform: none !important;
+  width: 89.66% !important;
+}
+
+.playbis-story__scene {
+  z-index: 1 !important;
+}
+
+.playbis-story__interface {
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 2 !important;
+}
+
+.playbis-story__frame {
+  border-radius: 0 !important;
+  height: 100%;
+  inset: 0;
+  margin: 0 !important;
+  opacity: 1 !important;
+  pointer-events: none;
+  position: absolute !important;
+  transform: none !important;
+  width: 100% !important;
+  z-index: 3 !important;
 }
 
 .playbis-stories__track > .embla__slide {

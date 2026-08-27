@@ -258,7 +258,7 @@ const DOT_LABELS = [
         <div
           class="wr-squircle wr-squircle--card wr-logo-card group relative flex h-[262px] flex-col overflow-hidden bg-white p-3 [transform:translateZ(0)] transition-transform duration-300 ease-out will-change-transform"
         >
-          <div class="flex justify-end">
+          <div class="flex justify-center">
             <span
               class="hover-to-play-control wr-live-badge inline-flex"
             >
@@ -598,6 +598,16 @@ const DOT_LABELS = [
     background-color: transparent !important;
     box-shadow: none;
     transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .wr-logo-card .wr-live-badge {
+    gap: 0.2rem;
+    font-size: 0.6rem !important;
+  }
+
+  .wr-logo-card .wr-live-icon {
+    width: 0.75rem !important;
+    height: 0.75rem !important;
   }
 
   :global(.wr-live-icon) {
